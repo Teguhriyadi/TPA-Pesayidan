@@ -4,6 +4,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Master\KelasController;
+use App\Http\Controllers\Master\TahunAjaranController;
 use App\Http\Controllers\SiswaController;
 use Illuminate\Support\Facades\Route;
 
@@ -59,6 +61,29 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                 Route::get("/{id}/edit", "edit")->name("modules.siswa.edit");
                 Route::put("/{id}", "update")->name("modules.siswa.update");
                 Route::delete("/{id}", "destroy")->name("modules.siswa.destroy");
+            });
+        });
+
+        Route::prefix("master")->group(function() {
+            Route::controller(KelasController::class)->group(function() {
+                Route::prefix("kelas")->group(function() {
+                    Route::get("/", "index")->name("modules.master.kelas");
+                    Route::post("/", "store")->name("modules.master.kelas.store");
+                    Route::get("/{id}/edit", "edit")->name("modules.master.kelas.edit");
+                    Route::put("/{id}", "update")->name("modules.master.kelas.update");
+                    Route::delete("/{id}", "destroy")->name("modules.master.kelas.destroy");
+                });
+            });
+
+            Route::controller(TahunAjaranController::class)->group(function() {
+                Route::prefix("tahun_ajaran")->group(function() {
+                    Route::get("/", "index")->name("modules.master.tahun_ajaran");
+                    Route::post("/", "store")->name("modules.master.tahun_ajaran.store");
+                    Route::get("/{id}/edit", "edit")->name("modules.master.tahun_ajaran.edit");
+                    Route::put("/{id}", "update")->name("modules.master.tahun_ajaran.update");
+                    Route::put("/{id}/status", "change")->name("modules.master.tahun_ajaran.change");
+                    Route::delete("/{id}", "destroy")->name("modules.master.tahun_ajaran.destroy");
+                });
             });
         });
 

@@ -25,6 +25,20 @@
         Master
     </div>
 
+    <li class="nav-item {{ Request::is('modules/master/kelas') ? 'active' : '' }} ">
+        <a class="nav-link" href="{{ route('modules.master.kelas') }}">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Kelas</span>
+        </a>
+    </li>
+
+    <li class="nav-item {{ Request::is('modules/master/tahun_ajaran') ? 'active' : '' }} ">
+        <a class="nav-link" href="{{ route('modules.master.tahun_ajaran') }}">
+            <i class="fas fa-fw fa-sign-in-alt"></i>
+            <span>Tahun Ajaran</span>
+        </a>
+    </li>
+
     <li class="nav-item {{ Request::is('modules/siswa') ? 'active' : '' }} ">
         <a class="nav-link" href="{{ route('modules.siswa.index') }}">
             <i class="fas fa-fw fa-user"></i>
