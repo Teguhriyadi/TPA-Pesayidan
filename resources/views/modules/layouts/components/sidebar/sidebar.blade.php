@@ -54,6 +54,13 @@
         Pengaturan
     </div>
 
+    <li class="nav-item {{ Request::is('modules/pengaturan/profil') ? 'active' : '' }} ">
+        <a class="nav-link" href="{{ route('modules.pengaturan.profil') }}">
+            <i class="fas fa-fw fa-edit"></i>
+            <span>Pengaturan</span>
+        </a>
+    </li>
+
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">

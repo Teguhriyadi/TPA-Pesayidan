@@ -8,6 +8,15 @@
                 placeholder="Masukkan Nama Kelas" value="{{ $edit['namaKelas'] }}">
         </div>
         <div class="form-group">
+            <label for="jenjang" class="form-label"> Jenjang </label>
+            <select name="jenjang" class="form-control" id="jenjang">
+                <option value="">- Pilih -</option>
+                <option value="TK" {{ $edit->jenjang == "TK" ? 'selected' : '' }} >TK</option>
+                <option value="TPA" {{ $edit->jenjang == "TPA" ? 'selected' : '' }} >TPA</option>
+                <option value="DTA" {{ $edit->jenjang == "DTA" ? 'selected' : '' }} >DTA</option>
+            </select>
+        </div>
+        <div class="form-group">
             <label for="deskripsi" class="form-label"> Deskripsi </label>
             <textarea name="deskripsi" class="form-control" placeholder="Masukkan Deskripsi" id="deskripsi" rows="5">{{ $edit->deskripsi }}</textarea>
         </div>

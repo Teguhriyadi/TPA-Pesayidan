@@ -6,6 +6,7 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Master\KelasController;
 use App\Http\Controllers\Master\TahunAjaranController;
+use App\Http\Controllers\Settings\ProfilMadrasahController;
 use App\Http\Controllers\SiswaController;
 use Illuminate\Support\Facades\Route;
 
@@ -84,6 +85,14 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                     Route::put("/{id}/status", "change")->name("modules.master.tahun_ajaran.change");
                     Route::delete("/{id}", "destroy")->name("modules.master.tahun_ajaran.destroy");
                 });
+            });
+        });
+
+        Route::prefix("pengaturan")->group(function() {
+            Route::controller(ProfilMadrasahController::class)->group(function() {
+                Route::get("/profil", "profil")->name("modules.pengaturan.profil");
+                Route::post("/profil", "store")->name("modules.pengaturan.profil.store");
+                Route::put("/profil/", "update")->name("modules.pengaturan.profil.update");
             });
         });
 
