@@ -30,6 +30,7 @@
                             <tr>
                                 <th class="text-center">No.</th>
                                 <th>Nama Kelas</th>
+                                <th class="text-center">Jenjang</th>
                                 <th>Deskripsi</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
@@ -42,6 +43,7 @@
                                 <tr>
                                     <td class="text-center">{{ $nomer++ }}.</td>
                                     <td>{{ $item->namaKelas }}</td>
+                                    <td class="text-center">{{ $item->jenjang }}</td>
                                     <td>{{ $item->deskripsi == null ? "-" : $item->deskripsi }}</td>
                                     <td class="text-center">
                                         <button onclick="editData({{ $item['id'] }})" type="button"
@@ -80,6 +82,15 @@
                             <label for="namaKelas" class="form-label"> Nama Kelas </label>
                             <input type="text" class="form-control" name="namaKelas" id="namaKelas"
                                 placeholder="Masukkan Nama Kelas">
+                        </div>
+                        <div class="form-group">
+                            <label for="jenjang" class="form-label"> Jenjang </label>
+                            <select name="jenjang" class="form-control" id="jenjang">
+                                <option value="">- Pilih -</option>
+                                <option value="TK">TK</option>
+                                <option value="TPA">TPA</option>
+                                <option value="DTA">DTA</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="deskripsi" class="form-label"> Deskripsi </label>

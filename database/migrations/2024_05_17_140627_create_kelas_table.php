@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('kelas', function (Blueprint $table) {
             $table->id();
             $table->string("namaKelas", 50);
+            $table->enum("jenjang", ["TK", "DTA", "TPA"]);
             $table->text("deskripsi")->nullable();
         });
     }

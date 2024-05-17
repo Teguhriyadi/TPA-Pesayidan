@@ -42,13 +42,22 @@ class KelasController extends Controller
     {
         try {
 
-            DB::beginTransaction();
+            $cekCountData = $this->kelas->where("jenjang", "TK")->count();
 
-            $this->kelas->create($request->all());
+            if ($cekCountData) {
 
-            DB::commit();
+                if ($request->jenjang == "TK") {
+                    return back()->with("error", "Jenjang TK Hanya Bisa 1 Kelas")->withInput();
+                } else {
+                    $this->kelas->create($request->all());
 
-            return redirect()->route("modules.master.kelas")->with("success", "Data Berhasil di Simpan");
+                    return redirect()->route("modules.master.kelas")->with("success", "Data Berhasil di Simpan");
+                }
+            } else {
+                $this->kelas->create($request->all());
+
+                return redirect()->route("modules.master.kelas")->with("success", "Data Berhasil di Simpan");
+            }
 
         } catch (\Exception $e) {
 
