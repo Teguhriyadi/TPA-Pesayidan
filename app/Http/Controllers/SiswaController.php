@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kelas;
 use App\Models\Siswa;
+use App\Models\SiswaJenjang;
+use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SiswaController extends Controller
 {
-    protected $siswa;
+    protected $siswa, $kelas, $siswaJenjang, $tahunAjaran;
 
     public function __construct()
     {
         $this->siswa = new Siswa();
+        $this->kelas = new Kelas();
+        $this->siswaJenjang = new SiswaJenjang();
+        $this->tahunAjaran = new TahunAjaran();
     }
 
     public function index()
@@ -42,7 +48,11 @@ class SiswaController extends Controller
     {
         try {
 
-            return view("modules.pages.master.siswa.create");
+            $data = [
+                "kelas" => $this->kelas->get()
+            ];
+
+            return view("modules.pages.master.siswa.create", $data);
 
         } catch (\Exception $e) {
 
@@ -58,14 +68,24 @@ class SiswaController extends Controller
 
             DB::beginTransaction();
 
-            $this->siswa->create([
+            $dataSiswa = $this->siswa->create([
                 "nama" => $request->nama,
                 "jenisKelamin" => $request->jenisKelamin,
                 "tempatLahir" => $request->tempatLahir,
                 "tanggalLahir" => $request->tanggalLahir,
                 "namaWali" => $request->namaWali,
                 "alamat" => $request->alamat,
-                "pendaftarId" => Auth::user()->id
+                "pendaftarId" => Auth::user()->id,
+                "kelasId" => $request->kelasId
+            ]);
+
+            $tahunAjaranActive = $this->tahunAjaran->first();
+
+            $this->siswaJenjang->create([
+                "siswaId" => $dataSiswa->id,
+                "kelasId" => $request->kelasId,
+                "tahunId" => $tahunAjaranActive->id,
+                "status" => 1
             ]);
 
             DB::commit();
@@ -87,6 +107,7 @@ class SiswaController extends Controller
             DB::beginTransaction();
 
             $data = [
+                "kelas" => $this->kelas->get(),
                 "edit" => $this->siswa->where("id", $id)->first()
             ];
 
@@ -115,6 +136,7 @@ class SiswaController extends Controller
                 "tanggalLahir" => $request->tanggalLahir,
                 "namaWali" => $request->namaWali,
                 "alamat" => $request->alamat,
+                "kelasId" => $request->kelasId
             ]);
 
             DB::commit();

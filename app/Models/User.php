@@ -12,4 +12,9 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $guarded = [''];
+
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class, "guruId");
+    }
 }

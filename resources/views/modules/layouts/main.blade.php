@@ -12,7 +12,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>
-        {{ config('app.name') }} - @stack('modules-title')
+        TPA Pesayidan - @stack('modules-title')
     </title>
 
     @include('modules.layouts.components.css.css')
@@ -26,7 +26,13 @@
 
     <div id="wrapper">
 
-        @include('modules.layouts.components.sidebar.sidebar')
+        @if (Auth::user()->akses == "ADMIN")
+            @include('modules.layouts.components.sidebar.sidebar')
+        @elseif(Auth::user()->akses == "GURU")
+            @include("modules.layouts.components.sidebar.sidebar-guru")
+        @elseif(Auth::user()->akses == "WAKEL")
+            @include("modules.layouts.components.sidebar.sidebar-wakel")
+        @endif
 
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">

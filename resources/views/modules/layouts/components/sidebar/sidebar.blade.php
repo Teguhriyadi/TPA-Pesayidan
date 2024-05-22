@@ -4,7 +4,7 @@
             <i class="fas fa-laugh-wink"></i>
         </div> --}}
         <div class="sidebar-brand-text mx-3">
-            {{ config('app.name') }}
+            TPA Pesayidan
         </div>
     </a>
 
@@ -41,8 +41,15 @@
 
     <li class="nav-item {{ Request::is('modules/siswa') ? 'active' : '' }} ">
         <a class="nav-link" href="{{ route('modules.siswa.index') }}">
-            <i class="fas fa-fw fa-user"></i>
+            <i class="fas fa-fw fa-users"></i>
             <span>Siswa</span>
+        </a>
+    </li>
+
+    <li class="nav-item {{ Request::is('modules/walikelas') ? 'active' : '' }} ">
+        <a class="nav-link" href="{{ route('modules.walikelas.index') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Wali Kelas</span>
         </a>
     </li>
 

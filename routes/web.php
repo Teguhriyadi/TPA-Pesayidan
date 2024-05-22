@@ -2,21 +2,15 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\DataSiswaWakelController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Master\KelasController;
 use App\Http\Controllers\Master\TahunAjaranController;
 use App\Http\Controllers\Settings\ProfilMadrasahController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\WaliKelasController;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get("/template", function () {
-    return view("modules.layouts.main");
-});
 
 Route::group(["middleware" => ["guest"]], function () {
     Route::controller(LoginController::class)->group(function () {
@@ -24,6 +18,7 @@ Route::group(["middleware" => ["guest"]], function () {
             Route::get("/", "index")->name("authorization.login");
             Route::post("/", "process")->name("authorization.process");
         });
+        Route::get("/", "index")->name("authorization.login");
     });
 });
 
@@ -33,24 +28,49 @@ Route::group(["middleware" => ["autentikasi"]], function () {
             Route::get("/dashboard", "dashboard")->name("modules.dashboard");
         });
 
-        Route::controller(AdminController::class)->group(function () {
-            Route::prefix("akun-admin")->group(function () {
-                Route::get("/", "index")->name("modules.admin.index");
-                Route::post("/", "store")->name("modules.admin.store");
-                Route::get("/{id}/edit", "edit")->name("modules.admin.edit");
-                Route::put("/{id}", "update")->name("modules.admin.update");
-                Route::delete("/{id}", "destroy")->name("modules.admin.destroy");
+        Route::group(["middleware" => ["can:admin"]], function () {
+            Route::controller(GuruController::class)->group(function () {
+                Route::prefix("akun-guru")->group(function () {
+                    Route::get("/", "index")->name("modules.guru.index");
+                    Route::get("/create", "create")->name("modules.guru.create");
+                    Route::post("/", "store")->name("modules.guru.store");
+                    Route::get("/{id}/edit", "edit")->name("modules.guru.edit");
+                    Route::put("/{id}", "update")->name("modules.guru.update");
+                    Route::delete("/{id}", "destroy")->name("modules.guru.destroy");
+                });
             });
-        });
 
-        Route::controller(GuruController::class)->group(function () {
-            Route::prefix("akun-guru")->group(function () {
-                Route::get("/", "index")->name("modules.guru.index");
-                Route::get("/create", "create")->name("modules.guru.create");
-                Route::post("/", "store")->name("modules.guru.store");
-                Route::get("/{id}/edit", "edit")->name("modules.guru.edit");
-                Route::put("/{id}", "update")->name("modules.guru.update");
-                Route::delete("/{id}", "destroy")->name("modules.guru.destroy");
+            Route::controller(AdminController::class)->group(function () {
+                Route::prefix("akun-admin")->group(function () {
+                    Route::get("/", "index")->name("modules.admin.index");
+                    Route::post("/", "store")->name("modules.admin.store");
+                    Route::get("/{id}/edit", "edit")->name("modules.admin.edit");
+                    Route::put("/{id}", "update")->name("modules.admin.update");
+                    Route::delete("/{id}", "destroy")->name("modules.admin.destroy");
+                });
+            });
+
+            Route::prefix("master")->group(function () {
+                Route::controller(KelasController::class)->group(function () {
+                    Route::prefix("kelas")->group(function () {
+                        Route::get("/", "index")->name("modules.master.kelas");
+                        Route::post("/", "store")->name("modules.master.kelas.store");
+                        Route::get("/{id}/edit", "edit")->name("modules.master.kelas.edit");
+                        Route::put("/{id}", "update")->name("modules.master.kelas.update");
+                        Route::delete("/{id}", "destroy")->name("modules.master.kelas.destroy");
+                    });
+                });
+
+                Route::controller(TahunAjaranController::class)->group(function () {
+                    Route::prefix("tahun_ajaran")->group(function () {
+                        Route::get("/", "index")->name("modules.master.tahun_ajaran");
+                        Route::post("/", "store")->name("modules.master.tahun_ajaran.store");
+                        Route::get("/{id}/edit", "edit")->name("modules.master.tahun_ajaran.edit");
+                        Route::put("/{id}", "update")->name("modules.master.tahun_ajaran.update");
+                        Route::put("/{id}/status", "change")->name("modules.master.tahun_ajaran.change");
+                        Route::delete("/{id}", "destroy")->name("modules.master.tahun_ajaran.destroy");
+                    });
+                });
             });
         });
 
@@ -65,37 +85,29 @@ Route::group(["middleware" => ["autentikasi"]], function () {
             });
         });
 
-        Route::prefix("master")->group(function() {
-            Route::controller(KelasController::class)->group(function() {
-                Route::prefix("kelas")->group(function() {
-                    Route::get("/", "index")->name("modules.master.kelas");
-                    Route::post("/", "store")->name("modules.master.kelas.store");
-                    Route::get("/{id}/edit", "edit")->name("modules.master.kelas.edit");
-                    Route::put("/{id}", "update")->name("modules.master.kelas.update");
-                    Route::delete("/{id}", "destroy")->name("modules.master.kelas.destroy");
-                });
-            });
-
-            Route::controller(TahunAjaranController::class)->group(function() {
-                Route::prefix("tahun_ajaran")->group(function() {
-                    Route::get("/", "index")->name("modules.master.tahun_ajaran");
-                    Route::post("/", "store")->name("modules.master.tahun_ajaran.store");
-                    Route::get("/{id}/edit", "edit")->name("modules.master.tahun_ajaran.edit");
-                    Route::put("/{id}", "update")->name("modules.master.tahun_ajaran.update");
-                    Route::put("/{id}/status", "change")->name("modules.master.tahun_ajaran.change");
-                    Route::delete("/{id}", "destroy")->name("modules.master.tahun_ajaran.destroy");
-                });
+        Route::controller(WaliKelasController::class)->group(function() {
+            Route::prefix("wali-kelas")->group(function() {
+                Route::get("/", "index")->name("modules.walikelas.index");
+                Route::post("/", "store")->name("modules.walikelas.store");
+                Route::get("/{id}/edit", "edit")->name("modules.walikelas.edit");
+                Route::put("/{id}", "update")->name("modules.walikelas.update");
+                Route::delete("/{id}", "destroy")->name("modules.walikelas.destroy");
             });
         });
 
-        Route::prefix("pengaturan")->group(function() {
-            Route::controller(ProfilMadrasahController::class)->group(function() {
+        Route::controller(DataSiswaWakelController::class)->group(function() {
+            Route::prefix("data-siswa")->group(function() {
+                Route::get("/", "index")->name("modules.wakel.siswa.index");
+            });
+        });
+
+        Route::prefix("pengaturan")->group(function () {
+            Route::controller(ProfilMadrasahController::class)->group(function () {
                 Route::get("/profil", "profil")->name("modules.pengaturan.profil");
                 Route::post("/profil", "store")->name("modules.pengaturan.profil.store");
                 Route::put("/profil/", "update")->name("modules.pengaturan.profil.update");
             });
         });
-
     });
     Route::get("logout", [LoginController::class, "logout"])->name("authorization.logout");
 });

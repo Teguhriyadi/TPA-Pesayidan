@@ -58,6 +58,19 @@
                                 <input type="date" class="form-control" name="tanggalLahir" id="tanggalLahir" placeholder="Masukkan Tanggal Lahir">
                             </div>
                         </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="kelasId" class="form-label"> Kelas </label>
+                                <select name="kelasId" class="form-control" id="kelasId">
+                                    <option value="">- Pilih -</option>
+                                    @foreach ($kelas as $item)
+                                        <option value="{{ $item->id }}">
+                                            {{ $item->namaKelas }} - {{ $item->jenjang }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="alamat" class="form-label"> Alamat </label>

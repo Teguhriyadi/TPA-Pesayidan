@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text("alamat");
             $table->string("foto")->nullable();
             $table->integer("pendaftarId");
+            $table->integer("kelasId")->nullable();
             $table->enum("aktif", [1, 0])->default(1);
         });
     }

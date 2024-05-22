@@ -14,6 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'subname' => env('APP_SUB_NAME', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
