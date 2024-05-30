@@ -25,32 +25,35 @@
         Master
     </div>
 
-    <li class="nav-item {{ Request::is('modules/master/kelas') ? 'active' : '' }} ">
-        <a class="nav-link" href="{{ route('modules.master.kelas') }}">
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMasterData"
+            aria-expanded="true" aria-controls="collapseMasterData">
+            <i class="fas fa-fw fa-bars"></i>
+            <span>Master Data</span>
+        </a>
+        <div id="collapseMasterData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('modules.master.kelas') }}">Kelas</a>
+                <a class="collapse-item" href="{{ route('modules.master.tahun_ajaran') }}">Tahun Ajaran</a>
+                <a class="collapse-item" href="{{ route('modules.siswa.index') }}">Siswa</a>
+                <a class="collapse-item" href="{{ route('modules.walikelas.index') }}">Wali Kelas</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePembelajaran"
+            aria-expanded="true" aria-controls="collapsePembelajaran">
             <i class="fas fa-fw fa-book"></i>
-            <span>Kelas</span>
+            <span>Pembelajaran</span>
         </a>
-    </li>
-
-    <li class="nav-item {{ Request::is('modules/master/tahun_ajaran') ? 'active' : '' }} ">
-        <a class="nav-link" href="{{ route('modules.master.tahun_ajaran') }}">
-            <i class="fas fa-fw fa-sign-in-alt"></i>
-            <span>Tahun Ajaran</span>
-        </a>
-    </li>
-
-    <li class="nav-item {{ Request::is('modules/siswa') ? 'active' : '' }} ">
-        <a class="nav-link" href="{{ route('modules.siswa.index') }}">
-            <i class="fas fa-fw fa-users"></i>
-            <span>Siswa</span>
-        </a>
-    </li>
-
-    <li class="nav-item {{ Request::is('modules/walikelas') ? 'active' : '' }} ">
-        <a class="nav-link" href="{{ route('modules.walikelas.index') }}">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Wali Kelas</span>
-        </a>
+        <div id="collapsePembelajaran" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('modules.master.pelajaran.index') }}">Pelajaran</a>
+                <a class="collapse-item" href="{{ route('modules.master.hafalan.index') }}">Hafalan</a>
+                <a class="collapse-item" href="{{ route('modules.master.kelas-pelajaran.index') }}">Kelas Pelajaran</a>
+            </div>
+        </div>
     </li>
 
     <!-- Divider -->
