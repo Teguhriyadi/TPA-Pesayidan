@@ -3,19 +3,20 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
-use App\Models\KelompokPenilaian;
-use App\Models\Pelajaran;
+use App\Models\JadwalKelas;
+use App\Models\KelasPelajaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class PelajaranController extends Controller
+class JadwalKelasController extends Controller
 {
-    protected $pelajaran, $kelompokPenilaian;
+    protected $jadwalKelas, $kelasPelajaran;
 
     public function __construct()
     {
-        $this->pelajaran = new Pelajaran();
-        $this->kelompokPenilaian = new KelompokPenilaian();
+        $this->jadwalKelas = new JadwalKelas();
+        $this->kelasPelajaran = new KelasPelajaran();
     }
 
     public function index()
@@ -25,13 +26,13 @@ class PelajaranController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "pelajaran" => $this->pelajaran->where("kategori", "Pelajaran")->get(),
-                "kelompokPenilaian" => $this->kelompokPenilaian->get()
+                "jadwalKelas" => $this->jadwalKelas->get(),
+                "kelasPelajaran" => $this->kelasPelajaran->get()
             ];
 
             DB::commit();
 
-            return view("modules.pages.master.pelajaran.index", $data);
+            return view("modules.pages.master.jadwal-kelas.index", $data);
 
         } catch (\Exception $e) {
 
@@ -47,16 +48,17 @@ class PelajaranController extends Controller
 
             DB::beginTransaction();
 
-            $this->pelajaran->create([
-                "kode" => "PL-" . time(),
-                "nama" => $request->nama,
-                "kategori" => "Pelajaran",
-                "kelompokPenilaianId" => $request->kelompokPenilaianId
+            $this->jadwalKelas->create([
+                "createdId" => Auth::user()->id,
+                "kelasPelajaranId" => $request->kelasPelajaranId,
+                "hari" => $request->hari,
+                "mulai" => $request->mulai,
+                "selesai" => $request->selesai
             ]);
 
             DB::commit();
 
-            return redirect()->route("modules.master.pelajaran.index")->with("success", "Data Berhasil di Simpan");
+            return back()->with("success", "Data Berhasil di Simpan");
 
         } catch (\Exception $e) {
 
@@ -73,12 +75,13 @@ class PelajaranController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "edit" => $this->pelajaran->where("id", $id)->first()
+                "kelasPelajaran" => $this->kelasPelajaran->get(),
+                "edit" => $this->jadwalKelas->where("id", $id)->first()
             ];
 
             DB::commit();
 
-            return view("modules.pages.master.pelajaran.edit", $data);
+            return view("modules.pages.master.jadwal-kelas.edit", $data);
 
         } catch (\Exception $e) {
 
@@ -94,19 +97,22 @@ class PelajaranController extends Controller
 
             DB::beginTransaction();
 
-            $this->pelajaran->where("id", $id)->update([
-                "nama" => $request->nama
+            $this->jadwalKelas->where("id", $id)->update([
+                "kelasPelajaranId" => $request->kelasPelajaranId,
+                "hari" => $request->hari,
+                "mulai" => $request->mulai,
+                "selesai" => $request->selesai
             ]);
 
             DB::commit();
 
-            return redirect()->route("modules.master.hafalan.index")->with("success", "Data Berhasil di Simpan");
+            return back()->with("success", "Data Berhasil di Simpan");
 
         } catch (\Exception $e) {
 
             DB::rollBack();
 
-            return redirect()->route("modules.dashboard")->with("error", $e->getMessage());
+            return back()->with("error", $e->getMessage());
         }
     }
 
@@ -116,7 +122,7 @@ class PelajaranController extends Controller
 
             DB::beginTransaction();
 
-            $this->pelajaran->where("id", $id)->delete();
+            $this->jadwalKelas->where("id", $id)->delete();
 
             DB::commit();
 
@@ -129,10 +135,7 @@ class PelajaranController extends Controller
 
             DB::rollBack();
 
-            return response()->json([
-                "status" => false,
-                "message" => $e->getMessage()
-            ]);
+            return redirect()->route("modules.master.jadwal-kelas.index")->with("error", $e->getMessage());
         }
     }
 }

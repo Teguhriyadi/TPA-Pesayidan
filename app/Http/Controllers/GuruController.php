@@ -135,7 +135,7 @@ class GuruController extends Controller
 
             DB::commit();
 
-            return redirect()->route("modules.guru.index")->with("success", "Data Berhasil di Simpan");
+            return back()->with("success", "Data Berhasil di Simpan");
 
         } catch (\Exception $e) {
 

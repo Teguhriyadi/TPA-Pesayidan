@@ -17,4 +17,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Guru::class, "guruId");
     }
+
+    public function hasGuru()
+    {
+        return $this->hasOne(Guru::class, "userId", "id");
+    }
 }

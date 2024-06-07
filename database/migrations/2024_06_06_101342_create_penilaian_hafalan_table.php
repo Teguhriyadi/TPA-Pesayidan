@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pelajaran', function (Blueprint $table) {
+        Schema::create('penilaian_hafalan', function (Blueprint $table) {
             $table->id();
-            $table->string("kode", 50)->unique();
-            $table->string("nama", 100);
-            $table->enum("kategori", ["Pelajaran", "Hafalan"]);
-            $table->integer("kelompokPenilaianId")->nullable()->default(0);
+            $table->integer("pelajaranId");
+            $table->integer("siswaId");
+            $table->enum("rating", [1, 2, 3, 4, 5]);
+            $table->integer("guruId");
+            $table->text("keterangan");
+            $table->integer("tahunAjaranId");
         });
     }
 
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pelajaran');
+        Schema::dropIfExists('penilaian_hafalan');
     }
 };

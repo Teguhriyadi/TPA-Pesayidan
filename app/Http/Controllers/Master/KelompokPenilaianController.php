@@ -4,17 +4,15 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
 use App\Models\KelompokPenilaian;
-use App\Models\Pelajaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class PelajaranController extends Controller
+class KelompokPenilaianController extends Controller
 {
-    protected $pelajaran, $kelompokPenilaian;
+    protected $kelompokPenilaian;
 
     public function __construct()
     {
-        $this->pelajaran = new Pelajaran();
         $this->kelompokPenilaian = new KelompokPenilaian();
     }
 
@@ -25,13 +23,12 @@ class PelajaranController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "pelajaran" => $this->pelajaran->where("kategori", "Pelajaran")->get(),
                 "kelompokPenilaian" => $this->kelompokPenilaian->get()
             ];
 
             DB::commit();
 
-            return view("modules.pages.master.pelajaran.index", $data);
+            return view("modules.pages.master.kelompok-penilaian.index", $data);
 
         } catch (\Exception $e) {
 
@@ -47,16 +44,11 @@ class PelajaranController extends Controller
 
             DB::beginTransaction();
 
-            $this->pelajaran->create([
-                "kode" => "PL-" . time(),
-                "nama" => $request->nama,
-                "kategori" => "Pelajaran",
-                "kelompokPenilaianId" => $request->kelompokPenilaianId
-            ]);
+            $this->kelompokPenilaian->create($request->all());
 
             DB::commit();
 
-            return redirect()->route("modules.master.pelajaran.index")->with("success", "Data Berhasil di Simpan");
+            return back()->with("success", "Data Berhasil di Simpan");
 
         } catch (\Exception $e) {
 
@@ -73,12 +65,12 @@ class PelajaranController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "edit" => $this->pelajaran->where("id", $id)->first()
+                "edit" => $this->kelompokPenilaian->where("id", $id)->first()
             ];
 
             DB::commit();
 
-            return view("modules.pages.master.pelajaran.edit", $data);
+            return view("modules.pages.master.kelompok-penilaian.edit", $data);
 
         } catch (\Exception $e) {
 
@@ -94,13 +86,13 @@ class PelajaranController extends Controller
 
             DB::beginTransaction();
 
-            $this->pelajaran->where("id", $id)->update([
-                "nama" => $request->nama
+            $this->kelompokPenilaian->where("id", $id)->update([
+                "kelompok" => $request->kelompok
             ]);
 
             DB::commit();
 
-            return redirect()->route("modules.master.hafalan.index")->with("success", "Data Berhasil di Simpan");
+            return back()->with("success", "Data Berhasil di Simpan");
 
         } catch (\Exception $e) {
 
@@ -116,7 +108,7 @@ class PelajaranController extends Controller
 
             DB::beginTransaction();
 
-            $this->pelajaran->where("id", $id)->delete();
+            $this->kelompokPenilaian->where("id", $id)->delete();
 
             DB::commit();
 

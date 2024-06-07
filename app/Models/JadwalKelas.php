@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Siswa extends Model
+class JadwalKelas extends Model
 {
     use HasFactory;
 
-    protected $table = "siswa";
+    protected $table = "jadwal_kelas";
 
     protected $guarded = [''];
 
     public $timestamps = false;
 
-    public function kelas()
+    public function kelasPelajaran()
     {
-        return $this->belongsTo(Kelas::class, "kelasId");
+        return $this->belongsTo(KelasPelajaran::class, "kelasPelajaranId", "id");
     }
 }

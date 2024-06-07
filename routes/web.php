@@ -6,10 +6,14 @@ use App\Http\Controllers\DataSiswaWakelController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Master\HafalanController;
+use App\Http\Controllers\Master\JadwalKelasController;
 use App\Http\Controllers\Master\KelasController;
 use App\Http\Controllers\Master\KelasPelajaranController;
+use App\Http\Controllers\Master\KelompokPenilaianController;
 use App\Http\Controllers\Master\PelajaranController;
 use App\Http\Controllers\Master\TahunAjaranController;
+use App\Http\Controllers\Pembelajaran\HafalanQuranController;
+use App\Http\Controllers\Settings\ProfilAkunController;
 use App\Http\Controllers\Settings\ProfilMadrasahController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\WaliKelasController;
@@ -64,6 +68,16 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                     });
                 });
 
+                Route::controller(KelompokPenilaianController::class)->group(function() {
+                    Route::prefix("kelompok-penilaian")->group(function() {
+                        Route::get("/", "index")->name("modules.master.kelompok-penilaian.index");
+                        Route::post("/", "store")->name("modules.master.kelompok-penilaian.store");
+                        Route::get("/{id}/edit", "edit")->name("modules.master.kelompok-penilaian.edit");
+                        Route::put("/{id}", "update")->name("modules.master.kelompok-penilaian.update");
+                        Route::delete("/{id}", "destroy")->name("modules.master.kelompok-penilaian.destroy");
+                    });
+                });
+
                 Route::controller(TahunAjaranController::class)->group(function () {
                     Route::prefix("tahun_ajaran")->group(function () {
                         Route::get("/", "index")->name("modules.master.tahun_ajaran");
@@ -104,6 +118,28 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                         Route::delete("/{id}", "destroy")->name("modules.master.kelas-pelajaran.destroy");
                     });
                 });
+
+                Route::controller(JadwalKelasController::class)->group(function() {
+                    Route::prefix("jadwal-kelas")->group(function() {
+                        Route::get("/", "index")->name("modules.master.jadwal-kelas.index");
+                        Route::post("/", "store")->name("modules.master.jadwal-kelas.store");
+                        Route::get("/{id}/edit", "edit")->name("modules.master.jadwal-kelas.edit");
+                        Route::put("/{id}", "update")->name("modules.master.jadwal-kelas.update");
+                        Route::delete("/{id}", "destroy")->name("modules.master.jadwal-kelas.destroy");
+                    });
+                });
+            });
+        });
+
+        Route::controller(HafalanQuranController::class)->group(function() {
+            Route::prefix("pembelajaran")->group(function() {
+                Route::prefix("hafalan")->group(function() {
+                    Route::get("/", "index")->name("modules.master.pembelajaran.hafalan.index");
+                    Route::post("/", "store")->name("modules.master.pembelajaran.hafalan.store");
+                    Route::get("/{id}/edit", "edit")->name("modules.master.pembelajaran.hafalan.edit");
+                    Route::put("/{id}", "update")->name("modules.master.pembelajaran.hafalan.update");
+                    Route::delete("/{id}", "destroy")->name("modules.master.pembelajaran.hafalan.destroy");
+                });
             });
         });
 
@@ -139,6 +175,17 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                 Route::get("/profil", "profil")->name("modules.pengaturan.profil");
                 Route::post("/profil", "store")->name("modules.pengaturan.profil.store");
                 Route::put("/profil/", "update")->name("modules.pengaturan.profil.update");
+            });
+        });
+
+        Route::controller(ProfilAkunController::class)->group(function() {
+            Route::prefix("akun")->group(function() {
+                Route::prefix("profil-saya")->group(function() {
+                    Route::get("/", "index")->name("modules.akun.profil");
+                    Route::put("/{id}", "update")->name("modules.akun.profil.update");
+                    Route::get("/{id}/lihat-profil", "showProfil")->name("modules.akun.profil.show-profil");
+                    Route::put("/{id}/update-image", "updateImage")->name("modules.akun.profil.update-image");
+                });
             });
         });
     });

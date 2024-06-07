@@ -1,6 +1,6 @@
 @extends('modules.layouts.main')
 
-@push('modules-title', 'Pelajaran')
+@push('modules-title', 'Jadwal Kelas')
 
 @push('modules-css')
     <link href="{{ url('/theme') }}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -10,7 +10,7 @@
 
     <div class="container-fluid">
         <h1 class="h3 mb-2 text-gray-800">
-            <i class="fa fa-book"></i> @stack('modules-title')
+            <i class="fa fa-edit"></i> @stack('modules-title')
         </h1>
 
         <div class="card shadow mb-4 mt-4">
@@ -29,8 +29,10 @@
                         <thead>
                             <tr>
                                 <th class="text-center">No.</th>
-                                <th class="text-center">Kode Pelajaran</th>
-                                <th>Nama Pelajaran</th>
+                                <th>Kelas</th>
+                                <th>Pelajaran</th>
+                                <th class="text-center">Hari</th>
+                                <th class="text-center">Waktu Pelajaran</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -38,11 +40,13 @@
                             @php
                                 $nomer = 1;
                             @endphp
-                            @foreach ($pelajaran as $item)
+                            @foreach ($jadwalKelas as $item)
                                 <tr>
                                     <td class="text-center">{{ $nomer++ }}.</td>
-                                    <td class="text-center">{{ $item->kode }}</td>
-                                    <td>{{ $item->nama }}</td>
+                                    <td>{{ $item->kelasPelajaran->kelas->namaKelas }}</td>
+                                    <td class="text-center">{{ $item->kelasPelajaran->pelajaran->kode }} - {{ $item->kelasPelajaran->pelajaran->nama }}</td>
+                                    <td class="text-center">{{ $item->hari }}</td>
+                                    <td class="text-center">{{ $item->mulai }} - {{ $item->selesai }} </td>
                                     <td class="text-center">
                                         <button onclick="editData({{ $item['id'] }})" type="button"
                                             class="btn btn-outline-warning" data-toggle="modal" data-target="#editModal">
@@ -73,24 +77,44 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('modules.master.pelajaran.store') }}" method="POST">
+                <form action="{{ route('modules.master.jadwal-kelas.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="nama" class="form-label"> Nama </label>
-                            <input type="text" class="form-control" name="nama" id="nama"
-                                placeholder="Masukkan Nama">
-                        </div>
-                        <div class="form-group">
-                            <label for="kelompokPenilaian" class="form-label"> Kelompok Penilaian </label>
-                            <select name="kelompokPenilaianId" class="form-control" id="kelompokPenilaianId">
+                            <label for="kelasPelajaranId" class="form-label"> Kelas Pelajaran </label>
+                            <select name="kelasPelajaranId" class="form-control" id="kelasPelajaranId">
                                 <option value="">- Pilih -</option>
-                                @foreach ($kelompokPenilaian as $item)
+                                @foreach ($kelasPelajaran as $item)
                                     <option value="{{ $item->id }}">
-                                        {{ $item->kelompok }}
+                                        {{ $item->kelas->namaKelas }} - {{ $item->kelas->jenjang }} | {{ $item->pelajaran->nama }}
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="hari" class="form-label"> Hari </label>
+                            <select name="hari" class="form-control" id="hari">
+                                <option value="">- Pilih -</option>
+                                <option value="Senin">Senin</option>
+                                <option value="Selasa">Selasa</option>
+                                <option value="Rabu">Rabu</option>
+                                <option value="Kamis">Kamis</option>
+                                <option value="Jumat">Jumat</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="mulai" class="form-label"> Mulai </label>
+                                    <input type="time" class="form-control" name="mulai" id="mulai">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="selesai" class="form-label"> Selesai </label>
+                                    <input type="time" class="form-control" name="selesai" id="selesai">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -136,7 +160,7 @@
     <script type="text/javascript">
         function editData(id) {
             $.ajax({
-                url: "{{ url('/modules/master/pelajaran') }}" + "/" + id + "/edit",
+                url: "{{ url('/modules/master/jadwal-kelas') }}" + "/" + id + "/edit",
                 type: "GET",
                 success: function(response) {
                     $("#modal-content-edit").html(response)
@@ -163,7 +187,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ url('/modules/master/pelajaran') }}" + "/" + id,
+                        url: "{{ url('/modules/master/jadwal-kelas') }}" + "/" + id,
                         method: "DELETE",
                         beforeSend: function(xhr) {
                             xhr.setRequestHeader('X-CSRF-TOKEN', csrf_token);
@@ -174,7 +198,7 @@
                                 text: response.message,
                                 icon: "success"
                             }).then((result) => {
-                                window.location.href = "{{ route('modules.master.pelajaran.index') }}"
+                                window.location.href = "{{ route('modules.master.jadwal-kelas.index') }}"
                             });
                         },
                         error: function(error) {

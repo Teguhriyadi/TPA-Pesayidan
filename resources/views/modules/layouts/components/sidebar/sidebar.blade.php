@@ -49,9 +49,11 @@
         </a>
         <div id="collapsePembelajaran" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('modules.master.kelompok-penilaian.index') }}">Kelompok Penilaian</a>
                 <a class="collapse-item" href="{{ route('modules.master.pelajaran.index') }}">Pelajaran</a>
                 <a class="collapse-item" href="{{ route('modules.master.hafalan.index') }}">Hafalan</a>
                 <a class="collapse-item" href="{{ route('modules.master.kelas-pelajaran.index') }}">Kelas Pelajaran</a>
+                <a class="collapse-item" href="{{ route('modules.master.jadwal-kelas.index') }}">Jadwal Kelas</a>
             </div>
         </div>
     </li>
@@ -81,6 +83,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('modules.guru.index') }}">Guru</a>
                 <a class="collapse-item" href="{{ route('modules.admin.index') }}">Administrator</a>
+                <a class="collapse-item" href="{{ route('modules.akun.profil') }}">Profil Saya</a>
             </div>
         </div>
     </li>

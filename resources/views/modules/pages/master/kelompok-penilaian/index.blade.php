@@ -1,6 +1,6 @@
 @extends('modules.layouts.main')
 
-@push('modules-title', 'Pelajaran')
+@push('modules-title', 'Kelompok Penilaian')
 
 @push('modules-css')
     <link href="{{ url('/theme') }}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -29,8 +29,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center">No.</th>
-                                <th class="text-center">Kode Pelajaran</th>
-                                <th>Nama Pelajaran</th>
+                                <th>Kelompok Penilaian</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -38,11 +37,10 @@
                             @php
                                 $nomer = 1;
                             @endphp
-                            @foreach ($pelajaran as $item)
+                            @foreach ($kelompokPenilaian as $item)
                                 <tr>
                                     <td class="text-center">{{ $nomer++ }}.</td>
-                                    <td class="text-center">{{ $item->kode }}</td>
-                                    <td>{{ $item->nama }}</td>
+                                    <td>{{ $item->kelompok }}</td>
                                     <td class="text-center">
                                         <button onclick="editData({{ $item['id'] }})" type="button"
                                             class="btn btn-outline-warning" data-toggle="modal" data-target="#editModal">
@@ -73,24 +71,13 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('modules.master.pelajaran.store') }}" method="POST">
+                <form action="{{ route('modules.master.kelompok-penilaian.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="nama" class="form-label"> Nama </label>
-                            <input type="text" class="form-control" name="nama" id="nama"
-                                placeholder="Masukkan Nama">
-                        </div>
-                        <div class="form-group">
-                            <label for="kelompokPenilaian" class="form-label"> Kelompok Penilaian </label>
-                            <select name="kelompokPenilaianId" class="form-control" id="kelompokPenilaianId">
-                                <option value="">- Pilih -</option>
-                                @foreach ($kelompokPenilaian as $item)
-                                    <option value="{{ $item->id }}">
-                                        {{ $item->kelompok }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <label for="kelompok" class="form-label"> Kelompok </label>
+                            <input type="text" class="form-control" name="kelompok" id="kelompok"
+                                placeholder="Masukkan Kelompok Penilaian">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -136,7 +123,7 @@
     <script type="text/javascript">
         function editData(id) {
             $.ajax({
-                url: "{{ url('/modules/master/pelajaran') }}" + "/" + id + "/edit",
+                url: "{{ url('/modules/master/kelompok-penilaian') }}" + "/" + id + "/edit",
                 type: "GET",
                 success: function(response) {
                     $("#modal-content-edit").html(response)
@@ -163,7 +150,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ url('/modules/master/pelajaran') }}" + "/" + id,
+                        url: "{{ url('/modules/master/kelompok-penilaian') }}" + "/" + id,
                         method: "DELETE",
                         beforeSend: function(xhr) {
                             xhr.setRequestHeader('X-CSRF-TOKEN', csrf_token);
@@ -174,7 +161,7 @@
                                 text: response.message,
                                 icon: "success"
                             }).then((result) => {
-                                window.location.href = "{{ route('modules.master.pelajaran.index') }}"
+                                window.location.href = "{{ route('modules.master.kelompok-penilaian.index') }}"
                             });
                         },
                         error: function(error) {

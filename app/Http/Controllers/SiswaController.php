@@ -84,7 +84,7 @@ class SiswaController extends Controller
             $this->siswaJenjang->create([
                 "siswaId" => $dataSiswa->id,
                 "kelasId" => $request->kelasId,
-                "tahunId" => $tahunAjaranActive->id,
+                "tahunAjaranId" => $tahunAjaranActive->id,
                 "status" => 1
             ]);
 
@@ -157,7 +157,11 @@ class SiswaController extends Controller
 
             DB::beginTransaction();
 
-            $this->siswa->where("id", $id)->delete();
+            $siswa = $this->siswa->where("id", $id)->first();
+
+            $this->siswaJenjang->where("siswaId", $siswa->id)->delete();
+
+            $siswa->delete();
 
             DB::commit();
 

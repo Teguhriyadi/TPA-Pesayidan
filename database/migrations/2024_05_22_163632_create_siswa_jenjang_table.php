@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer("siswaId");
             $table->integer("kelasId");
-            $table->integer("tahunId");
+            $table->integer("tahunAjaranId");
             $table->enum("status", ["1", "0"]);
         });
     }

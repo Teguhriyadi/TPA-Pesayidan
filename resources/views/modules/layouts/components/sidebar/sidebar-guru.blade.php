@@ -25,10 +25,30 @@
         Master
     </div>
 
+    <li class="nav-item {{ Request::is('modules/pembelajaran/hafalan') ? 'active' : '' }} ">
+        <a class="nav-link" href="{{ route('modules.master.pembelajaran.hafalan.index') }}">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Hafalan Quran</span>
+        </a>
+    </li>
+
     <li class="nav-item {{ Request::is('modules/siswa') ? 'active' : '' }} ">
         <a class="nav-link" href="{{ route('modules.siswa.index') }}">
             <i class="fas fa-fw fa-user"></i>
             <span>Siswa</span>
+        </a>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">
+        Pengaturan
+    </div>
+
+    <li class="nav-item {{ Request::is('modules/akun/profil-saya') ? 'active' : '' }} ">
+        <a class="nav-link" href="{{ route('modules.akun.profil') }}">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Profil Saya</span>
         </a>
     </li>
 
