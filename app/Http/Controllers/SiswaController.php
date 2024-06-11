@@ -143,6 +143,7 @@ class SiswaController extends Controller
 
             $data = [
                 "kelas" => $this->kelas->get(),
+                "wali" => $this->user->where("akses", "ORTU")->get(),
                 "edit" => $this->siswa->where("id", $id)->first()
             ];
 
@@ -173,11 +174,6 @@ class SiswaController extends Controller
                 "tanggalLahir" => $request->tanggalLahir,
                 "alamat" => $request->alamat,
                 "kelasId" => $request->kelasId
-            ]);
-
-            $this->user->where("id", $siswa->waliId)->update([
-                "nama" => $request->namaWali,
-                "username" => Str::slug("wali-" . $request->namaWali)
             ]);
 
             DB::commit();

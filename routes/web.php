@@ -13,6 +13,7 @@ use App\Http\Controllers\Master\KelasPelajaranController;
 use App\Http\Controllers\Master\KelompokPenilaianController;
 use App\Http\Controllers\Master\PelajaranController;
 use App\Http\Controllers\Master\TahunAjaranController;
+use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\Pembelajaran\HafalanQuranController;
 use App\Http\Controllers\Penilaian\HafalanHarianController;
 use App\Http\Controllers\Settings\ProfilAkunController;
@@ -145,6 +146,13 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                 Route::prefix("siswa")->group(function() {
                     Route::get("/", "index")->name("modules.master-wali.siswa.index");
                 });
+            });
+        });
+
+        Route::controller(OrangTuaController::class)->group(function() {
+            Route::prefix("orang-tua")->group(function() {
+                Route::get("/", "index")->name("modules.master.orang-tua.index");
+                Route::get("/{id}/data-anak", "showAnak")->name("modules.master.orang-tua.show-anak");
             });
         });
 

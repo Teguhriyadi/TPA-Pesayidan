@@ -1,6 +1,6 @@
 @extends('modules.layouts.main')
 
-@push('modules-title', 'Siswa')
+@push('modules-title', 'Orang Tua')
 
 @push('modules-css')
     <link href="{{ url('/theme') }}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -10,19 +10,13 @@
 
     <div class="container-fluid">
         <h1 class="h3 mb-2 text-gray-800">
-            <i class="fa fa-user"></i> @stack('modules-title')
+            <i class="fa fa-users"></i> @stack('modules-title')
         </h1>
 
         <div class="card shadow mb-4 mt-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
                     Data @stack('modules-title')
-                    <a style="float: right" class="btn btn-outline-primary" href="{{ route('modules.siswa.create') }}">
-                        <i class="fa fa-plus"></i> Tambah
-                    </a>
-                    <a style="float: right" href="{{ route('modules.master.orang-tua.index') }}" class="btn btn-outline-info mr-3">
-                        <i class="fa fa-users"></i> Data Orang Tua
-                    </a>
                 </h6>
             </div>
             <div class="card-body">
@@ -32,40 +26,33 @@
                             <tr>
                                 <th class="text-center">No.</th>
                                 <th>Nama</th>
-                                <th class="text-center">Jenis Kelamin</th>
-                                <th class="text-center">Tempat Lahir</th>
-                                <th class="text-center">Tanggal Lahir</th>
-                                <th>Wali</th>
+                                <th>Username</th>
+                                <th class="text-center">Nomor HP</th>
+                                <th class="text-center">Jumlah Anak</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @php
-                                $nomer = 1;
+                                $nomor = 0
                             @endphp
-                            @foreach ($siswa as $item)
-                                <tr>
-                                    <td class="text-center">{{ $nomer++ }}.</td>
-                                    <td>{{ $item->nama }}</td>
-                                    <td class="text-center">
-                                        @if ($item->jenisKelamin == "L")
-                                            Laki - Laki
-                                        @elseif($item->jenisKelamin == "P")
-                                            Perempuan
-                                        @endif
-                                    </td>
-                                    <td class="text-center">{{ $item->tempatLahir }}</td>
-                                    <td class="text-center">{{ $item->tanggalLahir }}</td>
-                                    <td>{{ $item->wali->nama }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route("modules.siswa.edit", ['id' => $item->id]) }}" class="btn btn-outline-warning">
-                                            <i class="fa fa-edit"></i> Edit
-                                        </a>
-                                        <button onclick="hapusData({{ $item['id'] }})" class="btn btn-outline-danger">
-                                            <i class="fa fa-trash"></i> Hapus
-                                        </button>
-                                    </td>
-                                </tr>
+                            @foreach ($orangTua as $item)
+                            <tr>
+                                <td class="text-center">{{ ++$nomor }}.</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->username }}</td>
+                                <td class="text-center">{{ $item->nomorHpAktif }}</td>
+                                <td class="text-center">
+                                    <span class="badge bg-info fw-bold text-white">
+                                        {{ $item->countWali->count() }}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ route('modules.master.orang-tua.show-anak', ['id' => $item->id]) }}" class="btn btn-outline-info btn-sm">
+                                        <i class="fa fa-search"></i> Detail Data Anak
+                                    </a>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -86,18 +73,26 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('modules.admin.store') }}" method="POST">
+                <form action="{{ route('modules.master.kelas.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="nama" class="form-label"> Nama </label>
-                            <input type="text" class="form-control" name="nama" id="nama"
-                                placeholder="Masukkan Nama">
+                            <label for="namaKelas" class="form-label"> Nama Kelas </label>
+                            <input type="text" class="form-control" name="namaKelas" id="namaKelas"
+                                placeholder="Masukkan Nama Kelas">
                         </div>
                         <div class="form-group">
-                            <label for="username" class="form-label"> Username </label>
-                            <input type="text" class="form-control" name="username" id="username"
-                                placeholder="Masukkan Username">
+                            <label for="jenjang" class="form-label"> Jenjang </label>
+                            <select name="jenjang" class="form-control" id="jenjang">
+                                <option value="">- Pilih -</option>
+                                <option value="TK">TK</option>
+                                <option value="TPA">TPA</option>
+                                <option value="DTA">DTA</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="deskripsi" class="form-label"> Deskripsi </label>
+                            <textarea name="deskripsi" class="form-control" id="deskripsi" rows="5" placeholder="Masukkan Deskripsi"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -143,7 +138,7 @@
     <script type="text/javascript">
         function editData(id) {
             $.ajax({
-                url: "{{ url('/modules/akun-admin') }}" + "/" + id + "/edit",
+                url: "{{ url('/modules/master/kelas') }}" + "/" + id + "/edit",
                 type: "GET",
                 success: function(response) {
                     $("#modal-content-edit").html(response)
@@ -170,7 +165,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ url('/modules/siswa') }}" + "/" + id,
+                        url: "{{ url('/modules/master/kelas') }}" + "/" + id,
                         method: "DELETE",
                         beforeSend: function(xhr) {
                             xhr.setRequestHeader('X-CSRF-TOKEN', csrf_token);
@@ -181,7 +176,7 @@
                                 text: response.message,
                                 icon: "success"
                             }).then((result) => {
-                                window.location.href = "{{ route('modules.siswa.index') }}"
+                                window.location.href = "{{ route('modules.master.kelas') }}"
                             });
                         },
                         error: function(error) {

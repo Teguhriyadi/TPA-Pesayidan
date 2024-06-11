@@ -18,21 +18,17 @@
                     </a>
                 </h6>
             </div>
-            <form action="{{ route('modules.siswa.update', ['id' => $edit->id]) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('modules.siswa.update', ['id' => $edit->id]) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
-                @method("PUT")
+                @method('PUT')
                 <div class="card-body">
                     <div class="row">
                         <div class="col mb-2">
                             <div class="form-group">
                                 <label for="nama" class="form-label"> Nama </label>
-                                <input type="text" name="nama" id="nama" placeholder="Masukkan Nama" class="form-control" value="{{ $edit->nama }}">
-                            </div>
-                        </div>
-                        <div class="col mb-2">
-                            <div class="form-group">
-                                <label for="namaWali" class="form-label"> Nama Wali </label>
-                                <input type="text" name="namaWali" id="namaWali" placeholder="Masukkan Nama Wali" class="form-control" value="{{ $edit->wali->nama }}">
+                                <input type="text" name="nama" id="nama" placeholder="Masukkan Nama"
+                                    class="form-control" value="{{ $edit->nama }}">
                             </div>
                         </div>
                     </div>
@@ -42,21 +38,25 @@
                                 <label for="jenisKelamin" class="form-label"> Jenis Kelamin </label>
                                 <select name="jenisKelamin" class="form-control" id="jenisKelamin">
                                     <option value="">- Pilih -</option>
-                                    <option value="L" {{ $edit->jenisKelamin == "L" ? 'selected' : '' }} >Laki - Laki</option>
-                                    <option value="P" {{ $edit->jenisKelamin == "P" ? 'selected' : '' }} >Perempuan</option>
+                                    <option value="L" {{ $edit->jenisKelamin == 'L' ? 'selected' : '' }}>Laki - Laki
+                                    </option>
+                                    <option value="P" {{ $edit->jenisKelamin == 'P' ? 'selected' : '' }}>Perempuan
+                                    </option>
                                 </select>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="tempatLahir" class="form-label"> Tempat Lahir </label>
-                                <input type="text" class="form-control" name="tempatLahir" id="tempatLahir" placeholder="Masukkan Tempat Lahir" value="{{ $edit->tempatLahir }}">
+                                <input type="text" class="form-control" name="tempatLahir" id="tempatLahir"
+                                    placeholder="Masukkan Tempat Lahir" value="{{ $edit->tempatLahir }}">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="tanggalLahir" class="form-label"> Tanggal Lahir </label>
-                                <input type="date" class="form-control" name="tanggalLahir" id="tanggalLahir" placeholder="Masukkan Tanggal Lahir" value="{{ $edit->tanggalLahir }}">
+                                <input type="date" class="form-control" name="tanggalLahir" id="tanggalLahir"
+                                    placeholder="Masukkan Tanggal Lahir" value="{{ $edit->tanggalLahir }}">
                             </div>
                         </div>
                         <div class="col">
@@ -65,7 +65,8 @@
                                 <select name="kelasId" class="form-control" id="kelasId">
                                     <option value="">- Pilih -</option>
                                     @foreach ($kelas as $item)
-                                        <option value="{{ $item->id }}" {{ $item->id == $edit->kelasId ? 'selected' : '' }}>
+                                        <option value="{{ $item->id }}"
+                                            {{ $item->id == $edit->kelasId ? 'selected' : '' }}>
                                             {{ $item->namaKelas }} - {{ $item->jenjang }}
                                         </option>
                                     @endforeach
@@ -94,4 +95,25 @@
         </div>
     </div>
 
+@endpush
+
+@push("modules-js")
+    <script type="text/javascript">
+        function optionAnak() {
+            let pilihan = document.getElementById("option").value
+            let wali = document.getElementById("wali");
+            let waliId = document.getElementById("waliId")
+
+            if (pilihan == "Belum") {
+                wali.style.display = "block"
+                waliId.style.display = "none"
+            } else if (pilihan === "Ya") {
+                wali.style.display = "none";
+                waliId.style.display = "block";
+            } else {
+                surat.style.display = "none";
+                lainnya.style.display = "none";
+            }
+        }
+    </script>
 @endpush

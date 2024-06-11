@@ -27,4 +27,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Siswa::class, "waliId", "id");
     }
+
+    public function countWali()
+    {
+        return $this->hasMany(Siswa::class, "waliId", "id");
+    }
+
+    public function getActivePhoneNumberAttribute()
+    {
+        return $this->countWali()->first()->nomorHpAktif ?? null;
+    }
 }
