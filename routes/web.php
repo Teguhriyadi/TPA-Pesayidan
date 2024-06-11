@@ -15,6 +15,7 @@ use App\Http\Controllers\Master\PelajaranController;
 use App\Http\Controllers\Master\TahunAjaranController;
 use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\Pembelajaran\HafalanQuranController;
+use App\Http\Controllers\Pengaturan\GantiPasswordController;
 use App\Http\Controllers\Penilaian\HafalanHarianController;
 use App\Http\Controllers\Settings\ProfilAkunController;
 use App\Http\Controllers\Settings\ProfilMadrasahController;
@@ -158,18 +159,6 @@ Route::group(["middleware" => ["autentikasi"]], function () {
             });
         });
 
-        Route::controller(HafalanQuranController::class)->group(function() {
-            Route::prefix("pembelajaran")->group(function() {
-                Route::prefix("hafalan")->group(function() {
-                    Route::get("/", "index")->name("modules.master.pembelajaran.hafalan.index");
-                    Route::post("/", "store")->name("modules.master.pembelajaran.hafalan.store");
-                    Route::get("/{id}/edit", "edit")->name("modules.master.pembelajaran.hafalan.edit");
-                    Route::put("/{id}", "update")->name("modules.master.pembelajaran.hafalan.update");
-                    Route::delete("/{id}", "destroy")->name("modules.master.pembelajaran.hafalan.destroy");
-                });
-            });
-        });
-
         Route::controller(SiswaController::class)->group(function () {
             Route::prefix("siswa")->group(function () {
                 Route::get("/", "index")->name("modules.siswa.index");
@@ -223,6 +212,12 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                     Route::post("/", "store")->name("modules.penilaian.harian.store");
                     Route::get("/{id}/edit", "edit")->name("modules.penilaian.harian.edit");
                 });
+            });
+        });
+
+        Route::controller(GantiPasswordController::class)->group(function() {
+            Route::prefix("ganti-password")->group(function() {
+                Route::put("/{id}", "update")->name("modules.pengaturan.ganti-password.update");
             });
         });
     });

@@ -103,6 +103,11 @@
                             </div>
                         </div>
                     </div>
+
+                    <button type="button"
+                        class="btn btn-outline-success btn-block mt-4" data-toggle="modal" data-target="#gantiPasswordModal">
+                        <i class="fa fa-edit"></i> Ganti Password
+                    </button>
                 </div>
                 <div class="col-md-8 mb-3">
                     <div class="card shadow mb-4 mt-4">
@@ -200,6 +205,50 @@
                 </div>
             </div>
 
+            <!-- Ganti Password -->
+            <div class="modal fade" id="gantiPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                <i class="fa fa-edit"></i> Ganti Password
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('modules.pengaturan.ganti-password.update', ['id' => Auth::user()->id]) }}" method="POST">
+                            @csrf
+                            @method("PUT")
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="passwordLama" class="form-label"> Password Lama </label>
+                                    <input type="password" class="form-control" name="passwordLama" id="passwordLama"
+                                        placeholder="Masukkan Password Lama" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="passwordBaru" class="form-label"> Password Baru </label>
+                                    <input type="password" class="form-control" name="passwordBaru" id="passwordBaru" placeholder="Masukkan Password Baru" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="konfirmasiPassword" class="form-label"> Konfirmasi Password </label>
+                                    <input type="password" class="form-control" name="konfirmasiPassword" id="konfirmasiPassword" placeholder="Masukkan Konfirmasi Password" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="reset" class="btn btn-outline-danger">
+                                    <i class="fa fa-times"></i> Batal
+                                </button>
+                                <button type="submit" class="btn btn-outline-success">
+                                    <i class="fa fa-save"></i> Simpan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- End -->
 
         @endif
     </div>

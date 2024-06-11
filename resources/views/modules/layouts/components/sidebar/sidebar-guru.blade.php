@@ -32,13 +32,6 @@
         </a>
     </li>
 
-    <li class="nav-item {{ Request::is('modules/pembelajaran/hafalan') ? 'active' : '' }} ">
-        <a class="nav-link" href="{{ route('modules.master.pembelajaran.hafalan.index') }}">
-            <i class="fas fa-fw fa-book"></i>
-            <span>Hafalan Quran</span>
-        </a>
-    </li>
-
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">

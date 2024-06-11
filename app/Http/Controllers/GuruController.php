@@ -63,7 +63,7 @@ class GuruController extends Controller
             $users = $this->user->create([
                 "nama" => $request->nama,
                 "username" => $request->username,
-                "password" => bcrypt("password123"),
+                "password" => bcrypt("123456789"),
                 "akses" => "GURU",
                 "status" => 1
             ]);
