@@ -19,4 +19,9 @@ class JadwalKelas extends Model
     {
         return $this->belongsTo(KelasPelajaran::class, "kelasPelajaranId", "id");
     }
+
+    public function guru()
+    {
+        return $this->belongsTo(Guru::class, "guruId", "id");
+    }
 }

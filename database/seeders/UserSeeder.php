@@ -56,5 +56,21 @@ class UserSeeder extends Seeder
             "status" => 1,
             "guruId" => 5
         ]);
+
+        $this->user->create([
+            "nama" => "Aiziah Bernard",
+            "username" => "ortu-hamdan",
+            "password" => bcrypt("ortu123"),
+            "akses" => "ORTU",
+            "status" => 1
+        ]);
+
+        $this->user->create([
+            "nama" => "Rahani",
+            "username" => "ortu-bernard",
+            "password" => bcrypt("ortu12345"),
+            "akses" => "ORTU",
+            "status" => 1
+        ]);
     }
 }

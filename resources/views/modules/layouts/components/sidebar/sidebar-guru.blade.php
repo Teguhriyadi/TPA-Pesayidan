@@ -1,5 +1,5 @@
 <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('modules.dashboard') }}">
         {{-- <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div> --}}
@@ -25,12 +25,34 @@
         Master
     </div>
 
+    <li class="nav-item {{ Request::is('modules/master/jadwal-kelas-saya') ? 'active' : '' }} ">
+        <a class="nav-link" href="{{ route('modules.master.jadwal-kelas-guru.index') }}">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Jadwal Kelas</span>
+        </a>
+    </li>
+
     <li class="nav-item {{ Request::is('modules/pembelajaran/hafalan') ? 'active' : '' }} ">
         <a class="nav-link" href="{{ route('modules.master.pembelajaran.hafalan.index') }}">
             <i class="fas fa-fw fa-book"></i>
             <span>Hafalan Quran</span>
         </a>
     </li>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Penilaian</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('modules.penilaian.harian.index') }}">Hafalan Harian</a>
+                <a class="collapse-item" href="{{ route('modules.admin.index') }}">Hafalan Ujian</a>
+            </div>
+        </div>
+    </li>
+
 
     <li class="nav-item {{ Request::is('modules/siswa') ? 'active' : '' }} ">
         <a class="nav-link" href="{{ route('modules.siswa.index') }}">

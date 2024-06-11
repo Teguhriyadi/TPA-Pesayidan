@@ -17,11 +17,12 @@ return new class extends Migration
             $table->enum("jenisKelamin", ["L", "P"]);
             $table->string("tempatLahir", 100);
             $table->date("tanggalLahir");
-            $table->string("namaWali", 150);
             $table->text("alamat");
             $table->string("foto")->nullable();
             $table->integer("pendaftarId");
             $table->integer("kelasId")->nullable();
+            $table->integer("waliId")->nullable();
+            $table->string("nomorHpAktif")->nullable();
             $table->enum("aktif", [1, 0])->default(1);
         });
     }

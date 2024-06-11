@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string("nama", 150)->nullable();
             $table->string("username");
             $table->string('password');
-            $table->enum("akses", ["ADMIN", "GURU", "WAKEL"]);
+            $table->enum("akses", ["ADMIN", "GURU", "WAKEL", "ORTU"]);
             $table->tinyInteger("status");
             $table->string("foto")->nullable();
             $table->integer("guruId")->nullable()->default(0);

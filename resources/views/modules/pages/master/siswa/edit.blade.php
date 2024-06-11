@@ -32,7 +32,7 @@
                         <div class="col mb-2">
                             <div class="form-group">
                                 <label for="namaWali" class="form-label"> Nama Wali </label>
-                                <input type="text" name="namaWali" id="namaWali" placeholder="Masukkan Nama Wali" class="form-control" value="{{ $edit->namaWali }}">
+                                <input type="text" name="namaWali" id="namaWali" placeholder="Masukkan Nama Wali" class="form-control" value="{{ $edit->wali->nama }}">
                             </div>
                         </div>
                     </div>

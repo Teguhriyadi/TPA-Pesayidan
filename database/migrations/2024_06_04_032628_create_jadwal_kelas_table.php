@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('jadwal_kelas', function (Blueprint $table) {
             $table->id();
             $table->integer("createdId");
+            $table->integer("guruId");
             $table->integer("kelasPelajaranId");
             $table->string("hari", 50);
             $table->time("mulai");

@@ -6,13 +6,15 @@ use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\SiswaJenjang;
 use App\Models\TahunAjaran;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class SiswaController extends Controller
 {
-    protected $siswa, $kelas, $siswaJenjang, $tahunAjaran;
+    protected $siswa, $kelas, $siswaJenjang, $tahunAjaran, $user;
 
     public function __construct()
     {
@@ -20,21 +22,35 @@ class SiswaController extends Controller
         $this->kelas = new Kelas();
         $this->siswaJenjang = new SiswaJenjang();
         $this->tahunAjaran = new TahunAjaran();
+        $this->user = new User();
     }
 
     public function index()
     {
         try {
 
-            DB::beginTransaction();
+            if (Auth::user()->akses == "ORTU") {
 
-            $data = [
-                "siswa" => $this->siswa->orderBy("id", "DESC")->get()
-            ];
+                DB::beginTransaction();
 
-            DB::commit();
+                $data = [
+                    "siswa" => $this->siswa->where("waliId", Auth::user()->id)->get()
+                ];
 
-            return view("modules.pages.master.siswa.index", $data);
+                DB::commit();
+
+                return view("modules.pages.wali.siswa.index", $data);
+            } else {
+
+                DB::beginTransaction();
+                $data = [
+                    "siswa" => $this->siswa->orderBy("id", "DESC")->get()
+                ];
+
+                DB::commit();
+
+                return view("modules.pages.master.siswa.index", $data);
+            }
 
         } catch (\Exception $e) {
 
@@ -49,7 +65,8 @@ class SiswaController extends Controller
         try {
 
             $data = [
-                "kelas" => $this->kelas->get()
+                "kelas" => $this->kelas->get(),
+                "wali" => $this->user->where("akses", "ORTU")->get()
             ];
 
             return view("modules.pages.master.siswa.create", $data);
@@ -58,7 +75,7 @@ class SiswaController extends Controller
 
             DB::rollBack();
 
-            return redirect()->route("modules.guru.index")->with("error", $e->getMessage());
+            return redirect()->route("modules.siswa.index")->with("error", $e->getMessage());
         }
     }
 
@@ -73,11 +90,29 @@ class SiswaController extends Controller
                 "jenisKelamin" => $request->jenisKelamin,
                 "tempatLahir" => $request->tempatLahir,
                 "tanggalLahir" => $request->tanggalLahir,
-                "namaWali" => $request->namaWali,
                 "alamat" => $request->alamat,
                 "pendaftarId" => Auth::user()->id,
                 "kelasId" => $request->kelasId
             ]);
+
+            if ($request->option == "Ya") {
+                $this->siswa->where("id", $dataSiswa->id)->update([
+                    "waliId" => $request->waliId
+                ]);
+            } else {
+                $wali = $this->user->create([
+                    "nama" => $request->namaWali,
+                    "username" => Str::slug("wali-" . $request->nama),
+                    "password" => bcrypt("wali123"),
+                    "akses" => "ORTU",
+                    "status" => "1"
+                ]);
+
+                $this->siswa->where("id", $dataSiswa->id)->update([
+                    "waliId" => $wali->id,
+                    "nomorHpAktif" => $request->nomorHpAktif
+                ]);
+            }
 
             $tahunAjaranActive = $this->tahunAjaran->first();
 
@@ -129,14 +164,20 @@ class SiswaController extends Controller
 
             DB::beginTransaction();
 
-            $this->siswa->where("id", $id)->update([
+            $siswa = $this->siswa->where("id", $id)->first();
+
+            $siswa->update([
                 "nama" => $request->nama,
                 "jenisKelamin" => $request->jenisKelamin,
                 "tempatLahir" => $request->tempatLahir,
                 "tanggalLahir" => $request->tanggalLahir,
-                "namaWali" => $request->namaWali,
                 "alamat" => $request->alamat,
                 "kelasId" => $request->kelasId
+            ]);
+
+            $this->user->where("id", $siswa->waliId)->update([
+                "nama" => $request->namaWali,
+                "username" => Str::slug("wali-" . $request->namaWali)
             ]);
 
             DB::commit();
@@ -147,7 +188,7 @@ class SiswaController extends Controller
 
             DB::rollBack();
 
-            return redirect()->route("modules.siswa.index")->with("error", $e->getMessage());
+            return back()->with("error", $e->getMessage());
         }
     }
 
@@ -160,6 +201,8 @@ class SiswaController extends Controller
             $siswa = $this->siswa->where("id", $id)->first();
 
             $this->siswaJenjang->where("siswaId", $siswa->id)->delete();
+
+            $this->user->where("id", $siswa->waliId)->delete();
 
             $siswa->delete();
 

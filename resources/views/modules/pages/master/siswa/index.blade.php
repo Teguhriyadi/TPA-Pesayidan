@@ -53,7 +53,7 @@
                                     </td>
                                     <td class="text-center">{{ $item->tempatLahir }}</td>
                                     <td class="text-center">{{ $item->tanggalLahir }}</td>
-                                    <td>{{ $item->namaWali }}</td>
+                                    <td>{{ $item->wali->nama }}</td>
                                     <td class="text-center">
                                         <a href="{{ route("modules.siswa.edit", ['id' => $item->id]) }}" class="btn btn-outline-warning">
                                             <i class="fa fa-edit"></i> Edit

@@ -10,6 +10,7 @@
     <meta name="author" content="">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="{{ URL::asset('images/LOGO_KEMENAG.png') }}" />
 
     <title>
         TPA Pesayidan - @stack('modules-title')
@@ -32,6 +33,8 @@
             @include("modules.layouts.components.sidebar.sidebar-guru")
         @elseif(Auth::user()->akses == "WAKEL")
             @include("modules.layouts.components.sidebar.sidebar-wakel")
+        @elseif(Auth::user()->akses == "ORTU")
+            @include("modules.layouts.components.sidebar.sidebar-wali")
         @endif
 
         <div id="content-wrapper" class="d-flex flex-column">

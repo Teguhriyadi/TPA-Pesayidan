@@ -30,6 +30,7 @@
                             <tr>
                                 <th class="text-center">No.</th>
                                 <th>Kelas</th>
+                                <th>Guru</th>
                                 <th>Pelajaran</th>
                                 <th class="text-center">Hari</th>
                                 <th class="text-center">Waktu Pelajaran</th>
@@ -44,7 +45,8 @@
                                 <tr>
                                     <td class="text-center">{{ $nomer++ }}.</td>
                                     <td>{{ $item->kelasPelajaran->kelas->namaKelas }}</td>
-                                    <td class="text-center">{{ $item->kelasPelajaran->pelajaran->kode }} - {{ $item->kelasPelajaran->pelajaran->nama }}</td>
+                                    <td>{{ $item->guru->nip }} - {{ $item->guru->users->nama }}</td>
+                                    <td>{{ $item->kelasPelajaran->pelajaran->kode }} - {{ $item->kelasPelajaran->pelajaran->nama }}</td>
                                     <td class="text-center">{{ $item->hari }}</td>
                                     <td class="text-center">{{ $item->mulai }} - {{ $item->selesai }} </td>
                                     <td class="text-center">
@@ -87,6 +89,17 @@
                                 @foreach ($kelasPelajaran as $item)
                                     <option value="{{ $item->id }}">
                                         {{ $item->kelas->namaKelas }} - {{ $item->kelas->jenjang }} | {{ $item->pelajaran->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="guruId" class="form-label"> Guru </label>
+                            <select name="guruId" class="form-control" id="guruId">
+                                <option value="">- Pilih -</option>
+                                @foreach ($guru as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->nip }} - {{ $item->users->nama }}
                                     </option>
                                 @endforeach
                             </select>

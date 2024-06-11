@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
+use App\Models\Guru;
 use App\Models\JadwalKelas;
 use App\Models\KelasPelajaran;
 use Illuminate\Http\Request;
@@ -11,12 +12,13 @@ use Illuminate\Support\Facades\DB;
 
 class JadwalKelasController extends Controller
 {
-    protected $jadwalKelas, $kelasPelajaran;
+    protected $jadwalKelas, $kelasPelajaran, $guru;
 
     public function __construct()
     {
         $this->jadwalKelas = new JadwalKelas();
         $this->kelasPelajaran = new KelasPelajaran();
+        $this->guru = new Guru();
     }
 
     public function index()
@@ -27,7 +29,8 @@ class JadwalKelasController extends Controller
 
             $data = [
                 "jadwalKelas" => $this->jadwalKelas->get(),
-                "kelasPelajaran" => $this->kelasPelajaran->get()
+                "kelasPelajaran" => $this->kelasPelajaran->get(),
+                "guru" => $this->guru->get()
             ];
 
             DB::commit();
@@ -50,6 +53,7 @@ class JadwalKelasController extends Controller
 
             $this->jadwalKelas->create([
                 "createdId" => Auth::user()->id,
+                "guruId" => $request->guruId,
                 "kelasPelajaranId" => $request->kelasPelajaranId,
                 "hari" => $request->hari,
                 "mulai" => $request->mulai,
@@ -76,6 +80,7 @@ class JadwalKelasController extends Controller
 
             $data = [
                 "kelasPelajaran" => $this->kelasPelajaran->get(),
+                "guru" => $this->guru->get(),
                 "edit" => $this->jadwalKelas->where("id", $id)->first()
             ];
 
@@ -99,6 +104,7 @@ class JadwalKelasController extends Controller
 
             $this->jadwalKelas->where("id", $id)->update([
                 "kelasPelajaranId" => $request->kelasPelajaranId,
+                "guruId" => $request->guruId,
                 "hari" => $request->hari,
                 "mulai" => $request->mulai,
                 "selesai" => $request->selesai

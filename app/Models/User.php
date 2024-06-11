@@ -22,4 +22,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Guru::class, "userId", "id");
     }
+
+    public function hasWali()
+    {
+        return $this->hasOne(Siswa::class, "waliId", "id");
+    }
 }

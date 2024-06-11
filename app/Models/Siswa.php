@@ -19,4 +19,9 @@ class Siswa extends Model
     {
         return $this->belongsTo(Kelas::class, "kelasId");
     }
+
+    public function wali()
+    {
+        return $this->belongsTo(User::class, "waliId");
+    }
 }

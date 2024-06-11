@@ -14,6 +14,17 @@
             </select>
         </div>
         <div class="form-group">
+            <label for="guruId" class="form-label"> Guru </label>
+            <select name="guruId" class="form-control" id="guruId">
+                <option value="">- Pilih -</option>
+                @foreach ($guru as $item)
+                    <option value="{{ $item->id }}" {{ $item->id == $edit->guruId ? 'selected' : '' }}>
+                        {{ $item->nip }} - {{ $item->users->nama }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
             <label for="hari" class="form-label"> Hari </label>
             <select name="hari" class="form-control" id="hari">
                 <option value="">- Pilih -</option>

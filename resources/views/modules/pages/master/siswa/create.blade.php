@@ -30,10 +30,41 @@
                         </div>
                         <div class="col mb-2">
                             <div class="form-group">
-                                <label for="namaWali" class="form-label"> Nama Wali </label>
-                                <input type="text" name="namaWali" id="namaWali" placeholder="Masukkan Nama Wali" class="form-control">
+                                <label for="option" class="form-label"> Apakah Sudah Pernah Mendaftarkan Anak? </label>
+                                <select name="option" class="form-control" id="option" onchange="optionAnak()">
+                                    <option value="">- Pilih -</option>
+                                    <option value="Ya">Ya, Sudah Pernah Mendaftarkan</option>
+                                    <option value="Belum">Belum, Saya Baru Mau Mendaftarkan</option>
+                                </select>
                             </div>
                         </div>
+                    </div>
+                    <div id="wali" style="display: none">
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <div class="form-group">
+                                    <label for="namaWali" class="form-label"> Nama Wali </label>
+                                    <input type="text" name="namaWali" id="namaWali" placeholder="Masukkan Nama Wali" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nomorHpAktif" class="form-label"> Nomor HP Aktif Wali </label>
+                                    <input type="text" min="1" name="nomorHpAktif" id="nomorHpAktif" placeholder="Masukkan Nomor HP Aktif Wali" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="waliId" style="display: none">
+                        <label for="waliId" class="form-label"> Wali Siswa </label>
+                        <select name="waliId" class="form-control" id="waliId">
+                            <option value="">- Pilih Wali Siswa -</option>
+                            @foreach ($wali as $item)
+                                <option value="{{ $item->id }}">
+                                    {{ $item->nama }} - {{ $item->hasWali->nomorHpAktif }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -93,4 +124,25 @@
         </div>
     </div>
 
+@endpush
+
+@push("modules-js")
+    <script type="text/javascript">
+        function optionAnak() {
+            let pilihan = document.getElementById("option").value
+            let wali = document.getElementById("wali");
+            let waliId = document.getElementById("waliId")
+
+            if (pilihan == "Belum") {
+                wali.style.display = "block"
+                waliId.style.display = "none"
+            } else if (pilihan === "Ya") {
+                wali.style.display = "none";
+                waliId.style.display = "block";
+            } else {
+                surat.style.display = "none";
+                lainnya.style.display = "none";
+            }
+        }
+    </script>
 @endpush

@@ -15,6 +15,8 @@ class AppController extends Controller
             return view("modules.pages.guru.dashboard");
         } else if (Auth::user()->akses == "WAKEL") {
             return view("modules.pages.wakel.dashboard");
+        } else if (Auth::user()->akses == "ORTU") {
+            return view("modules.pages.wali.dashboard");
         }
     }
 }
