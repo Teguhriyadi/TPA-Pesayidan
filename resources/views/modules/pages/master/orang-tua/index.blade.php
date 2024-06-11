@@ -34,25 +34,30 @@
                         </thead>
                         <tbody>
                             @php
-                                $nomor = 0
+                                $nomor = 0;
                             @endphp
                             @foreach ($orangTua as $item)
-                            <tr>
-                                <td class="text-center">{{ ++$nomor }}.</td>
-                                <td>{{ $item->nama }}</td>
-                                <td>{{ $item->username }}</td>
-                                <td class="text-center">{{ $item->nomorHpAktif }}</td>
-                                <td class="text-center">
-                                    <span class="badge bg-info fw-bold text-white">
-                                        {{ $item->countWali->count() }}
-                                    </span>
-                                </td>
-                                <td class="text-center">
-                                    <a href="{{ route('modules.master.orang-tua.show-anak', ['id' => $item->id]) }}" class="btn btn-outline-info btn-sm">
-                                        <i class="fa fa-search"></i> Detail Data Anak
-                                    </a>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td class="text-center">{{ ++$nomor }}.</td>
+                                    <td>{{ $item->nama }}</td>
+                                    <td>{{ $item->username }}</td>
+                                    <td class="text-center">{{ $item->nomorHpAktif }}</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-info fw-bold text-white">
+                                            {{ $item->countWali->count() }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <button onclick="editData({{ $item['id'] }})" type="button"
+                                            class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#editModal">
+                                            <i class="fa fa-edit"></i> Edit
+                                        </button>
+                                        <a href="{{ route('modules.master.orang-tua.show-anak', ['id' => $item->id]) }}"
+                                            class="btn btn-outline-info btn-sm">
+                                            <i class="fa fa-search"></i> Detail Data Anak
+                                        </a>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -60,54 +65,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Tambah Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
-                        <i class="fa fa-plus"></i> Tambah @stack('modules-title')
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('modules.master.kelas.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="namaKelas" class="form-label"> Nama Kelas </label>
-                            <input type="text" class="form-control" name="namaKelas" id="namaKelas"
-                                placeholder="Masukkan Nama Kelas">
-                        </div>
-                        <div class="form-group">
-                            <label for="jenjang" class="form-label"> Jenjang </label>
-                            <select name="jenjang" class="form-control" id="jenjang">
-                                <option value="">- Pilih -</option>
-                                <option value="TK">TK</option>
-                                <option value="TPA">TPA</option>
-                                <option value="DTA">DTA</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="deskripsi" class="form-label"> Deskripsi </label>
-                            <textarea name="deskripsi" class="form-control" id="deskripsi" rows="5" placeholder="Masukkan Deskripsi"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="reset" class="btn btn-outline-danger">
-                            <i class="fa fa-times"></i> Batal
-                        </button>
-                        <button type="submit" class="btn btn-outline-success">
-                            <i class="fa fa-save"></i> Simpan
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- End Modal -->
 
     <!-- Edit Modal -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -138,7 +95,7 @@
     <script type="text/javascript">
         function editData(id) {
             $.ajax({
-                url: "{{ url('/modules/master/kelas') }}" + "/" + id + "/edit",
+                url: "{{ url('/modules/orang-tua') }}" + "/" + id + "/edit",
                 type: "GET",
                 success: function(response) {
                     $("#modal-content-edit").html(response)

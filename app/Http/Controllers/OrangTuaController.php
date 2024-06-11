@@ -6,6 +6,7 @@ use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class OrangTuaController extends Controller
 {
@@ -45,6 +46,33 @@ class OrangTuaController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $orangTua = $this->orangTua->where("id", $id)->first();
+            if ($orangTua) {
+                $orangTua->nomorHpAktif = $orangTua->activePhoneNumber;
+            }
+
+            $data = [
+                "edit" => $orangTua
+            ];
+
+            DB::commit();
+
+            return view("modules.pages.master.orang-tua.edit", $data);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return redirect()->route("modules.dashboard")->with("error", $e->getMessage());
+        }
+    }
+
     public function showAnak($id)
     {
         try {
@@ -58,6 +86,33 @@ class OrangTuaController extends Controller
             DB::commit();
 
             return view("modules.pages.master.orang-tua.show-anak", $data);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return redirect()->route("modules.dashboard")->with("error", $e->getMessage());
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $this->orangTua->where("id", $id)->update([
+                "nama" => $request->nama,
+                "username" => Str::slug("wali-" . $request->nama),
+            ]);
+
+            $this->siswa->where("waliId", $id)->update([
+                "nomorHpAktif" => $request->nomorHpAktif
+            ]);
+
+            DB::commit();
+
+            return back()->with("success", "Data Berhasil di Simpan");
 
         } catch (\Exception $e) {
 

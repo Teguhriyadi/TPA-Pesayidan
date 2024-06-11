@@ -153,6 +153,8 @@ Route::group(["middleware" => ["autentikasi"]], function () {
             Route::prefix("orang-tua")->group(function() {
                 Route::get("/", "index")->name("modules.master.orang-tua.index");
                 Route::get("/{id}/data-anak", "showAnak")->name("modules.master.orang-tua.show-anak");
+                Route::get("/{id}/edit", "edit")->name("modules.master.orang-tua.edit");
+                Route::put("/{id}", "update")->name("modules.master.orang-tua.update");
             });
         });
 
