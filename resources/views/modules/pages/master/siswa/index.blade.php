@@ -31,6 +31,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center">No.</th>
+                                <th class="text-center">Foto</th>
                                 <th>Nama</th>
                                 <th class="text-center">Jenis Kelamin</th>
                                 <th class="text-center">Tempat Lahir</th>
@@ -46,6 +47,13 @@
                             @foreach ($siswa as $item)
                                 <tr>
                                     <td class="text-center">{{ $nomer++ }}.</td>
+                                    <td class="text-center">
+                                        @if (empty($item->foto))
+                                            <img src="{{ URL::asset('images/user-default.png') }}" alt="Images Default" style="width: 50px; height: 50%">
+                                        @else
+                                        <img src="{{ url('/storage/' . $item->foto) }}" alt="Image Siswa" class="img-responsive" style="width: 50px; height: 50%">
+                                        @endif
+                                    </td>
                                     <td>{{ $item->nama }}</td>
                                     <td class="text-center">
                                         @if ($item->jenisKelamin == "L")

@@ -22,6 +22,9 @@
                 enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+                @if (!empty($edit->foto))
+                    <input type="hidden" name="gambarLama" value="{{ $edit->foto }}">
+                @endif
                 <div class="card-body">
                     <div class="row">
                         <div class="col mb-2">
@@ -80,6 +83,10 @@
                     </div>
                     <div class="form-group">
                         <label for="foto" class="form-label"> Foto </label>
+                        @if (!empty($edit->foto))
+                        <br>
+                            <img src="{{ url('/storage/' . $edit->foto) }}" alt="Image Siswa" class="img-responsive mb-4" style="width: 150px; height: 150px">
+                        @endif
                         <input type="file" class="form-control" name="foto" id="foto">
                     </div>
                 </div>

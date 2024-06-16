@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class SiswaController extends Controller
@@ -85,6 +86,10 @@ class SiswaController extends Controller
 
             DB::beginTransaction();
 
+            if ($request->foto) {
+                $fotoSiswa = $request->file("foto")->store("siswa");
+            }
+
             $dataSiswa = $this->siswa->create([
                 "nama" => $request->nama,
                 "jenisKelamin" => $request->jenisKelamin,
@@ -92,7 +97,8 @@ class SiswaController extends Controller
                 "tanggalLahir" => $request->tanggalLahir,
                 "alamat" => $request->alamat,
                 "pendaftarId" => Auth::user()->id,
-                "kelasId" => $request->kelasId
+                "kelasId" => $request->kelasId,
+                "foto" => $fotoSiswa ? $fotoSiswa : null
             ]);
 
             if ($request->option == "Ya") {
@@ -167,13 +173,24 @@ class SiswaController extends Controller
 
             $siswa = $this->siswa->where("id", $id)->first();
 
+            if ($request->foto) {
+                if ($request->gambarLama) {
+                    Storage::delete($request->gambarLama);
+                }
+
+                $fotoSiswa = $request->file("foto")->store("siswa");
+            } else {
+                $fotoSiswa = $request->gambarLama;
+            }
+
             $siswa->update([
                 "nama" => $request->nama,
                 "jenisKelamin" => $request->jenisKelamin,
                 "tempatLahir" => $request->tempatLahir,
                 "tanggalLahir" => $request->tanggalLahir,
                 "alamat" => $request->alamat,
-                "kelasId" => $request->kelasId
+                "kelasId" => $request->kelasId,
+                "foto" => $fotoSiswa
             ]);
 
             DB::commit();
@@ -195,6 +212,10 @@ class SiswaController extends Controller
             DB::beginTransaction();
 
             $siswa = $this->siswa->where("id", $id)->first();
+
+            if (!empty($siswa->foto)) {
+                Storage::delete($siswa->foto);
+            }
 
             $this->siswaJenjang->where("siswaId", $siswa->id)->delete();
 

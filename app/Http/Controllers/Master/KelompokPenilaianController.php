@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\KelompokPenilaian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class KelompokPenilaianController extends Controller
 {
@@ -44,7 +45,10 @@ class KelompokPenilaianController extends Controller
 
             DB::beginTransaction();
 
-            $this->kelompokPenilaian->create($request->all());
+            $this->kelompokPenilaian->create([
+                "kelompok" => $request->kelompok,
+                "slug" => Str::slug($request->kelompok)
+            ]);
 
             DB::commit();
 
@@ -87,7 +91,8 @@ class KelompokPenilaianController extends Controller
             DB::beginTransaction();
 
             $this->kelompokPenilaian->where("id", $id)->update([
-                "kelompok" => $request->kelompok
+                "kelompok" => $request->kelompok,
+                "slug" => Str::slug($request->kelompok)
             ]);
 
             DB::commit();

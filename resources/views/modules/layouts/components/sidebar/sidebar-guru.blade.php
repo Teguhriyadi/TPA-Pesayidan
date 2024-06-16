@@ -41,7 +41,7 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('modules.penilaian.harian.index') }}">Hafalan Harian</a>
-                <a class="collapse-item" href="{{ route('modules.admin.index') }}">Hafalan Ujian</a>
+                <a class="collapse-item" href="{{ route('modules.penilaian.ujian.index') }}">Hafalan Ujian</a>
             </div>
         </div>
     </li>

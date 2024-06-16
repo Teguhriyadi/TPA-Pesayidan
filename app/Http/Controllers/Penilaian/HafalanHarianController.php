@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Penilaian;
 
 use App\Http\Controllers\Controller;
 use App\Models\HafalanHarian;
+use App\Models\KelompokPenilaian;
 use App\Models\Pelajaran;
 use App\Models\Siswa;
 use App\Models\TahunAjaran;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class HafalanHarianController extends Controller
 {
-    protected $materi, $siswa, $hafalanHarian, $tahunAjaran;
+    protected $materi, $siswa, $hafalanHarian, $tahunAjaran, $kelompokPenilaian;
 
     public function __construct()
     {
@@ -21,6 +22,7 @@ class HafalanHarianController extends Controller
         $this->siswa = new Siswa();
         $this->hafalanHarian = new HafalanHarian();
         $this->tahunAjaran = new TahunAjaran();
+        $this->kelompokPenilaian = new KelompokPenilaian();
     }
 
     public function index()
@@ -32,7 +34,8 @@ class HafalanHarianController extends Controller
             $data = [
                 "materi" => $this->materi->get(),
                 "siswa" => $this->siswa->get(),
-                "hafalanHarian" => $this->hafalanHarian->where("guruId", Auth::user()->hasGuru->id)->get()
+                "hafalanHarian" => $this->hafalanHarian->where("guruId", Auth::user()->hasGuru->id)->get(),
+                "kelompokPenilaian" => $this->kelompokPenilaian->get()
             ];
 
             DB::commit();
@@ -87,18 +90,13 @@ class HafalanHarianController extends Controller
             $data = [
                 "materi" => $this->materi->get(),
                 "siswa" => $this->siswa->get(),
-                "edit" => $this->hafalanHarian->where("id", $id)->first()
+                "edit" => $this->hafalanHarian->where("id", $id)->first(),
+                "kelompokPenilaian" => $this->kelompokPenilaian->get()
             ];
 
             DB::commit();
 
-            $htmlContent = view("modules.pages.penilaian.harian.edit", $data)->render();
-        $jsonData = json_encode($data['edit']);
-
-        return response()->json([
-            'html' => $htmlContent,
-            'data' => $jsonData
-        ]);
+            return view("modules.pages.penilaian.harian.edit", $data);
 
         } catch (\Exception $e) {
 

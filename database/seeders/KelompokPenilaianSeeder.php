@@ -18,19 +18,23 @@ class KelompokPenilaianSeeder extends Seeder
     public function run(): void
     {
         $this->kelompokPenilaian->create([
-            "kelompok" => "Praktek Ibadah"
+            "kelompok" => "Praktek Ibadah",
+            "slug" => "praktek-ibadah"
         ]);
 
         $this->kelompokPenilaian->create([
-            "kelompok" => "Tahfidz Do'A Harian"
+            "kelompok" => "Tahfidz Do'A Harian",
+            "slug" => "tahfidz-doa-harian"
         ]);
 
         $this->kelompokPenilaian->create([
-            "kelompok" => "Tahfidz Juz'Amma"
+            "kelompok" => "Tahfidz Juz'Amma",
+            "slug" => "tahfidz-juz-amma"
         ]);
 
         $this->kelompokPenilaian->create([
-            "kelompok" => "Surat Pilihan"
+            "kelompok" => "Surat Pilihan",
+            "slug" => "surat-pilihan"
         ]);
     }
 }

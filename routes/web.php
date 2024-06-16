@@ -17,6 +17,8 @@ use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\Pembelajaran\HafalanQuranController;
 use App\Http\Controllers\Pengaturan\GantiPasswordController;
 use App\Http\Controllers\Penilaian\HafalanHarianController;
+use App\Http\Controllers\Penilaian\HafalanUjianController;
+use App\Http\Controllers\Report\Hafalan\NilaiHarianController;
 use App\Http\Controllers\Settings\ProfilAkunController;
 use App\Http\Controllers\Settings\ProfilMadrasahController;
 use App\Http\Controllers\SiswaController;
@@ -29,7 +31,7 @@ Route::group(["middleware" => ["guest"]], function () {
             Route::get("/", "index")->name("authorization.login");
             Route::post("/", "process")->name("authorization.process");
         });
-        Route::get("/", "index")->name("authorization.login");
+        Route::get("/", "index");
     });
 });
 
@@ -133,6 +135,16 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                     });
                 });
             });
+
+            Route::controller(NilaiHarianController::class)->group(function() {
+                Route::prefix("laporan")->group(function() {
+                    Route::prefix("hafalan")->group(function() {
+                        Route::prefix("harian")->group(function() {
+                            Route::get("/", "index")->name("modules.report.hafalan.harian.index");
+                        });
+                    });
+                });
+            });
         });
 
         Route::prefix("master")->group(function() {
@@ -211,6 +223,15 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                     Route::get("/", "index")->name("modules.penilaian.harian.index");
                     Route::post("/", "store")->name("modules.penilaian.harian.store");
                     Route::get("/{id}/edit", "edit")->name("modules.penilaian.harian.edit");
+                });
+            });
+            Route::controller(HafalanUjianController::class)->group(function() {
+                Route::prefix("ujian")->group(function() {
+                    Route::get("/", "index")->name("modules.penilaian.ujian.index");
+                    Route::post("/", "store")->name("modules.penilaian.ujian.store");
+                    Route::get("/{id}", "show")->name("modules.penilaian.ujian.show");
+                    Route::get("/{id}/edit", "edit")->name("modules.penilaian.ujian.edit");
+                    Route::get("/search/materi", "search")->name("modules.penilaian.ujian.search");
                 });
             });
         });

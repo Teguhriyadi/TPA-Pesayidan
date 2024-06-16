@@ -29,6 +29,8 @@
                         <thead>
                             <tr>
                                 <th class="text-center">No.</th>
+                                <th>Siswa</th>
+                                <th class="text-center">Kelas</th>
                                 <th class="text-center">Tanggal</th>
                                 <th class="text-center">Hafalan</th>
                                 <th class="text-center">Keterangan</th>
@@ -42,7 +44,9 @@
                             @foreach ($hafalanHarian as $item)
                                 <tr>
                                     <td class="text-center">{{ $nomor++ }}.</td>
-                                    <td class="text-center">{{ $item->tanggal }}</td>
+                                    <td>{{ $item->siswa->nama }}</td>
+                                    <td class="text-center">{{ $item->siswa->kelas->namaKelas }}</td>
+                                    <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('H:i:s - d F Y') }}</td>
                                     <td class="text-center">
                                         {{ $item->materiId == null ? $item->jilidSurat . ' - ' . $item->halAyat : $item->materi->kode . ' - ' . $item->materi->nama }}
                                     </td>
@@ -111,8 +115,12 @@
                             <label for="pilihan" class="form-label"> Kategori Penilaian </label>
                             <select name="pilihan" class="form-control" id="pilihan" onchange="kategoriPenilaian()">
                                 <option value="">- Pilih -</option>
-                                <option value="Surat">Surat</option>
-                                <option value="Lainnya">Lainnya</option>
+                                @foreach ($kelompokPenilaian as $item)
+                                    <option value="{{ $item->slug }}">
+                                        {{ $item->kelompok }}
+                                    </option>
+                                @endforeach
+                                <option value="jilid">Jilid</option>
                             </select>
                         </div>
                         <div id="surat" style="display: none;">
@@ -203,10 +211,10 @@
             let surat = document.getElementById("surat");
             let lainnya = document.getElementById("lainnya")
 
-            if (pilihan == "Surat") {
+            if (pilihan == "jilid") {
                 surat.style.display = "block"
                 lainnya.style.display = "none"
-            } else if (pilihan === "Lainnya") {
+            } else if (pilihan === "praktek-ibadah" || pilihan == "tahfidz-doa-harian" || pilihan == "tahfidz-juz-amma" || pilihan == "surat-pilihan") {
                 surat.style.display = "none";
                 lainnya.style.display = "block";
             } else {
@@ -220,10 +228,11 @@
             let suratEdit = document.getElementById("suratEdit");
             let lainnyaEdit = document.getElementById("lainnyaEdit");
 
-            if (pilihanEdit == "Surat") {
+            if (pilihanEdit == "jilid") {
                 suratEdit.style.display = "block";
                 lainnyaEdit.style.display = "none";
-            } else if (pilihanEdit === "Lainnya") {
+            } else if (pilihan == "praktek-ibadah" || pilihan == "tahfidz-doa-harian" || pilihan == "tahfidz-juz-amma" || pilihan == "surat-pilihan") {
+                // console.log("Ada");
                 suratEdit.style.display = "none";
                 lainnyaEdit.style.display = "block";
             } else {
@@ -240,19 +249,19 @@
                 success: function(response) {
                     $("#modal-content-edit").html(response)
 
-                    kategoriPenilaianEdit()
+                    // kategoriPenilaianEdit()
 
-                    let materiId = document.querySelector('[name="materiId"]');
+                    // let materiId = document.querySelector('[name="materiId"]');
 
-                    if (materiId !== "") {
-                        document.getElementById("pilihanEdit").value = "Lainnya";
-                        document.getElementById("suratEdit").style.display = "none";
-                        document.getElementById("lainnyaEdit").style.display = "block";
-                    } else {
-                        document.getElementById("pilihanEdit").value = "Surat";
-                        document.getElementById("suratEdit").style.display = "block";
-                        document.getElementById("lainnyaEdit").style.display = "none";
-                    }
+                    // if (materiId !== "") {
+                    //     document.getElementById("pilihanEdit").value = "Lainnya";
+                    //     document.getElementById("suratEdit").style.display = "none";
+                    //     document.getElementById("lainnyaEdit").style.display = "block";
+                    // } else {
+                    //     document.getElementById("pilihanEdit").value = "Surat";
+                    //     document.getElementById("suratEdit").style.display = "block";
+                    //     document.getElementById("lainnyaEdit").style.display = "none";
+                    // }
                 },
                 error: function(error) {
                     console.log(error);

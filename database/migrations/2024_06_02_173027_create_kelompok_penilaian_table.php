@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('kelompok_penilaian', function (Blueprint $table) {
             $table->id();
             $table->string("kelompok");
+            $table->string("slug");
         });
     }
 

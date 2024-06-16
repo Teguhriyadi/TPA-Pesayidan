@@ -17,8 +17,12 @@
             <label for="pilihanEdit" class="form-label"> Kategori Penilaian </label>
             <select name="pilihanEdit" class="form-control" id="pilihanEdit" onchange="kategoriPenilaianEdit()">
                 <option value="">- Pilih -</option>
-                <option value="Surat">Surat</option>
-                <option value="Lainnya">Lainnya</option>
+                @foreach ($kelompokPenilaian as $item)
+                    <option value="{{ $item->slug }}">
+                        {{ $item->kelompok }} {{ $item->slug }}
+                    </option>
+                @endforeach
+                <option value="jilid">Jilid</option>
             </select>
         </div>
         <div id="suratEdit" style="display: none;">

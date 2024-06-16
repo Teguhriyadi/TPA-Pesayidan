@@ -24,4 +24,9 @@ class HafalanHarian extends Model
     {
         return $this->belongsTo(Pelajaran::class, "materiId");
     }
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class, "siswaId");
+    }
 }
