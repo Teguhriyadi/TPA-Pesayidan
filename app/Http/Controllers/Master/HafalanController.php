@@ -25,8 +25,8 @@ class HafalanController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "hafalan" => $this->hafalan->where("kategori", "Hafalan")->get(),
-                "kelompokPenilaian" => $this->kelompokPenilaian->get()
+                "hafalan" => $this->hafalan->where("kategori", "Hafalan")->orderBy("id", "DESC")->get(),
+                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Ujian")->get()
             ];
 
             DB::commit();
@@ -74,12 +74,12 @@ class HafalanController extends Controller
 
             $data = [
                 "edit" => $this->hafalan->where("id", $id)->first(),
-                "kelompokPenilaian" => $this->kelompokPenilaian->get()
+                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Ujian")->get()
             ];
 
             DB::commit();
 
-            return view("modules.pages.master.pelajaran.edit", $data);
+            return view("modules.pages.master.hafalan.edit", $data);
 
         } catch (\Exception $e) {
 

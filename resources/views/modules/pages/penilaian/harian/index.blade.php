@@ -17,7 +17,7 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
                     Data @stack('modules-title')
-                    <button style="float: right" type="button" class="btn btn-outline-primary" data-toggle="modal"
+                    <button style="float: right" type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal"
                         data-target="#exampleModal">
                         <i class="fa fa-plus"></i> Tambah
                     </button>

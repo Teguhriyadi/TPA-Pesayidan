@@ -24,7 +24,7 @@ class KelompokPenilaianController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "kelompokPenilaian" => $this->kelompokPenilaian->get()
+                "kelompokPenilaian" => $this->kelompokPenilaian->orderBy("id", "DESC")->get()
             ];
 
             DB::commit();
@@ -47,7 +47,8 @@ class KelompokPenilaianController extends Controller
 
             $this->kelompokPenilaian->create([
                 "kelompok" => $request->kelompok,
-                "slug" => Str::slug($request->kelompok)
+                "slug" => Str::slug($request->kelompok),
+                "kategori" => $request->kategori
             ]);
 
             DB::commit();
@@ -92,7 +93,8 @@ class KelompokPenilaianController extends Controller
 
             $this->kelompokPenilaian->where("id", $id)->update([
                 "kelompok" => $request->kelompok,
-                "slug" => Str::slug($request->kelompok)
+                "slug" => Str::slug($request->kelompok),
+                "kategori" => $request->kategori
             ]);
 
             DB::commit();

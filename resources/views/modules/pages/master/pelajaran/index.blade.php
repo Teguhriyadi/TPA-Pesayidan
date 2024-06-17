@@ -17,7 +17,7 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
                     Data @stack('modules-title')
-                    <button style="float: right" type="button" class="btn btn-outline-primary" data-toggle="modal"
+                    <button style="float: right" type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal"
                         data-target="#exampleModal">
                         <i class="fa fa-plus"></i> Tambah
                     </button>
@@ -31,6 +31,7 @@
                                 <th class="text-center">No.</th>
                                 <th class="text-center">Kode Pelajaran</th>
                                 <th>Nama Pelajaran</th>
+                                <th>Kelompok Pelajaran</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -43,12 +44,13 @@
                                     <td class="text-center">{{ $nomer++ }}.</td>
                                     <td class="text-center">{{ $item->kode }}</td>
                                     <td>{{ $item->nama }}</td>
+                                    <td>{{ $item->kelompokPelajaran->kelompok }}</td>
                                     <td class="text-center">
                                         <button onclick="editData({{ $item['id'] }})" type="button"
-                                            class="btn btn-outline-warning" data-toggle="modal" data-target="#editModal">
+                                            class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#editModal">
                                             <i class="fa fa-edit"></i> Edit
                                         </button>
-                                        <button onclick="hapusData({{ $item['id'] }})" class="btn btn-outline-danger">
+                                        <button onclick="hapusData({{ $item['id'] }})" class="btn btn-outline-danger btn-sm">
                                             <i class="fa fa-trash"></i> Hapus
                                         </button>
                                     </td>
@@ -82,8 +84,8 @@
                                 placeholder="Masukkan Nama">
                         </div>
                         <div class="form-group">
-                            <label for="kelompokPenilaian" class="form-label"> Kelompok Penilaian </label>
-                            <select name="kelompokPenilaianId" class="form-control" id="kelompokPenilaianId">
+                            <label for="kelompokPelajaranId" class="form-label"> Kelompok Penilaian </label>
+                            <select name="kelompokPelajaranId" class="form-control" id="kelompokPelajaranId">
                                 <option value="">- Pilih -</option>
                                 @foreach ($kelompokPenilaian as $item)
                                     <option value="{{ $item->id }}">

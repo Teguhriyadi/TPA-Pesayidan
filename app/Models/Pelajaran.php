@@ -19,4 +19,9 @@ class Pelajaran extends Model
     {
         return $this->belongsTo(KelompokPenilaian::class, "kelompokPenilaianId");
     }
+
+    public function kelompokPelajaran()
+    {
+        return $this->belongsTo(KelompokPenilaian::class, "kelompokPelajaranId");
+    }
 }

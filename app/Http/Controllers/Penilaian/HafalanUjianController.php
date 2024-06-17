@@ -33,7 +33,7 @@ class HafalanUjianController extends Controller
 
             $data = [
                 "siswa" => $this->siswa->get(),
-                "kelompokPenilaian" => $this->kelompokPenilaian->get(),
+                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Ujian")->get(),
                 "hafalanUjian" => $this->hafalanUjian->get()
             ];
 
@@ -115,7 +115,7 @@ class HafalanUjianController extends Controller
             $data = [
                 "edit" => $this->hafalanUjian->where("id", $id)->first(),
                 "siswa" => $this->siswa->get(),
-                "kelompokPenilaian" => $this->kelompokPenilaian->get()
+                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Ujian")->get()
             ];
 
             DB::commit();

@@ -17,10 +17,10 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
                     Data @stack('modules-title')
-                    <a style="float: right" class="btn btn-outline-primary" href="{{ route('modules.siswa.create') }}">
+                    <a style="float: right" class="btn btn-outline-primary btn-sm" href="{{ route('modules.siswa.create') }}">
                         <i class="fa fa-plus"></i> Tambah
                     </a>
-                    <a style="float: right" href="{{ route('modules.master.orang-tua.index') }}" class="btn btn-outline-info mr-3">
+                    <a style="float: right" href="{{ route('modules.master.orang-tua.index') }}" class="btn btn-outline-info mr-3 btn-sm">
                         <i class="fa fa-users"></i> Data Orang Tua
                     </a>
                 </h6>
@@ -66,10 +66,10 @@
                                     <td class="text-center">{{ $item->tanggalLahir }}</td>
                                     <td>{{ $item->wali->nama }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route("modules.siswa.edit", ['id' => $item->id]) }}" class="btn btn-outline-warning">
+                                        <a href="{{ route("modules.siswa.edit", ['id' => $item->id]) }}" class="btn btn-outline-warning btn-sm">
                                             <i class="fa fa-edit"></i> Edit
                                         </a>
-                                        <button onclick="hapusData({{ $item['id'] }})" class="btn btn-outline-danger">
+                                        <button onclick="hapusData({{ $item['id'] }})" class="btn btn-outline-danger btn-sm">
                                             <i class="fa fa-trash"></i> Hapus
                                         </button>
                                     </td>

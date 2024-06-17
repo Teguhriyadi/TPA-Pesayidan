@@ -8,11 +8,11 @@
                 placeholder="Masukkan Nama" value="{{ $edit['nama'] }}">
         </div>
         <div class="form-group">
-            <label for="kelompokPenilaian" class="form-label"> Kelompok Penilaian </label>
-            <select name="kelompokPenilaianId" class="form-control" id="kelompokPenilaianId">
+            <label for="kelompokPelajaranId" class="form-label"> Kelompok Penilaian </label>
+            <select name="kelompokPelajaranId" class="form-control" id="kelompokPelajaranId">
                 <option value="">- Pilih -</option>
                 @foreach ($kelompokPenilaian as $item)
-                    <option value="{{ $item->id }}" {{ $edit->kelompokPenilaianId == $item->id ? 'selected' : '' }} >
+                    <option value="{{ $item->id }}" {{ $edit->kelompokPelajaranId == $item->id ? 'selected' : '' }} >
                         {{ $item->kelompok }}
                     </option>
                 @endforeach

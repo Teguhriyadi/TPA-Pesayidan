@@ -25,8 +25,8 @@ class PelajaranController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "pelajaran" => $this->pelajaran->where("kategori", "Pelajaran")->get(),
-                "kelompokPenilaian" => $this->kelompokPenilaian->get()
+                "pelajaran" => $this->pelajaran->where("kategori", "Pelajaran")->orderBy("id", "DESC")->get(),
+                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Pelajaran")->get()
             ];
 
             DB::commit();
@@ -51,7 +51,7 @@ class PelajaranController extends Controller
                 "kode" => "PL-" . time(),
                 "nama" => $request->nama,
                 "kategori" => "Pelajaran",
-                "kelompokPenilaianId" => $request->kelompokPenilaianId
+                "kelompokPelajaranId" => $request->kelompokPelajaranId
             ]);
 
             DB::commit();
@@ -73,6 +73,7 @@ class PelajaranController extends Controller
             DB::beginTransaction();
 
             $data = [
+                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Pelajaran")->get(),
                 "edit" => $this->pelajaran->where("id", $id)->first()
             ];
 
@@ -95,12 +96,13 @@ class PelajaranController extends Controller
             DB::beginTransaction();
 
             $this->pelajaran->where("id", $id)->update([
-                "nama" => $request->nama
+                "nama" => $request->nama,
+                "kelompokPelajaranId" => $request->kelompokPelajaranId
             ]);
 
             DB::commit();
 
-            return redirect()->route("modules.master.hafalan.index")->with("success", "Data Berhasil di Simpan");
+            return redirect()->route("modules.master.pelajaran.index")->with("success", "Data Berhasil di Simpan");
 
         } catch (\Exception $e) {
 

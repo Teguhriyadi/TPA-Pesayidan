@@ -17,7 +17,7 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
                     Data @stack('modules-title')
-                    <button style="float: right" type="button" class="btn btn-outline-primary" data-toggle="modal"
+                    <button style="float: right" type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal"
                         data-target="#exampleModal">
                         <i class="fa fa-plus"></i> Tambah
                     </button>
@@ -45,10 +45,10 @@
                                     <td>{{ $item->pelajaran->kode }} - {{ $item->pelajaran->nama }}</td>
                                     <td class="text-center">
                                         <button onclick="editData({{ $item['id'] }})" type="button"
-                                            class="btn btn-outline-warning" data-toggle="modal" data-target="#editModal">
+                                            class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#editModal">
                                             <i class="fa fa-edit"></i> Edit
                                         </button>
-                                        <button onclick="hapusData({{ $item['id'] }})" class="btn btn-outline-danger">
+                                        <button onclick="hapusData({{ $item['id'] }})" class="btn btn-outline-danger btn-sm">
                                             <i class="fa fa-trash"></i> Hapus
                                         </button>
                                     </td>

@@ -17,7 +17,7 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
                     Data @stack('modules-title')
-                    <button style="float: right" type="button" class="btn btn-outline-primary" data-toggle="modal"
+                    <button style="float: right" type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal"
                         data-target="#exampleModal">
                         <i class="fa fa-plus"></i> Tambah
                     </button>
@@ -30,6 +30,8 @@
                             <tr>
                                 <th class="text-center">No.</th>
                                 <th>Kelompok Penilaian</th>
+                                <th class="text-center">Slug</th>
+                                <th class="text-center">Kategori</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -41,12 +43,24 @@
                                 <tr>
                                     <td class="text-center">{{ $nomer++ }}.</td>
                                     <td>{{ $item->kelompok }}</td>
+                                    <td class="text-center">{{ $item->slug }}</td>
+                                    <td class="text-center">
+                                        @if ($item->kategori == "Ujian")
+                                        <span class="badge bg-success text-white">
+                                            Ujian
+                                        </span>
+                                        @elseif($item->kategori == "Pelajaran")
+                                        <span class="badge bg-danger text-white">
+                                            Pelajaran
+                                        </span>
+                                        @endif
+                                    </td>
                                     <td class="text-center">
                                         <button onclick="editData({{ $item['id'] }})" type="button"
-                                            class="btn btn-outline-warning" data-toggle="modal" data-target="#editModal">
+                                            class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#editModal">
                                             <i class="fa fa-edit"></i> Edit
                                         </button>
-                                        <button onclick="hapusData({{ $item['id'] }})" class="btn btn-outline-danger">
+                                        <button onclick="hapusData({{ $item['id'] }})" class="btn btn-outline-danger btn-sm">
                                             <i class="fa fa-trash"></i> Hapus
                                         </button>
                                     </td>
@@ -78,6 +92,14 @@
                             <label for="kelompok" class="form-label"> Kelompok </label>
                             <input type="text" class="form-control" name="kelompok" id="kelompok"
                                 placeholder="Masukkan Kelompok Penilaian">
+                        </div>
+                        <div class="form-group">
+                            <label for="kategori" class="form-label"> Kategori </label>
+                            <select name="kategori" class="form-control" id="kategori">
+                                <option value="">- Pilih -</option>
+                                <option value="Ujian">Ujian</option>
+                                <option value="Pelajaran">Pelajaran</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">

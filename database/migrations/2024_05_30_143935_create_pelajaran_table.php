@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string("kode", 50)->unique();
             $table->string("nama", 100);
             $table->enum("kategori", ["Pelajaran", "Hafalan"]);
-            $table->integer("kelompokPenilaianId")->nullable()->default(0);
+            $table->integer("kelompokPenilaianId")->nullable();
+            $table->integer("kelompokPelajaranId")->nullable();
         });
     }
 

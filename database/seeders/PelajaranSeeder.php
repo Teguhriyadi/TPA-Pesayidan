@@ -20,32 +20,36 @@ class PelajaranSeeder extends Seeder
         $this->pelajaran->create([
             "kode" => "PLJR-001",
             "nama" => "Hafalan Surat - Surat Pendek",
-            "kategori" => "Pelajaran"
+            "kategori" => "Pelajaran",
+            "kelompokPelajaranId" => 5
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-002",
             "nama" => "Calistung",
-            "kategori" => "Pelajaran"
+            "kategori" => "Pelajaran",
+            "kelompokPelajaranId" => 5
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-003",
             "nama" => "Aqidah Akhlaq",
-            "kategori" => "Pelajaran"
+            "kategori" => "Pelajaran",
+            "kelompokPelajaranId" => 5
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-004",
             "nama" => "Fiqih",
-            "kategori" => "Pelajaran"
+            "kategori" => "Pelajaran",
+            "kelompokPelajaranId" => 5
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-005",
             "nama" => "Do'A Bangun Tidur",
             "kategori" => "Hafalan",
-            "kelompokPenilaianId" => 2
+            "kelompokPenilaianId" => 2,
         ]);
 
         $this->pelajaran->create([

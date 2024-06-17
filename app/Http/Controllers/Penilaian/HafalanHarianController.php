@@ -35,7 +35,7 @@ class HafalanHarianController extends Controller
                 "materi" => $this->materi->get(),
                 "siswa" => $this->siswa->get(),
                 "hafalanHarian" => $this->hafalanHarian->where("guruId", Auth::user()->hasGuru->id)->get(),
-                "kelompokPenilaian" => $this->kelompokPenilaian->get()
+                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Ujian")->get()
             ];
 
             DB::commit();
@@ -91,7 +91,7 @@ class HafalanHarianController extends Controller
                 "materi" => $this->materi->get(),
                 "siswa" => $this->siswa->get(),
                 "edit" => $this->hafalanHarian->where("id", $id)->first(),
-                "kelompokPenilaian" => $this->kelompokPenilaian->get()
+                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Ujian")->get()
             ];
 
             DB::commit();
