@@ -73,12 +73,12 @@
         <div id="collapseLaporanHafalan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('modules.report.hafalan.harian.index') }}">Penilaian Harian</a>
-                <a class="collapse-item" href="{{ route('modules.admin.index') }}">Penilaian Ujian</a>
+                <a class="collapse-item" href="{{ route('modules.report.hafalan.ujian.index') }}">Penilaian Ujian</a>
             </div>
         </div>
     </li>
 
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLaporanPelajaran"
             aria-expanded="true" aria-controls="collapseLaporanPelajaran">
             <i class="fas fa-fw fa-book"></i>
@@ -91,7 +91,7 @@
                 <a class="collapse-item" href="{{ route('modules.akun.profil') }}">Profil Saya</a>
             </div>
         </div>
-    </li>
+    </li> --}}
 
     <!-- Divider -->
     <hr class="sidebar-divider">

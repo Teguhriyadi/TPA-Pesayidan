@@ -19,6 +19,7 @@ use App\Http\Controllers\Pengaturan\GantiPasswordController;
 use App\Http\Controllers\Penilaian\HafalanHarianController;
 use App\Http\Controllers\Penilaian\HafalanUjianController;
 use App\Http\Controllers\Report\Hafalan\NilaiHarianController;
+use App\Http\Controllers\Report\Hafalan\NilaiUjianController;
 use App\Http\Controllers\Settings\ProfilAkunController;
 use App\Http\Controllers\Settings\ProfilMadrasahController;
 use App\Http\Controllers\SiswaController;
@@ -141,6 +142,18 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                     Route::prefix("hafalan")->group(function() {
                         Route::prefix("harian")->group(function() {
                             Route::get("/", "index")->name("modules.report.hafalan.harian.index");
+                            Route::get("/{id}", "show")->name("modules.report.hafalan.harian.show");
+                        });
+                    });
+                });
+            });
+
+            Route::controller(NilaiUjianController::class)->group(function() {
+                Route::prefix("laporan")->group(function() {
+                    Route::prefix("hafalan")->group(function() {
+                        Route::prefix("ujian")->group(function() {
+                            Route::get("/", "index")->name("modules.report.hafalan.ujian.index");
+                            Route::get("/{id}", "show")->name("modules.report.hafalan.ujian.show");
                         });
                     });
                 });

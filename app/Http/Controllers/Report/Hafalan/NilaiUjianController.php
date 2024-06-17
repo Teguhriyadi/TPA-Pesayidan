@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\Report\Hafalan;
 
 use App\Http\Controllers\Controller;
-use App\Models\HafalanHarian;
+use App\Models\HafalanUjian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class NilaiHarianController extends Controller
+class NilaiUjianController extends Controller
 {
-    protected $hafalanHarian;
+
+    protected $hafalanUjian;
 
     public function __construct()
     {
-        $this->hafalanHarian = new HafalanHarian();
+        $this->hafalanUjian = new HafalanUjian();
     }
 
     public function index()
@@ -23,12 +24,12 @@ class NilaiHarianController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "hafalanHarian" => $this->hafalanHarian->get()
+                "hafalanUjian" => $this->hafalanUjian->get()
             ];
 
             DB::commit();
 
-            return view("modules.pages.report.hafalan.harian.index", $data);
+            return view("modules.pages.report.hafalan.ujian.index", $data);
 
         } catch (\Exception $e) {
 
@@ -45,12 +46,12 @@ class NilaiHarianController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "detail" => $this->hafalanHarian->where("id", $id)->first()
+                "detail" => $this->hafalanUjian->where("id", $id)->first()
             ];
 
             DB::commit();
 
-            return view("modules.pages.report.hafalan.harian.show", $data);
+            return view("modules.pages.report.hafalan.ujian.show", $data);
 
         } catch (\Exception $e) {
 

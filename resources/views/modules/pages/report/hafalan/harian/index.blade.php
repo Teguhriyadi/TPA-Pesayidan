@@ -63,7 +63,11 @@
                                             </span>
                                         @endif
                                     </td>
-                                    <td class="text-center">-</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('modules.report.hafalan.harian.show', ['id' => $item->id]) }}" class="btn btn-outline-info btn-sm">
+                                            <i class="fa fa-search"></i> Detail
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
