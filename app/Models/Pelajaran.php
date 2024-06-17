@@ -14,4 +14,9 @@ class Pelajaran extends Model
     protected $guarded = [''];
 
     public $timestamps = false;
+
+    public function kelompokPenilaian()
+    {
+        return $this->belongsTo(KelompokPenilaian::class, "kelompokPenilaianId");
+    }
 }

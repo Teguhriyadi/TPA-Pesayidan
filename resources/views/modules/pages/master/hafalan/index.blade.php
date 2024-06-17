@@ -31,6 +31,7 @@
                                 <th class="text-center">No.</th>
                                 <th class="text-center">Kode Hafalan</th>
                                 <th>Nama Hafalan</th>
+                                <th class="text-center">Kelompok Pelajaran</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -43,6 +44,7 @@
                                     <td class="text-center">{{ $nomer++ }}.</td>
                                     <td class="text-center">{{ $item->kode }}</td>
                                     <td>{{ $item->nama }}</td>
+                                    <td class="text-center">{{ $item->kelompokPenilaian->kelompok }}</td>
                                     <td class="text-center">
                                         <button onclick="editData({{ $item['id'] }})" type="button"
                                             class="btn btn-outline-warning" data-toggle="modal" data-target="#editModal">
@@ -80,6 +82,17 @@
                             <label for="nama" class="form-label"> Nama </label>
                             <input type="text" class="form-control" name="nama" id="nama"
                                 placeholder="Masukkan Nama">
+                        </div>
+                        <div class="form-group">
+                            <label for="kelompokPenilaianId" class="form-label"> Kelompok Penilaian </label>
+                            <select name="kelompokPenilaianId" class="form-control" id="kelompokPenilaianId">
+                                <option value="">- Pilih -</option>
+                                @foreach ($kelompokPenilaian as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->kelompok }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">

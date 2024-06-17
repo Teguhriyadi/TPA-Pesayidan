@@ -3,17 +3,19 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
+use App\Models\KelompokPenilaian;
 use App\Models\Pelajaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class HafalanController extends Controller
 {
-    protected $hafalan;
+    protected $hafalan, $kelompokPenilaian;
 
     public function __construct()
     {
         $this->hafalan = new Pelajaran();
+        $this->kelompokPenilaian = new KelompokPenilaian();
     }
 
     public function index()
@@ -23,7 +25,8 @@ class HafalanController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "hafalan" => $this->hafalan->where("kategori", "Hafalan")->get()
+                "hafalan" => $this->hafalan->where("kategori", "Hafalan")->get(),
+                "kelompokPenilaian" => $this->kelompokPenilaian->get()
             ];
 
             DB::commit();
@@ -47,7 +50,8 @@ class HafalanController extends Controller
             $this->hafalan->create([
                 "kode" => "HFLN-" . time(),
                 "nama" => $request->nama,
-                "kategori" => "Hafalan"
+                "kategori" => "Hafalan",
+                "kelompokPenilaianId" => $request->kelompokPenilaianId
             ]);
 
             DB::commit();
@@ -69,7 +73,8 @@ class HafalanController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "edit" => $this->hafalan->where("id", $id)->first()
+                "edit" => $this->hafalan->where("id", $id)->first(),
+                "kelompokPenilaian" => $this->kelompokPenilaian->get()
             ];
 
             DB::commit();
@@ -91,12 +96,13 @@ class HafalanController extends Controller
             DB::beginTransaction();
 
             $this->hafalan->where("id", $id)->update([
-                "nama" => $request->nama
+                "nama" => $request->nama,
+                "kelompokPenilaianId" => $request->kelompokPenilaianId
             ]);
 
             DB::commit();
 
-            return redirect()->route("modules.master.pelajaran.index")->with("success", "Data Berhasil di Simpan");
+            return redirect()->route("modules.master.hafalan.index")->with("success", "Data Berhasil di Simpan");
 
         } catch (\Exception $e) {
 
