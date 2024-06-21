@@ -7,6 +7,7 @@ use App\Models\HafalanHarian;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class NilaiHarianController extends Controller
 {
@@ -64,6 +65,38 @@ class NilaiHarianController extends Controller
             DB::commit();
 
             return view("modules.pages.report.hafalan.harian.show", $data);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return redirect()->route("modules.dashboard")->with("error", $e->getMessage());
+        }
+    }
+
+    public function download(Request $request, $id)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $segments = $request->segments();
+
+            $tahunAjaran = $this->tahunAjaran->where("status", "1")->first();
+
+            if ($segments[3] == "harian") {
+                $hafalan = $this->hafalanHarian->where("tahunAjaranId", $tahunAjaran->id)->where("kategori", "HAFALAN")->get();
+            } else if ($segments[3] == "ujian") {
+                $hafalan = $this->hafalanHarian->where("tahunAjaranId", $tahunAjaran->id)->where("kategori", "UJIAN")->get();
+            }
+
+            $kategori = $segments[3];
+
+            $pdf = PDF::loadView("modules.pages.report.hafalan.harian.download", ["hafalan" => $hafalan, "kategori" => $kategori])->setPaper("a3");
+
+            DB::commit();
+
+            return $pdf->download("Laporan_Hafalan_" . $kategori . ".pdf");
 
         } catch (\Exception $e) {
 

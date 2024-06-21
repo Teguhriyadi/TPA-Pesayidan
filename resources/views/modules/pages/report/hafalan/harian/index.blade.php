@@ -17,6 +17,9 @@
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
                     Data @stack('modules-title')
+                    <a href="{{ route('modules.report.hafalan.download', ['id' => $kategori]) }}" class="btn btn-outline-danger btn-sm" style="float: right">
+                        <i class="fa fa-download"></i> Download PDF
+                    </a>
                 </h6>
             </div>
             <div class="card-body">

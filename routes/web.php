@@ -142,6 +142,7 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                     Route::prefix("hafalan")->group(function() {
                         Route::get("/{id}", "index")->name("modules.report.hafalan.harian.index");
                         Route::get("/{kategori}/{id}", "show")->name("modules.report.hafalan.harian.show");
+                        Route::get("/{id}/download/data", "download")->name("modules.report.hafalan.download");
                     });
                 });
             });
