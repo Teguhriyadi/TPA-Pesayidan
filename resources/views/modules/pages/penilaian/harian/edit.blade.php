@@ -64,6 +64,11 @@
                 <option {{ $edit->penilaian == "Setengah Lancar" ? 'selected' : '' }} value="Setengah Lancar">Setengah Lancar</option>
             </select>
         </div>
+
+        <div class="form-group">
+            <label for="keterangan" class="form-label"> Keterangan </label>
+            <textarea name="keterangan" class="form-control" id="keterangan" rows="5" placeholder="Masukkan Keterangan">{{ $edit->keterangan ? $edit->keterangan : '' }}</textarea>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="reset" class="btn btn-outline-danger">

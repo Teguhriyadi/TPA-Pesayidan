@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('hafalan_harian', function (Blueprint $table) {
+        Schema::create('hafalan', function (Blueprint $table) {
             $table->id();
             $table->integer("materiId")->nullable();
             $table->integer("jilidSurat")->nullable();
@@ -19,8 +19,10 @@ return new class extends Migration
             $table->dateTime("tanggal");
             $table->integer("siswaId");
             $table->integer("guruId");
-            $table->enum("penilaian", ["Lancar", "Tidak Lancar", "Kurang Lancar", "Setengah Lancar"]);
+            $table->string("penilaian");
             $table->integer("tahunAjaranId");
+            $table->enum("kategori", ["HAFALAN", "UJIAN"]);
+            $table->text("keterangan")->nullable();
         });
     }
 

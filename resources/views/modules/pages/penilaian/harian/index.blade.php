@@ -33,7 +33,8 @@
                                 <th class="text-center">Kelas</th>
                                 <th class="text-center">Tanggal</th>
                                 <th class="text-center">Hafalan</th>
-                                <th class="text-center">Keterangan</th>
+                                <th class="text-center">Penilaian</th>
+                                <th>Keterangan</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -46,29 +47,13 @@
                                     <td class="text-center">{{ $nomor++ }}.</td>
                                     <td>{{ $item->siswa->nama }}</td>
                                     <td class="text-center">{{ $item->siswa->kelas->namaKelas }}</td>
-                                    <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('H:i:s - d F Y') }}</td>
+                                    <td class="text-center">
+                                        {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('H:i:s - d F Y') }}</td>
                                     <td class="text-center">
                                         {{ $item->materiId == null ? $item->jilidSurat . ' - ' . $item->halAyat : $item->materi->kode . ' - ' . $item->materi->nama }}
                                     </td>
-                                    <td class="text-center">
-                                        @if ($item->penilaian == 'Tidak Lancar')
-                                            <span class="badge bg-danger text-white fw-bold">
-                                                Tidak Lancar
-                                            </span>
-                                        @elseif($item->penilaian == 'Kurang Lancar')
-                                            <span class="badge bg-warning text-white fw-bold">
-                                                Kurang Lancar
-                                            </span>
-                                        @elseif($item->penilaian == 'Lancar')
-                                            <span class="badge bg-success text-white fw-bold">
-                                                Lancar
-                                            </span>
-                                        @elseif($item->penilaian == 'Sangat Lancar')
-                                            <span class="badge bg-primary text-white fw-bold">
-                                                Sangat Lancar
-                                            </span>
-                                        @endif
-                                    </td>
+                                    <td class="text-center">{{ $item->penilaian }}</td>
+                                    <td>{{ $item->keterangan ? $item->keterangan : '-' }}</td>
                                     <td class="text-center">
                                         <button onclick="editData({{ $item['id'] }})" class="btn btn-outline-warning"
                                             type="button" class="btn btn-outline-warning" data-toggle="modal"
@@ -145,12 +130,7 @@
                         <div class="form-group" id="lainnya" style="display: none">
                             <label for="materiId" class="form-label"> Materi / Hafalan </label>
                             <select name="materiId" class="form-control" id="materiId">
-                                <option value="">- Pilih -</option>
-                                @foreach ($materi as $item)
-                                    <option value="{{ $item->id }}">
-                                        {{ $item->kode }} - {{ $item->nama }}
-                                    </option>
-                                @endforeach
+
                             </select>
                         </div>
 
@@ -158,11 +138,24 @@
                             <label for="penilaian" class="form-label"> Penilaian </label>
                             <select name="penilaian" class="form-control" id="penilaian">
                                 <option value="">- Pilih -</option>
-                                <option value="Lancar">Lancar</option>
-                                <option value="Tidak Lancar">Tidak Lancar</option>
-                                <option value="Kurang Lancar">Kurang Lancar</option>
-                                <option value="Setengah Lancar">Setengah Lancar</option>
+                                @if ($kategori == 'harian')
+                                    <option value="Lancar">Lancar</option>
+                                    <option value="Tidak Lancar">Tidak Lancar</option>
+                                    <option value="Kurang Lancar">Kurang Lancar</option>
+                                    <option value="Setengah Lancar">Setengah Lancar</option>
+                                @elseif($kategori == 'ujian')
+                                    <option value="Sangat Baik">Sangat Baik</option>
+                                    <option value="Baik">Baik</option>
+                                    <option value="Cukup">Cukup</option>
+                                    <option value="Kurang">Kurang</option>
+                                    <option value="Sangat Kurang">Sangat Kurang</option>
+                                @endif
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="keterangan" class="form-label"> Keterangan </label>
+                            <textarea name="keterangan" class="form-control" id="keterangan" rows="5" placeholder="Masukkan Keterangan"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -214,9 +207,37 @@
             if (pilihan == "jilid") {
                 surat.style.display = "block"
                 lainnya.style.display = "none"
-            } else if (pilihan === "praktek-ibadah" || pilihan == "tahfidz-doa-harian" || pilihan == "tahfidz-juz-amma" || pilihan == "surat-pilihan") {
+            } else if (pilihan === "praktek-ibadah" || pilihan == "tahfidz-doa-harian" || pilihan == "tahfidz-juz-amma" ||
+                pilihan == "surat-pilihan") {
                 surat.style.display = "none";
                 lainnya.style.display = "block";
+
+                $("select[name='pilihan']").change(function() {
+                    let pilihan = $(this).val()
+
+                    $.ajax({
+                        url: "{{ url('/modules/penilaian/search/materi') }}",
+                        type: "GET",
+                        data: {pilihan: pilihan },
+                        success: function(response) {
+
+                            let hafalanSelect = $("select[name='materiId']");
+                            hafalanSelect.empty();
+
+                            if (response.data.length > 0) {
+                                $.each(response.data, function(index, materi) {
+                                    hafalanSelect.append('<option value="' + materi.id + '">' + materi.kode + " - " + materi.nama + '</option>');
+                                });
+                            } else {
+                                hafalanSelect.append('<option value="">Tidak ada Hafalan yang tersedia</option>');
+                            }
+
+                        },
+                        error: function() {
+                            alert("Terjadi Kesalahan")
+                        }
+                    })
+                })
             } else {
                 surat.style.display = "none";
                 lainnya.style.display = "none";
@@ -231,7 +252,8 @@
             if (pilihanEdit == "jilid") {
                 suratEdit.style.display = "block";
                 lainnyaEdit.style.display = "none";
-            } else if (pilihan == "praktek-ibadah" || pilihan == "tahfidz-doa-harian" || pilihan == "tahfidz-juz-amma" || pilihan == "surat-pilihan") {
+            } else if (pilihan == "praktek-ibadah" || pilihan == "tahfidz-doa-harian" || pilihan == "tahfidz-juz-amma" ||
+                pilihan == "surat-pilihan") {
                 // console.log("Ada");
                 suratEdit.style.display = "none";
                 lainnyaEdit.style.display = "block";

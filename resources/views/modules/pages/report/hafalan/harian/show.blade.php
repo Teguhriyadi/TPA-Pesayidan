@@ -97,6 +97,13 @@
                                         {{ $detail->penilaian }}
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td style="width: 30%">Keterangan</td>
+                                    <td class="text-center" style="width: 5%">:</td>
+                                    <td>
+                                        {{ $detail->keterangan ? $detail->keterangan : "-" }}
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -104,7 +111,7 @@
             </div>
         </div>
 
-        <a href="{{ route('modules.report.hafalan.harian.index') }}" class="btn btn-outline-danger btn-sm btn-block mb-4">
+        <a href="{{ url('/modules/laporan/hafalan/' . $kategori . '/') }}" class="btn btn-outline-danger btn-sm btn-block mb-4">
             Kembali
         </a>
     </div>

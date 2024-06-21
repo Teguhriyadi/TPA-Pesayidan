@@ -140,10 +140,8 @@ Route::group(["middleware" => ["autentikasi"]], function () {
             Route::controller(NilaiHarianController::class)->group(function() {
                 Route::prefix("laporan")->group(function() {
                     Route::prefix("hafalan")->group(function() {
-                        Route::prefix("harian")->group(function() {
-                            Route::get("/", "index")->name("modules.report.hafalan.harian.index");
-                            Route::get("/{id}", "show")->name("modules.report.hafalan.harian.show");
-                        });
+                        Route::get("/{id}", "index")->name("modules.report.hafalan.harian.index");
+                        Route::get("/{kategori}/{id}", "show")->name("modules.report.hafalan.harian.show");
                     });
                 });
             });
@@ -232,19 +230,15 @@ Route::group(["middleware" => ["autentikasi"]], function () {
 
         Route::prefix("penilaian")->group(function() {
             Route::controller(HafalanHarianController::class)->group(function() {
+                Route::get("/{id}", "index")->name("modules.penilaian.harian.index");
+                Route::get("/search/materi", 'search')->name("modules.penilaian.harian.search");
+                Route::post("/", "store")->name("modules.penilaian.harian.store");
+
                 Route::prefix("harian")->group(function() {
-                    Route::get("/", "index")->name("modules.penilaian.harian.index");
-                    Route::post("/", "store")->name("modules.penilaian.harian.store");
+                    Route::get("/{id}", "index");
+
                     Route::get("/{id}/edit", "edit")->name("modules.penilaian.harian.edit");
-                });
-            });
-            Route::controller(HafalanUjianController::class)->group(function() {
-                Route::prefix("ujian")->group(function() {
-                    Route::get("/", "index")->name("modules.penilaian.ujian.index");
-                    Route::post("/", "store")->name("modules.penilaian.ujian.store");
-                    Route::get("/{id}", "show")->name("modules.penilaian.ujian.show");
-                    Route::get("/{id}/edit", "edit")->name("modules.penilaian.ujian.edit");
-                    Route::get("/search/materi", "search")->name("modules.penilaian.ujian.search");
+
                 });
             });
         });

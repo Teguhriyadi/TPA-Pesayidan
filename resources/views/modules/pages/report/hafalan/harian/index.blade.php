@@ -29,7 +29,8 @@
                                 <th class="text-center">Kelas</th>
                                 <th class="text-center">Tanggal</th>
                                 <th>Guru</th>
-                                <th class="text-center">Keterangan</th>
+                                <th class="text-center">Penilaian</th>
+                                <th>Keterangan</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -44,27 +45,10 @@
                                     <td class="text-center">{{ $item->siswa->kelas->namaKelas }} - {{ $item->siswa->kelas->jenjang }} </td>
                                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('H:i:s - d F Y') }}</td>
                                     <td>{{ $item->guru->users->nama }}</td>
+                                    <td class="text-center">{{ $item->penilaian }}</td>
+                                    <td>{{ $item->keterangan ? $item->keterangan : '-' }}</td>
                                     <td class="text-center">
-                                        @if ($item->penilaian == 'Tidak Lancar')
-                                            <span class="badge bg-danger text-white fw-bold">
-                                                Tidak Lancar
-                                            </span>
-                                        @elseif($item->penilaian == 'Kurang Lancar')
-                                            <span class="badge bg-warning text-white fw-bold">
-                                                Kurang Lancar
-                                            </span>
-                                        @elseif($item->penilaian == 'Lancar')
-                                            <span class="badge bg-success text-white fw-bold">
-                                                Lancar
-                                            </span>
-                                        @elseif($item->penilaian == 'Sangat Lancar')
-                                            <span class="badge bg-primary text-white fw-bold">
-                                                Sangat Lancar
-                                            </span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{{ route('modules.report.hafalan.harian.show', ['id' => $item->id]) }}" class="btn btn-outline-info btn-sm">
+                                        <a href="{{ url('/modules/laporan/hafalan/' . $kategori . '/' . $item->id) }}" class="btn btn-outline-info btn-sm">
                                             <i class="fa fa-search"></i> Detail
                                         </a>
                                     </td>

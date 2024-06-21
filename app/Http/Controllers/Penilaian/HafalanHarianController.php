@@ -25,18 +25,28 @@ class HafalanHarianController extends Controller
         $this->kelompokPenilaian = new KelompokPenilaian();
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
 
             DB::beginTransaction();
 
+            $segments = $request->segments();
+
+            $lastSegment = end($segments);
+
             $data = [
                 "materi" => $this->materi->get(),
                 "siswa" => $this->siswa->get(),
-                "hafalanHarian" => $this->hafalanHarian->where("guruId", Auth::user()->hasGuru->id)->get(),
-                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Ujian")->get()
+                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Ujian")->get(),
+                "kategori" => $lastSegment
             ];
+
+            if ($lastSegment == "harian") {
+                $data["hafalanHarian"] = $this->hafalanHarian->where("guruId", Auth::user()->hasGuru->id)->where("kategori", "HAFALAN")->get();
+            } else if ($lastSegment == "ujian") {
+                $data["hafalanHarian"] = $this->hafalanHarian->where("guruId", Auth::user()->hasGuru->id)->where("kategori", "UJIAN")->get();
+            }
 
             DB::commit();
 
@@ -58,6 +68,10 @@ class HafalanHarianController extends Controller
 
             $tahunAjaran = $this->tahunAjaran->where("status", "1")->first();
 
+            $segments = $request->segments();
+
+            $lastSegment = end($segments);
+
             $this->hafalanHarian->create([
                 "materiId" => $request->materiId ? $request->materiId : null,
                 "jilidSurat" => $request->jilidSurat ? $request->jilidSurat : null,
@@ -66,12 +80,14 @@ class HafalanHarianController extends Controller
                 "siswaId" => $request->siswaId,
                 "guruId" => Auth::user()->hasGuru->id,
                 "penilaian" => $request->penilaian,
-                "tahunAjaranId" => $tahunAjaran->id
+                "tahunAjaranId" => $tahunAjaran->id,
+                "keterangan" => $request->keterangan,
+                "kategori" => $lastSegment == "harian" ? "HAFALAN" : "UJIAN"
             ]);
 
             DB::commit();
 
-            return redirect()->route("modules.penilaian.harian.index")->with("success", "Data Berhasil di Simpan");
+            return back()->with("success", "Data Berhasil di Simpan");
 
         } catch (\Exception $e) {
 
@@ -103,6 +119,35 @@ class HafalanHarianController extends Controller
             DB::rollBack();
 
             return redirect()->route("modules.dashboard")->with("error", $e->getMessage());
+        }
+    }
+
+    public function search(Request $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $cek = $this->kelompokPenilaian->where("slug", $request->pilihan)->first();
+
+            $getMateri = $this->materi->where("kelompokPenilaianId", $cek->id)->get();
+
+            DB::commit();
+
+            return response()->json([
+                "status" => true,
+                "message" => "Get Data Success",
+                "data" => $getMateri
+            ]);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return response()->json([
+                "status" => false,
+                "message" => $e->getMessage()
+            ]);
         }
     }
 }

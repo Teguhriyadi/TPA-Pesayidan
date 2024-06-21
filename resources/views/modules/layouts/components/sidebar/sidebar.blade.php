@@ -72,8 +72,8 @@
         </a>
         <div id="collapseLaporanHafalan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('modules.report.hafalan.harian.index') }}">Penilaian Harian</a>
-                <a class="collapse-item" href="{{ route('modules.report.hafalan.ujian.index') }}">Penilaian Ujian</a>
+                <a class="collapse-item" href="{{ url('/modules/laporan/hafalan/harian') }}">Penilaian Harian</a>
+                <a class="collapse-item" href="{{ url('/modules/laporan/hafalan/ujian') }}">Penilaian Ujian</a>
             </div>
         </div>
     </li>
