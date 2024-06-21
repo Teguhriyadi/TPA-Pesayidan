@@ -14,7 +14,7 @@
             @stack('modules-title') | Pelajaran : {{ $detail->kelasPelajaran->pelajaran->nama }}
         </h1>
 
-        <a href="" class="btn btn-outline-danger btn-sm">
+        <a href="{{ route('modules.master.jadwal-kelas-guru.index') }}" class="btn btn-outline-danger btn-sm">
             Kembali
         </a>
 
@@ -52,7 +52,7 @@
                                     <td class="text-center">{{ $item->tempatLahir }}, {{ $item->tanggalLahir }}</td>
                                     <td class="text-center">{{ $item->jenisKelamin == 'L' ? 'Laki - Laki' : 'Perempuan' }}
                                     </td>
-                                    <td>{{ $item->namaWali }}</td>
+                                    <td>{{ $item->wali->nama }}</td>
                                     <td class="text-center">
                                         <button onclick="editData({{ $item['id'] }})" type="button"
                                             class="btn btn-outline-info" data-toggle="modal" data-target="#editModal">
