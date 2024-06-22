@@ -82,7 +82,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('modules.penilaian.harian.store') }}" method="POST">
+                <form action="{{ url('/modules/penilaian/' . $kategori . '/store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">

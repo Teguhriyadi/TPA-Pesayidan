@@ -233,10 +233,10 @@ Route::group(["middleware" => ["autentikasi"]], function () {
             Route::controller(HafalanHarianController::class)->group(function() {
                 Route::get("/{id}", "index")->name("modules.penilaian.harian.index");
                 Route::get("/search/materi", 'search')->name("modules.penilaian.harian.search");
-                Route::post("/", "store")->name("modules.penilaian.harian.store");
+                Route::post("/{id}/store", "store");
 
                 Route::prefix("harian")->group(function() {
-                    Route::get("/{id}", "index");
+                    // Route::get("/{id}", "index");
 
                     Route::get("/{id}/edit", "edit")->name("modules.penilaian.harian.edit");
 

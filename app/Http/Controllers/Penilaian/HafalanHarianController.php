@@ -60,17 +60,15 @@ class HafalanHarianController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         try {
 
             DB::beginTransaction();
 
-            $tahunAjaran = $this->tahunAjaran->where("status", "1")->first();
-
             $segments = $request->segments();
 
-            $lastSegment = end($segments);
+            $tahunAjaran = $this->tahunAjaran->where("status", "1")->first();
 
             $this->hafalanHarian->create([
                 "materiId" => $request->materiId ? $request->materiId : null,
@@ -82,7 +80,7 @@ class HafalanHarianController extends Controller
                 "penilaian" => $request->penilaian,
                 "tahunAjaranId" => $tahunAjaran->id,
                 "keterangan" => $request->keterangan,
-                "kategori" => $lastSegment == "harian" ? "HAFALAN" : "UJIAN"
+                "kategori" => $segments[2] == "harian" ? "HAFALAN" : "UJIAN"
             ]);
 
             DB::commit();
