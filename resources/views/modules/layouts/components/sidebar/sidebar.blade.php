@@ -101,11 +101,18 @@
         Pengaturan
     </div>
 
-    <li class="nav-item {{ Request::is('modules/pengaturan/profil') ? 'active' : '' }} ">
-        <a class="nav-link" href="{{ route('modules.pengaturan.profil') }}">
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePengaturan"
+            aria-expanded="true" aria-controls="collapsePengaturan">
             <i class="fas fa-fw fa-edit"></i>
             <span>Pengaturan</span>
         </a>
+        <div id="collapsePengaturan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('modules.pengaturan.profil') }}">Profil Madrasah</a>
+                <a class="collapse-item" href="{{ route('modules.setting-pertemuan.index') }}">Jumlah Pertemuan</a>
+            </div>
+        </div>
     </li>
 
     <li class="nav-item">

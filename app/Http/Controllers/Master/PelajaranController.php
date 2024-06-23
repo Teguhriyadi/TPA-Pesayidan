@@ -25,8 +25,7 @@ class PelajaranController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "pelajaran" => $this->pelajaran->where("kategori", "Pelajaran")->orderBy("id", "DESC")->get(),
-                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Pelajaran")->get()
+                "pelajaran" => $this->pelajaran->where("kategori", "Pelajaran")->orderBy("id", "DESC")->get()
             ];
 
             DB::commit();
@@ -47,11 +46,13 @@ class PelajaranController extends Controller
 
             DB::beginTransaction();
 
+            $kategoriPelajaran = $this->kelompokPenilaian->where("kategori", "Pelajaran")->first();
+
             $this->pelajaran->create([
                 "kode" => "PL-" . time(),
                 "nama" => $request->nama,
                 "kategori" => "Pelajaran",
-                "kelompokPelajaranId" => $request->kelompokPelajaranId
+                "kelompokPelajaranId" => $kategoriPelajaran->id
             ]);
 
             DB::commit();
@@ -73,7 +74,6 @@ class PelajaranController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Pelajaran")->get(),
                 "edit" => $this->pelajaran->where("id", $id)->first()
             ];
 
@@ -96,8 +96,7 @@ class PelajaranController extends Controller
             DB::beginTransaction();
 
             $this->pelajaran->where("id", $id)->update([
-                "nama" => $request->nama,
-                "kelompokPelajaranId" => $request->kelompokPelajaranId
+                "nama" => $request->nama
             ]);
 
             DB::commit();

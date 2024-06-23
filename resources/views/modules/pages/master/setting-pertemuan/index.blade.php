@@ -1,6 +1,6 @@
 @extends('modules.layouts.main')
 
-@push('modules-title', 'Pelajaran')
+@push('modules-title', 'Setting Pertemuan')
 
 @push('modules-css')
     <link href="{{ url('/theme') }}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -10,7 +10,7 @@
 
     <div class="container-fluid">
         <h1 class="h3 mb-2 text-gray-800">
-            <i class="fa fa-book"></i> @stack('modules-title')
+            <i class="fa fa-gavel"></i> @stack('modules-title')
         </h1>
 
         <div class="card shadow mb-4 mt-4">
@@ -29,9 +29,9 @@
                         <thead>
                             <tr>
                                 <th class="text-center">No.</th>
-                                <th class="text-center">Kode Pelajaran</th>
-                                <th>Nama Pelajaran</th>
-                                <th>Kelompok Pelajaran</th>
+                                <th class="text-center">Tahun Ajaran</th>
+                                <th class="text-center">Jumlah Pertemuan</th>
+                                <th class="text-center">Status</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -39,12 +39,24 @@
                             @php
                                 $nomer = 1;
                             @endphp
-                            @foreach ($pelajaran as $item)
+                            @foreach ($settingPertemuan as $item)
                                 <tr>
                                     <td class="text-center">{{ $nomer++ }}.</td>
-                                    <td class="text-center">{{ $item->kode }}</td>
-                                    <td>{{ $item->nama }}</td>
-                                    <td>{{ $item->kelompokPelajaran->kelompok }}</td>
+                                    <td class="text-center">{{ $item->tahunAjaran->tahun_ajaran }}</td>
+                                    <td class="text-center">{{ $item->jumlah }} Pertemuan</td>
+                                    <td class="text-center">
+                                        @if ($item->status == 1)
+                                            <button onclick="updateStatus({{ $item['id'] }})" type="button"
+                                                class="btn btn-outline-success btn-sm">
+                                                <i class="fa fa-check"></i> Aktif
+                                            </button>
+                                        @elseif($item->status == 0)
+                                            <button onclick="updateStatus({{ $item['id'] }})" type="button"
+                                                class="btn btn-outline-danger btn-sm">
+                                                <i class="fa fa-times"></i> Tidak Aktif
+                                            </button>
+                                        @endif
+                                    </td>
                                     <td class="text-center">
                                         <button onclick="editData({{ $item['id'] }})" type="button"
                                             class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#editModal">
@@ -75,13 +87,13 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('modules.master.pelajaran.store') }}" method="POST">
+                <form action="{{ route('modules.setting-pertemuan.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="nama" class="form-label"> Nama </label>
-                            <input type="text" class="form-control" name="nama" id="nama"
-                                placeholder="Masukkan Nama">
+                            <label for="jumlah" class="form-label"> Jumlah Pertemuan Semester Sekarang </label>
+                            <input type="number" class="form-control" name="jumlah" id="jumlah"
+                                placeholder="0" min="1">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -127,7 +139,7 @@
     <script type="text/javascript">
         function editData(id) {
             $.ajax({
-                url: "{{ url('/modules/master/pelajaran') }}" + "/" + id + "/edit",
+                url: "{{ url('/modules/setting-pertemuan') }}" + "/" + id + "/edit",
                 type: "GET",
                 success: function(response) {
                     $("#modal-content-edit").html(response)
@@ -154,19 +166,85 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ url('/modules/master/pelajaran') }}" + "/" + id,
+                        url: "{{ url('/modules/setting-pertemuan') }}" + "/" + id,
                         method: "DELETE",
                         beforeSend: function(xhr) {
                             xhr.setRequestHeader('X-CSRF-TOKEN', csrf_token);
                         },
                         success: function(response) {
+                            if (response.code == 1) {
+                                Swal.fire({
+                                    title: "Gagal!",
+                                    text: response.message,
+                                    icon: "error"
+                                }).then((result) => {
+                                    window.location.href =
+                                        "{{ route('modules.setting-pertemuan.index') }}"
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: "Berhasil!",
+                                    text: "Data Berhasil di Hapus",
+                                    icon: "success"
+                                }).then((result) => {
+                                    window.location.href =
+                                        "{{ route('modules.setting-pertemuan.index') }}"
+                                });
+                            }
+                        },
+                        error: function(error) {
                             Swal.fire({
-                                title: "Berhasil!",
-                                text: response.message,
-                                icon: "success"
-                            }).then((result) => {
-                                window.location.href = "{{ route('modules.master.pelajaran.index') }}"
+                                title: "Gagal!",
+                                text: error,
+                                icon: "error"
                             });
+                        }
+                    })
+                }
+            });
+        }
+
+        function updateStatus(id) {
+
+            let csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+            Swal.fire({
+                title: "Apakah Anda Yakin?",
+                text: "Ingin Mengubah Status Ini",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, Saya Yakin",
+                cancelButtonText: "Tidak"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "{{ url('/modules/master/tahun_ajaran') }}" + "/" + id + "/status",
+                        method: "PUT",
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader('X-CSRF-TOKEN', csrf_token);
+                        },
+                        success: function(response) {
+                            if (response.code == 1) {
+                                Swal.fire({
+                                    title: "Gagal!",
+                                    text: response.message,
+                                    icon: "error"
+                                }).then((result) => {
+                                    window.location.href =
+                                        "{{ route('modules.master.tahun_ajaran') }}"
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: "Berhasil!",
+                                    text: "Status Berhasil di Ubah",
+                                    icon: "success"
+                                }).then((result) => {
+                                    window.location.href =
+                                        "{{ route('modules.master.tahun_ajaran') }}"
+                                });
+                            }
                         },
                         error: function(error) {
                             Swal.fire({

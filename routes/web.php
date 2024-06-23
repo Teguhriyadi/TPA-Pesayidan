@@ -12,6 +12,7 @@ use App\Http\Controllers\Master\KelasController;
 use App\Http\Controllers\Master\KelasPelajaranController;
 use App\Http\Controllers\Master\KelompokPenilaianController;
 use App\Http\Controllers\Master\PelajaranController;
+use App\Http\Controllers\Master\SettingPertemuanController;
 use App\Http\Controllers\Master\TahunAjaranController;
 use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\Pembelajaran\HafalanQuranController;
@@ -51,6 +52,16 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                     Route::get("/{id}/edit", "edit")->name("modules.guru.edit");
                     Route::put("/{id}", "update")->name("modules.guru.update");
                     Route::delete("/{id}", "destroy")->name("modules.guru.destroy");
+                });
+            });
+
+            Route::controller(SettingPertemuanController::class)->group(function() {
+                Route::prefix("setting-pertemuan")->group(function() {
+                    Route::get("/", "index")->name("modules.setting-pertemuan.index");
+                    Route::post("/", "store")->name("modules.setting-pertemuan.store");
+                    Route::get("/{id}/edit", "edit")->name("modules.setting-pertemuan.edit");
+                    Route::put("/{id}", "update")->name("modules.setting-pertemuan.update");
+                    Route::delete("{id}", "destroy")->name("modules.setting-pertemuan.destroy");
                 });
             });
 

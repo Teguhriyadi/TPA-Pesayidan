@@ -1,11 +1,11 @@
-<form action="{{ route('modules.master.pelajaran.update', ['id' => $edit['id']]) }}" method="POST">
+<form action="{{ route('modules.setting-pertemuan.update', ['id' => $edit['id']]) }}" method="POST">
     @csrf
     @method("PUT")
     <div class="modal-body">
         <div class="form-group">
-            <label for="nama" class="form-label"> Nama </label>
-            <input type="text" class="form-control" name="nama" id="nama"
-                placeholder="Masukkan Nama" value="{{ $edit['nama'] }}">
+            <label for="jumlah" class="form-label"> Jumlah Pertemuan Semester Sekarang </label>
+            <input type="number" class="form-control" name="jumlah" id="jumlah"
+                placeholder="0" value="{{ $edit['jumlah'] }}" min="1">
         </div>
     </div>
     <div class="modal-footer">
