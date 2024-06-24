@@ -175,6 +175,12 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                 Route::prefix("jadwal-kelas-saya")->group(function() {
                     Route::get("/", "index")->name("modules.master.jadwal-kelas-guru.index");
                     Route::get("/{id}", "show")->name("modules.master.jadwal-kelas-guru.detail");
+                    Route::get("/{idJadwal}/{idSiswa}", "getForm")->name("modules.master.jadwal-kelas-guru.get-form");
+                    Route::post("/", "store")->name("modules.master.jadwal-kelas-guru.store");
+                    Route::get("/{idJadwal}/{idSiswa}/detail-nilai", "detailNilai")->name("modules.master.jadwal-kelas-guru.detail-nilai");
+                    Route::get("/{idJadwal}/{idSiswa}/{nilaiId}/edit", "edit")->name("modules.master.jadwal-kelas-guru.edit");
+                    Route::get("/{idJadwal}/{idSiswa}/{nilaiId}/edit", "edit")->name("modules.master.jadwal-kelas-guru.edit");
+                    Route::put("{idJadwal}/{idSiswa}/{nilaiId}", "update")->name("modules.master.jadwal-kelas-guru.update");
                 });
             });
 

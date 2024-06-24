@@ -46,14 +46,6 @@
         </div>
     </li>
 
-
-    <li class="nav-item {{ Request::is('modules/siswa') ? 'active' : '' }} ">
-        <a class="nav-link" href="{{ route('modules.siswa.index') }}">
-            <i class="fas fa-fw fa-user"></i>
-            <span>Siswa</span>
-        </a>
-    </li>
-
     <hr class="sidebar-divider">
 
     <div class="sidebar-heading">
