@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string("kelompok");
             $table->string("slug");
-            $table->enum("kategori", ["Pelajaran", "Ujian"]);
         });
     }
 

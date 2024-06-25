@@ -33,7 +33,7 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <a href="{{ route('modules.master.jadwal-kelas-guru.detail', ['id' => $item->id]) }}" class="btn btn-outline-primary btn-block">
+                                <a href="{{ route('modules.master.jadwal-kelas-guru.detail', ['id' => $item->id]) }}" class="btn btn-outline-primary btn-sm btn-block">
                                     <i class="fa fa-search"></i> Detail
                                 </a>
                             </div>

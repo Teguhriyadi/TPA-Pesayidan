@@ -38,7 +38,7 @@ class HafalanHarianController extends Controller
             $data = [
                 "materi" => $this->materi->get(),
                 "siswa" => $this->siswa->get(),
-                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Ujian")->get(),
+                "kelompokPenilaian" => $this->kelompokPenilaian->get(),
                 "kategori" => $lastSegment
             ];
 
@@ -95,7 +95,7 @@ class HafalanHarianController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit($kategori, $id)
     {
         try {
 
@@ -105,7 +105,8 @@ class HafalanHarianController extends Controller
                 "materi" => $this->materi->get(),
                 "siswa" => $this->siswa->get(),
                 "edit" => $this->hafalanHarian->where("id", $id)->first(),
-                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Ujian")->get()
+                "kelompokPenilaian" => $this->kelompokPenilaian->get(),
+                "kategori" => $kategori
             ];
 
             DB::commit();
@@ -116,7 +117,10 @@ class HafalanHarianController extends Controller
 
             DB::rollBack();
 
-            return redirect()->route("modules.dashboard")->with("error", $e->getMessage());
+            return response()->json([
+                "status" => false,
+                "message" => $e->getMessage()
+            ]);
         }
     }
 
@@ -146,6 +150,35 @@ class HafalanHarianController extends Controller
                 "status" => false,
                 "message" => $e->getMessage()
             ]);
+        }
+    }
+
+    public function update(Request $request, $kategori, $id)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $hafalanHarian = $this->hafalanHarian->where("id", $id)->first();
+
+            $hafalanHarian->update([
+                "materiId" => $request->materiId ? $request->materiId : null,
+                "jilidSurat" => $request->jilidSurat ? $request->jilidSurat : null,
+                "halAyat" => $request->halAyat ? $request->halAyat : null,
+                "siswaId" => $request->siswaId,
+                "penilaian" => $request->penilaian,
+                "keterangan" => $request->keterangan,
+            ]);
+
+            DB::commit();
+
+            return back()->with("success", "Data Berhasil di Simpan");
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return redirect()->route("modules.dashboard")->with("error", $e->getMessage());
         }
     }
 }

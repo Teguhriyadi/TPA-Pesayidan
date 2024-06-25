@@ -49,11 +49,10 @@
         </a>
         <div id="collapsePembelajaran" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('modules.master.kategori.index') }}">Kategori</a>
+                <a class="collapse-item" href="{{ route('modules.master.kelompok-rapot.index') }}">Kelompok Rapot</a>
                 <a class="collapse-item" href="{{ route('modules.master.kelompok-penilaian.index') }}">Kelompok Penilaian</a>
                 <a class="collapse-item" href="{{ route('modules.master.pelajaran.index') }}">Pelajaran</a>
-                <a class="collapse-item" href="{{ route('modules.master.hafalan.index') }}">Hafalan</a>
-                <a class="collapse-item" href="{{ route('modules.master.kelas-pelajaran.index') }}">Kelas Pelajaran</a>
-                <a class="collapse-item" href="{{ route('modules.master.jadwal-kelas.index') }}">Jadwal Kelas</a>
             </div>
         </div>
     </li>
@@ -78,20 +77,12 @@
         </div>
     </li>
 
-    {{-- <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLaporanPelajaran"
-            aria-expanded="true" aria-controls="collapseLaporanPelajaran">
+    <li class="nav-item {{ Request::is('modules/dashboard') ? 'active' : '' }} ">
+        <a class="nav-link" href="{{ route('modules.report.nilai-per-pertemuan.index') }}">
             <i class="fas fa-fw fa-book"></i>
-            <span>Pelajaran</span>
+            <span>Nilai Per Pertemuan</span>
         </a>
-        <div id="collapseLaporanPelajaran" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('modules.guru.index') }}">Guru</a>
-                <a class="collapse-item" href="{{ route('modules.admin.index') }}">Administrator</a>
-                <a class="collapse-item" href="{{ route('modules.akun.profil') }}">Profil Saya</a>
-            </div>
-        </div>
-    </li> --}}
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">
@@ -110,7 +101,6 @@
         <div id="collapsePengaturan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('modules.pengaturan.profil') }}">Profil Madrasah</a>
-                <a class="collapse-item" href="{{ route('modules.setting-pertemuan.index') }}">Jumlah Pertemuan</a>
             </div>
         </div>
     </li>

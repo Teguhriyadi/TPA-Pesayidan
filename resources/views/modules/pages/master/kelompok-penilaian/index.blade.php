@@ -31,7 +31,6 @@
                                 <th class="text-center">No.</th>
                                 <th>Kelompok Penilaian</th>
                                 <th class="text-center">Slug</th>
-                                <th class="text-center">Kategori</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -44,17 +43,6 @@
                                     <td class="text-center">{{ $nomer++ }}.</td>
                                     <td>{{ $item->kelompok }}</td>
                                     <td class="text-center">{{ $item->slug }}</td>
-                                    <td class="text-center">
-                                        @if ($item->kategori == "Ujian")
-                                        <span class="badge bg-success text-white">
-                                            Ujian
-                                        </span>
-                                        @elseif($item->kategori == "Pelajaran")
-                                        <span class="badge bg-danger text-white">
-                                            Pelajaran
-                                        </span>
-                                        @endif
-                                    </td>
                                     <td class="text-center">
                                         <button onclick="editData({{ $item['id'] }})" type="button"
                                             class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#editModal">
@@ -93,20 +81,12 @@
                             <input type="text" class="form-control" name="kelompok" id="kelompok"
                                 placeholder="Masukkan Kelompok Penilaian">
                         </div>
-                        <div class="form-group">
-                            <label for="kategori" class="form-label"> Kategori </label>
-                            <select name="kategori" class="form-control" id="kategori">
-                                <option value="">- Pilih -</option>
-                                <option value="Ujian">Ujian</option>
-                                <option value="Pelajaran">Pelajaran</option>
-                            </select>
-                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="reset" class="btn btn-outline-danger">
+                        <button type="reset" class="btn btn-outline-danger btn-sm">
                             <i class="fa fa-times"></i> Batal
                         </button>
-                        <button type="submit" class="btn btn-outline-success">
+                        <button type="submit" class="btn btn-outline-success btn-sm">
                             <i class="fa fa-save"></i> Simpan
                         </button>
                     </div>

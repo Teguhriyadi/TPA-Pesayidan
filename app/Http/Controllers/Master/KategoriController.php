@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Master;
 
 use App\Http\Controllers\Controller;
-use App\Models\KelompokPenilaian;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
-class KelompokPenilaianController extends Controller
+class KategoriController extends Controller
 {
-    protected $kelompokPenilaian;
+    protected $kategori;
 
     public function __construct()
     {
-        $this->kelompokPenilaian = new KelompokPenilaian();
+        $this->kategori = new Kategori();
     }
 
     public function index()
@@ -24,12 +23,12 @@ class KelompokPenilaianController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "kelompokPenilaian" => $this->kelompokPenilaian->orderBy("id", "DESC")->get()
+                "kategori" => $this->kategori->orderBy("id", "DESC")->get()
             ];
 
             DB::commit();
 
-            return view("modules.pages.master.kelompok-penilaian.index", $data);
+            return view("modules.pages.master.kategori.index", $data);
 
         } catch (\Exception $e) {
 
@@ -45,20 +44,17 @@ class KelompokPenilaianController extends Controller
 
             DB::beginTransaction();
 
-            $this->kelompokPenilaian->create([
-                "kelompok" => $request->kelompok,
-                "slug" => Str::slug($request->kelompok)
-            ]);
+            $this->kategori->create($request->all());
 
             DB::commit();
 
-            return back()->with("success", "Data Berhasil di Simpan");
+            return redirect()->route("modules.master.kategori.index")->with("success", "Data Berhasil di Simpan");
 
         } catch (\Exception $e) {
 
             DB::rollBack();
 
-            return redirect()->route("modules.dashboard")->with("error", $e->getMessage());
+            return redirect()->route("modules.master.kategori.index")->with("error", $e->getMessage());
         }
     }
 
@@ -69,18 +65,18 @@ class KelompokPenilaianController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "edit" => $this->kelompokPenilaian->where("id", $id)->first()
+                "edit" => $this->kategori->where("id", $id)->first()
             ];
 
             DB::commit();
 
-            return view("modules.pages.master.kelompok-penilaian.edit", $data);
+            return view("modules.pages.master.kategori.edit", $data);
 
         } catch (\Exception $e) {
 
             DB::rollBack();
 
-            return redirect()->route("modules.dashboard")->with("error", $e->getMessage());
+            return redirect()->route("modules.master.kategori")->with("error", $e->getMessage());
         }
     }
 
@@ -90,20 +86,19 @@ class KelompokPenilaianController extends Controller
 
             DB::beginTransaction();
 
-            $this->kelompokPenilaian->where("id", $id)->update([
-                "kelompok" => $request->kelompok,
-                "slug" => Str::slug($request->kelompok)
+            $this->kategori->where("id", $id)->update([
+                "nama_kategori" => $request->nama_kategori,
             ]);
 
             DB::commit();
 
-            return back()->with("success", "Data Berhasil di Simpan");
+            return redirect()->route("modules.master.kategori.index")->with("success", "Data Berhasil di Simpan");
 
         } catch (\Exception $e) {
 
             DB::rollBack();
 
-            return redirect()->route("modules.dashboard")->with("error", $e->getMessage());
+            return redirect()->route("modules.master.kategori.index")->with("error", $e->getMessage());
         }
     }
 
@@ -113,7 +108,7 @@ class KelompokPenilaianController extends Controller
 
             DB::beginTransaction();
 
-            $this->kelompokPenilaian->where("id", $id)->delete();
+            $this->kategori->where("id", $id)->delete();
 
             DB::commit();
 
@@ -126,10 +121,7 @@ class KelompokPenilaianController extends Controller
 
             DB::rollBack();
 
-            return response()->json([
-                "status" => false,
-                "message" => $e->getMessage()
-            ]);
+            return redirect()->route("modules.admin.index")->with("error", $e->getMessage());
         }
     }
 }

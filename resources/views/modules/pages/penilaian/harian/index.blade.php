@@ -55,8 +55,8 @@
                                     <td class="text-center">{{ $item->penilaian }}</td>
                                     <td>{{ $item->keterangan ? $item->keterangan : '-' }}</td>
                                     <td class="text-center">
-                                        <button onclick="editData({{ $item['id'] }})" class="btn btn-outline-warning"
-                                            type="button" class="btn btn-outline-warning" data-toggle="modal"
+                                        <button onclick="editData(`{{ $kategori }}`, {{ $item['id'] }})"
+                                            type="button" class="btn btn-outline-warning btn-sm" data-toggle="modal"
                                             data-target="#exampleModalEdit">
                                             <i class="fa fa-edit"></i> Edit
                                         </button>
@@ -82,7 +82,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ url('/modules/penilaian/' . $kategori . '/store') }}" method="POST">
+                <form action="{{ route('modules.penilaian.harian.store', ['kategori' => $kategori]) }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -159,10 +159,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="reset" class="btn btn-outline-danger">
+                        <button type="reset" class="btn btn-outline-danger btn-sm">
                             <i class="fa fa-times"></i> Batal
                         </button>
-                        <button type="submit" class="btn btn-outline-success">
+                        <button type="submit" class="btn btn-outline-success btn-sm">
                             <i class="fa fa-save"></i> Simpan
                         </button>
                     </div>
@@ -218,7 +218,9 @@
                     $.ajax({
                         url: "{{ url('/modules/penilaian/search/materi') }}",
                         type: "GET",
-                        data: {pilihan: pilihan },
+                        data: {
+                            pilihan: pilihan
+                        },
                         success: function(response) {
 
                             let hafalanSelect = $("select[name='materiId']");
@@ -226,10 +228,12 @@
 
                             if (response.data.length > 0) {
                                 $.each(response.data, function(index, materi) {
-                                    hafalanSelect.append('<option value="' + materi.id + '">' + materi.kode + " - " + materi.nama + '</option>');
+                                    hafalanSelect.append('<option value="' + materi.id + '">' +
+                                        materi.kode + " - " + materi.nama + '</option>');
                                 });
                             } else {
-                                hafalanSelect.append('<option value="">Tidak ada Hafalan yang tersedia</option>');
+                                hafalanSelect.append(
+                                    '<option value="">Tidak ada Hafalan yang tersedia</option>');
                             }
 
                         },
@@ -252,9 +256,8 @@
             if (pilihanEdit == "jilid") {
                 suratEdit.style.display = "block";
                 lainnyaEdit.style.display = "none";
-            } else if (pilihan == "praktek-ibadah" || pilihan == "tahfidz-doa-harian" || pilihan == "tahfidz-juz-amma" ||
-                pilihan == "surat-pilihan") {
-                // console.log("Ada");
+            } else if (pilihanEdit == "praktek-ibadah" || pilihanEdit == "tahfidz-doa-harian" || pilihanEdit == "tahfidz-juz-amma" ||
+                pilihanEdit == "surat-pilihan") {
                 suratEdit.style.display = "none";
                 lainnyaEdit.style.display = "block";
             } else {
@@ -264,26 +267,24 @@
         }
 
 
-        function editData(id) {
+        function editData(kategori, id) {
             $.ajax({
-                url: "{{ url('/modules/penilaian/harian') }}" + "/" + id + "/edit",
+                url: "{{ route('modules.penilaian.harian.edit', ['kategori' => ':kategori', 'id' => ':id']) }}"
+                    .replace(':kategori', kategori)
+                    .replace(':id', id),
                 type: "GET",
                 success: function(response) {
-                    $("#modal-content-edit").html(response)
-
-                    // kategoriPenilaianEdit()
-
-                    // let materiId = document.querySelector('[name="materiId"]');
-
-                    // if (materiId !== "") {
-                    //     document.getElementById("pilihanEdit").value = "Lainnya";
-                    //     document.getElementById("suratEdit").style.display = "none";
-                    //     document.getElementById("lainnyaEdit").style.display = "block";
-                    // } else {
-                    //     document.getElementById("pilihanEdit").value = "Surat";
-                    //     document.getElementById("suratEdit").style.display = "block";
-                    //     document.getElementById("lainnyaEdit").style.display = "none";
-                    // }
+                    if (response.status == false) {
+                        Swal.fire({
+                            title: "Gagal!",
+                            text: response.message,
+                            icon: "error"
+                        }).then((result) => {
+                            window.location.href = "{{ url('/modules/penilaian/harian') }}"
+                        })
+                    } else {
+                        $("#modal-content-edit").html(response)
+                    }
                 },
                 error: function(error) {
                     console.log(error);

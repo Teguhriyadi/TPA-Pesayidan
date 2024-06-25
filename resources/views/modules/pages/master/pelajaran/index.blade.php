@@ -44,7 +44,7 @@
                                     <td class="text-center">{{ $nomer++ }}.</td>
                                     <td class="text-center">{{ $item->kode }}</td>
                                     <td>{{ $item->nama }}</td>
-                                    <td>{{ $item->kelompokPelajaran->kelompok }}</td>
+                                    <td>{{ $item->kelompokPenilaian->kelompok }}</td>
                                     <td class="text-center">
                                         <button onclick="editData({{ $item['id'] }})" type="button"
                                             class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#editModal">
@@ -83,12 +83,23 @@
                             <input type="text" class="form-control" name="nama" id="nama"
                                 placeholder="Masukkan Nama">
                         </div>
+                        <div class="form-group">
+                            <label for="kelompokPenilaianId" class="form-label"> Kelompok Penilaian </label>
+                            <select name="kelompokPenilaianId" class="form-control" id="kelompokPenilaianId">
+                                <option value="">- Pilih -</option>
+                                @foreach ($kelompokPenilaian as $item)
+                                <option value="{{ $item->id }}">
+                                    {{ $item->kelompok }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="reset" class="btn btn-outline-danger">
+                        <button type="reset" class="btn btn-outline-danger btn-sm">
                             <i class="fa fa-times"></i> Batal
                         </button>
-                        <button type="submit" class="btn btn-outline-success">
+                        <button type="submit" class="btn btn-outline-success btn-sm">
                             <i class="fa fa-save"></i> Simpan
                         </button>
                     </div>

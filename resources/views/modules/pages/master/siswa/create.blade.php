@@ -80,13 +80,13 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="tempatLahir" class="form-label"> Tempat Lahir </label>
-                                <input type="text" class="form-control" name="tempatLahir" id="tempatLahir" placeholder="Masukkan Tempat Lahir">
+                                <input type="text" class="form-control" name="tempatLahir" id="tempatLahir" placeholder="Masukkan Tempat Lahir" value="{{ old('tempatLahir') }}">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="tanggalLahir" class="form-label"> Tanggal Lahir </label>
-                                <input type="date" class="form-control" name="tanggalLahir" id="tanggalLahir" placeholder="Masukkan Tanggal Lahir">
+                                <input type="date" class="form-control" name="tanggalLahir" id="tanggalLahir" placeholder="Masukkan Tanggal Lahir" value="{{ old('tanggalLahir') }}">
                             </div>
                         </div>
                         <div class="col">
@@ -105,7 +105,7 @@
                     </div>
                     <div class="form-group">
                         <label for="alamat" class="form-label"> Alamat </label>
-                        <textarea name="alamat" class="form-control" id="alamat" rows="5" placeholder="Masukkan Alamat"></textarea>
+                        <textarea name="alamat" class="form-control" id="alamat" rows="5" placeholder="Masukkan Alamat">{{ old('alamat') }}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="foto" class="form-label"> Foto </label>
@@ -113,10 +113,10 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="reset" class="btn btn-outline-danger">
+                    <button type="reset" class="btn btn-outline-danger btn-sm">
                         <i class="fa fa-times"></i> Batal
                     </button>
-                    <button type="submit" class="btn btn-outline-success">
+                    <button type="submit" class="btn btn-outline-success btn-sm">
                         <i class="fa fa-save"></i> Simpan
                     </button>
                 </div>

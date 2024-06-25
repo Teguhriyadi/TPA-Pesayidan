@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer("waliId")->nullable();
             $table->string("nomorHpAktif")->nullable();
             $table->enum("aktif", [1, 0])->default(1);
+            $table->dateTime("tanggalDaftar");
         });
     }
 

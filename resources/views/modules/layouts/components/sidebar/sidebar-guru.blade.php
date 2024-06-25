@@ -25,13 +25,6 @@
         Master
     </div>
 
-    <li class="nav-item {{ Request::is('modules/master/jadwal-kelas-saya') ? 'active' : '' }} ">
-        <a class="nav-link" href="{{ route('modules.master.jadwal-kelas-guru.index') }}">
-            <i class="fas fa-fw fa-book"></i>
-            <span>Jadwal Kelas</span>
-        </a>
-    </li>
-
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">

@@ -5,22 +5,18 @@ use App\Http\Controllers\AppController;
 use App\Http\Controllers\DataSiswaWakelController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\Master\HafalanController;
-use App\Http\Controllers\Master\JadwalKelasController;
-use App\Http\Controllers\Master\JadwalKelasGuruController;
+use App\Http\Controllers\Master\KategoriController;
 use App\Http\Controllers\Master\KelasController;
-use App\Http\Controllers\Master\KelasPelajaranController;
 use App\Http\Controllers\Master\KelompokPenilaianController;
+use App\Http\Controllers\Master\KelompokRapotController;
 use App\Http\Controllers\Master\PelajaranController;
-use App\Http\Controllers\Master\SettingPertemuanController;
 use App\Http\Controllers\Master\TahunAjaranController;
 use App\Http\Controllers\OrangTuaController;
-use App\Http\Controllers\Pembelajaran\HafalanQuranController;
 use App\Http\Controllers\Pengaturan\GantiPasswordController;
 use App\Http\Controllers\Penilaian\HafalanHarianController;
-use App\Http\Controllers\Penilaian\HafalanUjianController;
 use App\Http\Controllers\Report\Hafalan\NilaiHarianController;
 use App\Http\Controllers\Report\Hafalan\NilaiUjianController;
+use App\Http\Controllers\Report\Nilai\NilaiPerPertemuanController;
 use App\Http\Controllers\Settings\ProfilAkunController;
 use App\Http\Controllers\Settings\ProfilMadrasahController;
 use App\Http\Controllers\SiswaController;
@@ -55,16 +51,6 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                 });
             });
 
-            Route::controller(SettingPertemuanController::class)->group(function() {
-                Route::prefix("setting-pertemuan")->group(function() {
-                    Route::get("/", "index")->name("modules.setting-pertemuan.index");
-                    Route::post("/", "store")->name("modules.setting-pertemuan.store");
-                    Route::get("/{id}/edit", "edit")->name("modules.setting-pertemuan.edit");
-                    Route::put("/{id}", "update")->name("modules.setting-pertemuan.update");
-                    Route::delete("{id}", "destroy")->name("modules.setting-pertemuan.destroy");
-                });
-            });
-
             Route::controller(AdminController::class)->group(function () {
                 Route::prefix("akun-admin")->group(function () {
                     Route::get("/", "index")->name("modules.admin.index");
@@ -86,6 +72,16 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                     });
                 });
 
+                Route::controller(KelompokRapotController::class)->group(function () {
+                    Route::prefix("kelompok-rapot")->group(function () {
+                        Route::get("/", "index")->name("modules.master.kelompok-rapot.index");
+                        Route::post("/", "store")->name("modules.master.kelompok-rapot.store");
+                        Route::get("/{id}/edit", "edit")->name("modules.master.kelompok-rapot.edit");
+                        Route::put("/{id}", "update")->name("modules.master.kelompok-rapot.update");
+                        Route::delete("/{id}", "destroy")->name("modules.master.kelompok-rapot.destroy");
+                    });
+                });
+
                 Route::controller(KelompokPenilaianController::class)->group(function() {
                     Route::prefix("kelompok-penilaian")->group(function() {
                         Route::get("/", "index")->name("modules.master.kelompok-penilaian.index");
@@ -93,6 +89,16 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                         Route::get("/{id}/edit", "edit")->name("modules.master.kelompok-penilaian.edit");
                         Route::put("/{id}", "update")->name("modules.master.kelompok-penilaian.update");
                         Route::delete("/{id}", "destroy")->name("modules.master.kelompok-penilaian.destroy");
+                    });
+                });
+
+                Route::controller(KategoriController::class)->group(function() {
+                    Route::prefix("kategori")->group(function() {
+                        Route::get("/", "index")->name("modules.master.kategori.index");
+                        Route::post("/", "store")->name("modules.master.kategori.store");
+                        Route::get("/{id}/edit", "edit")->name("modules.master.kategori.edit");
+                        Route::put("/{id}", "update")->name("modules.master.kategori.update");
+                        Route::delete("/{id}", "destroy")->name("modules.master.kategori.destroy");
                     });
                 });
 
@@ -116,36 +122,6 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                         Route::delete("/{id}", "destroy")->name("modules.master.pelajaran.destroy");
                     });
                 });
-
-                Route::controller(HafalanController::class)->group(function() {
-                    Route::prefix("hafalan")->group(function() {
-                        Route::get("/", "index")->name("modules.master.hafalan.index");
-                        Route::post("/", "store")->name("modules.master.hafalan.store");
-                        Route::get("/{id}/edit", "edit")->name("modules.master.hafalan.edit");
-                        Route::put("/{id}", "update")->name("modules.master.hafalan.update");
-                        Route::delete("/{id}", "destroy")->name("modules.master.hafalan.destroy");
-                    });
-                });
-
-                Route::controller(KelasPelajaranController::class)->group(function() {
-                    Route::prefix("kelas-pelajaran")->group(function() {
-                        Route::get("/", "index")->name("modules.master.kelas-pelajaran.index");
-                        Route::post("/", "store")->name("modules.master.kelas-pelajaran.store");
-                        Route::get("/{id}/edit", "edit")->name("modules.master.kelas-pelajaran.edit");
-                        Route::put("/{id}", "update")->name("modules.master.kelas-pelajaran.update");
-                        Route::delete("/{id}", "destroy")->name("modules.master.kelas-pelajaran.destroy");
-                    });
-                });
-
-                Route::controller(JadwalKelasController::class)->group(function() {
-                    Route::prefix("jadwal-kelas")->group(function() {
-                        Route::get("/", "index")->name("modules.master.jadwal-kelas.index");
-                        Route::post("/", "store")->name("modules.master.jadwal-kelas.store");
-                        Route::get("/{id}/edit", "edit")->name("modules.master.jadwal-kelas.edit");
-                        Route::put("/{id}", "update")->name("modules.master.jadwal-kelas.update");
-                        Route::delete("/{id}", "destroy")->name("modules.master.jadwal-kelas.destroy");
-                    });
-                });
             });
 
             Route::controller(NilaiHarianController::class)->group(function() {
@@ -154,6 +130,15 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                         Route::get("/{id}", "index")->name("modules.report.hafalan.harian.index");
                         Route::get("/{kategori}/{id}", "show")->name("modules.report.hafalan.harian.show");
                         Route::get("/{id}/download/data", "download")->name("modules.report.hafalan.download");
+                    });
+                });
+            });
+
+            Route::controller(NilaiPerPertemuanController::class)->group(function() {
+                Route::prefix("laporan")->group(function() {
+                    Route::prefix("nilai-per-pertemuan")->group(function() {
+                        Route::get("/", "index")->name("modules.report.nilai-per-pertemuan.index");
+                        Route::get("/{id}", "show")->name("modules.report.nilai-per-pertemuan.show");
                     });
                 });
             });
@@ -171,19 +156,6 @@ Route::group(["middleware" => ["autentikasi"]], function () {
         });
 
         Route::prefix("master")->group(function() {
-            Route::controller(JadwalKelasGuruController::class)->group(function() {
-                Route::prefix("jadwal-kelas-saya")->group(function() {
-                    Route::get("/", "index")->name("modules.master.jadwal-kelas-guru.index");
-                    Route::get("/{id}", "show")->name("modules.master.jadwal-kelas-guru.detail");
-                    Route::get("/{idJadwal}/{idSiswa}", "getForm")->name("modules.master.jadwal-kelas-guru.get-form");
-                    Route::post("/", "store")->name("modules.master.jadwal-kelas-guru.store");
-                    Route::get("/{idJadwal}/{idSiswa}/detail-nilai", "detailNilai")->name("modules.master.jadwal-kelas-guru.detail-nilai");
-                    Route::get("/{idJadwal}/{idSiswa}/{nilaiId}/edit", "edit")->name("modules.master.jadwal-kelas-guru.edit");
-                    Route::get("/{idJadwal}/{idSiswa}/{nilaiId}/edit", "edit")->name("modules.master.jadwal-kelas-guru.edit");
-                    Route::put("{idJadwal}/{idSiswa}/{nilaiId}", "update")->name("modules.master.jadwal-kelas-guru.update");
-                });
-            });
-
             Route::controller(SiswaController::class)->group(function() {
                 Route::prefix("siswa")->group(function() {
                     Route::get("/", "index")->name("modules.master-wali.siswa.index");
@@ -250,16 +222,12 @@ Route::group(["middleware" => ["autentikasi"]], function () {
             Route::controller(HafalanHarianController::class)->group(function() {
                 Route::get("/{id}", "index")->name("modules.penilaian.harian.index");
                 Route::get("/search/materi", 'search')->name("modules.penilaian.harian.search");
-                Route::post("/{id}/store", "store");
-
-                Route::prefix("harian")->group(function() {
-                    // Route::get("/{id}", "index");
-
-                    Route::get("/{id}/edit", "edit")->name("modules.penilaian.harian.edit");
-
-                });
+                Route::post("/{kategori}/store", "store")->name("modules.penilaian.harian.store");
+                Route::get("/{kategori}/{id}/edit", "edit")->name("modules.penilaian.harian.edit");
+                Route::put("/{kategori}/{id}", "update")->name("modules.penilaian.harian.update");
             });
         });
+
 
         Route::controller(GantiPasswordController::class)->group(function() {
             Route::prefix("ganti-password")->group(function() {

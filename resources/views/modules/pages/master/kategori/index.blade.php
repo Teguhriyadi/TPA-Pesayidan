@@ -1,6 +1,6 @@
 @extends('modules.layouts.main')
 
-@push('modules-title', 'Hafalan')
+@push('modules-title', 'Kategori')
 
 @push('modules-css')
     <link href="{{ url('/theme') }}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -29,9 +29,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center">No.</th>
-                                <th class="text-center">Kode Hafalan</th>
-                                <th>Nama Hafalan</th>
-                                <th class="text-center">Kelompok Penilaian</th>
+                                <th>Kategori</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -39,12 +37,10 @@
                             @php
                                 $nomer = 1;
                             @endphp
-                            @foreach ($hafalan as $item)
+                            @foreach ($kategori as $item)
                                 <tr>
                                     <td class="text-center">{{ $nomer++ }}.</td>
-                                    <td class="text-center">{{ $item->kode }}</td>
-                                    <td>{{ $item->nama }}</td>
-                                    <td class="text-center">{{ $item->kelompokPenilaian->kelompok }}</td>
+                                    <td>{{ $item->nama_kategori }}</td>
                                     <td class="text-center">
                                         <button onclick="editData({{ $item['id'] }})" type="button"
                                             class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#editModal">
@@ -75,31 +71,20 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('modules.master.hafalan.store') }}" method="POST">
+                <form action="{{ route('modules.master.kategori.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="nama" class="form-label"> Nama </label>
-                            <input type="text" class="form-control" name="nama" id="nama"
-                                placeholder="Masukkan Nama">
-                        </div>
-                        <div class="form-group">
-                            <label for="kelompokPenilaianId" class="form-label"> Kelompok Penilaian </label>
-                            <select name="kelompokPenilaianId" class="form-control" id="kelompokPenilaianId">
-                                <option value="">- Pilih -</option>
-                                @foreach ($kelompokPenilaian as $item)
-                                    <option value="{{ $item->id }}">
-                                        {{ $item->kelompok }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <label for="nama_kategori" class="form-label"> Nama Kategori </label>
+                            <input type="text" class="form-control" name="nama_kategori" id="nama_kategori"
+                                placeholder="Masukkan Nama Kategori">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="reset" class="btn btn-outline-danger">
+                        <button type="reset" class="btn btn-outline-danger btn-sm">
                             <i class="fa fa-times"></i> Batal
                         </button>
-                        <button type="submit" class="btn btn-outline-success">
+                        <button type="submit" class="btn btn-outline-success btn-sm">
                             <i class="fa fa-save"></i> Simpan
                         </button>
                     </div>
@@ -138,7 +123,7 @@
     <script type="text/javascript">
         function editData(id) {
             $.ajax({
-                url: "{{ url('/modules/master/hafalan') }}" + "/" + id + "/edit",
+                url: "{{ url('/modules/master/kategori') }}" + "/" + id + "/edit",
                 type: "GET",
                 success: function(response) {
                     $("#modal-content-edit").html(response)
@@ -165,7 +150,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ url('/modules/master/hafalan') }}" + "/" + id,
+                        url: "{{ url('/modules/master/kategori') }}" + "/" + id,
                         method: "DELETE",
                         beforeSend: function(xhr) {
                             xhr.setRequestHeader('X-CSRF-TOKEN', csrf_token);
@@ -176,7 +161,7 @@
                                 text: response.message,
                                 icon: "success"
                             }).then((result) => {
-                                window.location.href = "{{ route('modules.master.hafalan.index') }}"
+                                window.location.href = "{{ route('modules.master.kategori.index') }}"
                             });
                         },
                         error: function(error) {

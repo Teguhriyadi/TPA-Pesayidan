@@ -86,6 +86,54 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <canvas id="siswaChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+@endpush
+
+@push('modules-js')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            let ctx = document.getElementById("siswaChart").getContext("2d")
+            let siswaData = {!! json_encode($grafikSiswa) !!};
+
+            let labels = siswaData.map(function(item) {
+                return item.tahun;
+            });
+            let data = siswaData.map(function(item) {
+                return item.jumlah;
+            });
+
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Jumlah Siswa',
+                        data: data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 @endpush

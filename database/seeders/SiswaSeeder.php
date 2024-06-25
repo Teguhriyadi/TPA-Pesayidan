@@ -27,7 +27,8 @@ class SiswaSeeder extends Seeder
             "kelasId" => 1,
             "aktif" => 1,
             "waliId" => 7,
-            "nomorHpAktif" => "085324237299"
+            "nomorHpAktif" => "085324237299",
+            "tanggalDaftar" => date("Y-m-d H:i:s")
         ]);
 
         $this->siswa->create([
@@ -40,7 +41,8 @@ class SiswaSeeder extends Seeder
             "kelasId" => 1,
             "aktif" => 1,
             "waliId" => 6,
-            "nomorHpAktif" => "085324237299"
+            "nomorHpAktif" => "085324237299",
+            "tanggalDaftar" => date("Y-m-d H:i:s")
         ]);
     }
 }

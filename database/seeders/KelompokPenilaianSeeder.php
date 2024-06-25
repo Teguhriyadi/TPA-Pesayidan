@@ -19,32 +19,22 @@ class KelompokPenilaianSeeder extends Seeder
     {
         $this->kelompokPenilaian->create([
             "kelompok" => "Praktek Ibadah",
-            "slug" => "praktek-ibadah",
-            "kategori" => "Ujian"
+            "slug" => "praktek-ibadah"
         ]);
 
         $this->kelompokPenilaian->create([
             "kelompok" => "Tahfidz Do'A Harian",
-            "slug" => "tahfidz-doa-harian",
-            "kategori" => "Ujian"
+            "slug" => "tahfidz-doa-harian"
         ]);
 
         $this->kelompokPenilaian->create([
             "kelompok" => "Tahfidz Juz'Amma",
-            "slug" => "tahfidz-juz-amma",
-            "kategori" => "Ujian"
+            "slug" => "tahfidz-juz-amma"
         ]);
 
         $this->kelompokPenilaian->create([
             "kelompok" => "Surat Pilihan",
-            "slug" => "surat-pilihan",
-            "kategori" => "Ujian"
-        ]);
-
-        $this->kelompokPenilaian->create([
-            "kelompok" => "Materi Pelajaran",
-            "slug" => "materi-pelajaran",
-            "kategori" => "Pelajaran"
+            "slug" => "surat-pilihan"
         ]);
     }
 }

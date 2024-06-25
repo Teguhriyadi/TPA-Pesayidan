@@ -25,7 +25,8 @@ class PelajaranController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "pelajaran" => $this->pelajaran->where("kategori", "Pelajaran")->orderBy("id", "DESC")->get()
+                "pelajaran" => $this->pelajaran->orderBy("id", "DESC")->get(),
+                "kelompokPenilaian" => $this->kelompokPenilaian->get()
             ];
 
             DB::commit();
@@ -46,13 +47,10 @@ class PelajaranController extends Controller
 
             DB::beginTransaction();
 
-            $kategoriPelajaran = $this->kelompokPenilaian->where("kategori", "Pelajaran")->first();
-
             $this->pelajaran->create([
                 "kode" => "PL-" . time(),
                 "nama" => $request->nama,
-                "kategori" => "Pelajaran",
-                "kelompokPelajaranId" => $kategoriPelajaran->id
+                "kelompokPenilaianId" => $request->kelompokPenilaianId
             ]);
 
             DB::commit();
@@ -63,7 +61,7 @@ class PelajaranController extends Controller
 
             DB::rollBack();
 
-            return redirect()->route("modules.dashboard")->with("error", $e->getMessage());
+            return redirect()->route("modules.master.pelajaran.index")->with("error", $e->getMessage());
         }
     }
 
@@ -74,7 +72,8 @@ class PelajaranController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "edit" => $this->pelajaran->where("id", $id)->first()
+                "edit" => $this->pelajaran->where("id", $id)->first(),
+                "kelompokPenilaian" => $this->kelompokPenilaian->get()
             ];
 
             DB::commit();
@@ -96,7 +95,8 @@ class PelajaranController extends Controller
             DB::beginTransaction();
 
             $this->pelajaran->where("id", $id)->update([
-                "nama" => $request->nama
+                "nama" => $request->nama,
+                "kelompokPenilaianId" => $request->kelompokPenilaianId
             ]);
 
             DB::commit();

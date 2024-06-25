@@ -98,7 +98,8 @@ class SiswaController extends Controller
                 "alamat" => $request->alamat,
                 "pendaftarId" => Auth::user()->id,
                 "kelasId" => $request->kelasId,
-                "foto" => $fotoSiswa ? $fotoSiswa : null
+                "foto" => empty($fotoSiswa) ? null : $fotoSiswa,
+                "tanggalDaftar" => date("Y-m-d H:i:s")
             ]);
 
             if ($request->option == "Ya") {
@@ -137,7 +138,7 @@ class SiswaController extends Controller
 
             DB::rollBack();
 
-            return redirect()->route("modules.siswa.index")->with("error", $e->getMessage());
+            return redirect()->route("modules.siswa.index")->with("error", $e->getMessage())->withInput();
         }
     }
 

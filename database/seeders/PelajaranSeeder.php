@@ -20,70 +20,60 @@ class PelajaranSeeder extends Seeder
         $this->pelajaran->create([
             "kode" => "PLJR-001",
             "nama" => "Hafalan Surat - Surat Pendek",
-            "kategori" => "Pelajaran",
-            "kelompokPelajaranId" => 5
+            "kelompokPenilaianId" => 2
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-002",
             "nama" => "Calistung",
-            "kategori" => "Pelajaran",
-            "kelompokPelajaranId" => 5
+            "kelompokPenilaianId" => 1
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-003",
             "nama" => "Aqidah Akhlaq",
-            "kategori" => "Pelajaran",
-            "kelompokPelajaranId" => 5
+            "kelompokPenilaianId" => 3
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-004",
             "nama" => "Fiqih",
-            "kategori" => "Pelajaran",
-            "kelompokPelajaranId" => 5
+            "kelompokPenilaianId" => 4
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-005",
             "nama" => "Do'A Bangun Tidur",
-            "kategori" => "Hafalan",
-            "kelompokPenilaianId" => 2,
+            "kelompokPenilaianId" => 3
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-006",
             "nama" => "Do'a Masuk WC",
-            "kategori" => "Hafalan",
             "kelompokPenilaianId" => 2
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-007",
             "nama" => "Do'a Keluar WC",
-            "kategori" => "Hafalan",
             "kelompokPenilaianId" => 2
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-008",
             "nama" => "Do'a Bercermin",
-            "kategori" => "Hafalan",
             "kelompokPenilaianId" => 2
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-009",
             "nama" => "Memakai Pakaian",
-            "kategori" => "Hafalan",
             "kelompokPenilaianId" => 2
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-010",
             "nama" => "Melepas Pakaian",
-            "kategori" => "Hafalan",
             "kelompokPenilaianId" => 2
         ]);
     }

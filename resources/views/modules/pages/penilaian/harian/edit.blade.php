@@ -1,4 +1,4 @@
-<form action="{{ route('modules.penilaian.harian.store') }}" method="POST">
+<form action="{{ route('modules.penilaian.harian.update', ['kategori' => $kategori, 'id' => $edit->id]) }}" method="POST">
     @csrf
     @method("PUT")
     <div class="modal-body">
@@ -18,14 +18,14 @@
             <select name="pilihanEdit" class="form-control" id="pilihanEdit" onchange="kategoriPenilaianEdit()">
                 <option value="">- Pilih -</option>
                 @foreach ($kelompokPenilaian as $item)
-                    <option value="{{ $item->slug }}">
-                        {{ $item->kelompok }} {{ $item->slug }}
+                    <option value="{{ $item->slug }}" {{ $item["id"] == $edit["materiId"] ? 'selected' : '' }} >
+                        {{ $item->kelompok }}
                     </option>
                 @endforeach
-                <option value="jilid">Jilid</option>
+                <option value="jilid" {{ $edit['materiId'] == null ? 'selected' : '' }} >Jilid</option>
             </select>
         </div>
-        <div id="suratEdit" style="display: none;">
+        <div id="suratEdit" style="display: {{ empty($edit['materiId']) ? 'block' : 'none' }};">
             <div class="row">
                 <div class="col-md-6 mb-2">
                     <div class="form-group">
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div class="form-group" id="lainnyaEdit" style="display: none">
+        <div class="form-group" id="lainnyaEdit" style="display: {{ $edit['materiId'] ? 'block' : 'none' }}">
             <label for="materiId" class="form-label"> Materi / Hafalan </label>
             <select name="materiId" class="form-control" id="materiId">
                 <option value="">- Pilih -</option>
@@ -71,10 +71,10 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="reset" class="btn btn-outline-danger">
+        <button type="reset" class="btn btn-outline-danger btn-sm">
             <i class="fa fa-times"></i> Batal
         </button>
-        <button type="submit" class="btn btn-outline-success">
+        <button type="submit" class="btn btn-outline-success btn-sm">
             <i class="fa fa-save"></i> Simpan
         </button>
     </div>

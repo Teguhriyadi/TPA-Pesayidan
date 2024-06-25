@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SettingPertemuan extends Model
+class KelompokRapot extends Model
 {
     use HasFactory;
 
-    protected $table = "setting_pertemuan";
+    protected $table = "kelompok_rapot";
 
     protected $guarded = [''];
 
     public $timestamps = false;
 
-    public function tahunAjaran()
+    public function kategori()
     {
-        return $this->belongsTo(TahunAjaran::class, "tahunAjaranId");
+        return $this->belongsTo(Kategori::class, "kategoriId");
     }
 }

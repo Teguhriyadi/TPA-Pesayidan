@@ -1,11 +1,11 @@
-<form action="{{ route('modules.master.kelompok-penilaian.update', ['id' => $edit['id']]) }}" method="POST">
+<form action="{{ route('modules.master.kategori.update', ['id' => $edit['id']]) }}" method="POST">
     @csrf
     @method("PUT")
     <div class="modal-body">
         <div class="form-group">
-            <label for="kelompok" class="form-label"> Kelompok </label>
-            <input type="text" class="form-control" name="kelompok" id="kelompok"
-                placeholder="Masukkan Kelompok Penilaian" value="{{ $edit['kelompok'] }}">
+            <label for="nama_kategori" class="form-label"> Nama Kategori </label>
+            <input type="text" class="form-control" name="nama_kategori" id="nama_kategori"
+                placeholder="Masukkan Nama Kategori" value="{{ $edit['nama_kategori'] }}">
         </div>
     </div>
     <div class="modal-footer">
