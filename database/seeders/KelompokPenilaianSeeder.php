@@ -36,5 +36,10 @@ class KelompokPenilaianSeeder extends Seeder
             "kelompok" => "Surat Pilihan",
             "slug" => "surat-pilihan"
         ]);
+
+        $this->kelompokPenilaian->create([
+            "kelompok" => "Iqro / Jilid",
+            "slug" => "iqro-jilid"
+        ]);
     }
 }

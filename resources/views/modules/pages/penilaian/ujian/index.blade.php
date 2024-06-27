@@ -1,5 +1,56 @@
 @extends('modules.layouts.main')
 
+@push('modules-title', 'Penilaian Ujian')
+
+@push('modules-css')
+    <link href="{{ url('/theme') }}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+@endpush
+
+@push('modules-content')
+    <div class="container-fluid">
+        <h1 class="h3 mb-2 text-gray-800">
+            <i class="fa fa-edit"></i> @stack('modules-title')
+        </h1>
+
+        <div class="card shadow mb-4 mt-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">
+                    Data @stack('modules-title')
+                    <a style="float: right" href="{{ route('modules.penilaian.ujian.create') }}" class="btn btn-outline-primary btn-sm">
+                        <i class="fa fa-plus"></i> Tambah
+                    </a>
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="text-center">No.</th>
+                                <th>Siswa</th>
+                                <th class="text-center">Kelas</th>
+                                <th class="text-center">Tanggal</th>
+                                <th class="text-center">Kategori</th>
+                                <th class="text-center">Ujian</th>
+                                <th class="text-center">Keterangan</th>
+                                <th class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+@endpush
+
+@push('modules-js')
+    <script src="{{ url('/theme') }}/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="{{ url('/theme') }}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="{{ url('/theme') }}/js/demo/datatables-demo.js"></script>
+@endpush
+
+{{-- @extends('modules.layouts.main')
+
 @push('modules-title', 'Penilaian Hafalan Ujian')
 
 @push('modules-css')
@@ -37,8 +88,8 @@
                                 <th class="text-center">Keterangan</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
-                        </thead>
-                        <tbody>
+                        </thead> --}}
+{{-- <tbody>
                             @php
                                 $nomor = 1;
                             @endphp
@@ -63,15 +114,15 @@
                                     </td>
                                 </tr>
                             @endforeach
-                        </tbody>
-                    </table>
+                        </tbody> --}}
+{{-- </table>
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <!-- Tambah Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Tambah Modal -->
+{{-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -81,8 +132,8 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                </div>
-                <form action="{{ route('modules.penilaian.ujian.store') }}" method="POST">
+                </div> --}}
+{{-- <form action="{{ route('modules.penilaian.ujian.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -144,14 +195,14 @@
                             <i class="fa fa-save"></i> Simpan
                         </button>
                     </div>
-                </form>
-            </div>
+                </form> --}}
+{{-- </div>
         </div>
-    </div>
-    <!-- End Modal -->
+    </div> --}}
+<!-- End Modal -->
 
-    <!-- Edit Modal -->
-    <div class="modal fade" id="exampleModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Edit Modal -->
+{{-- <div class="modal fade" id="exampleModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -162,16 +213,16 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div id="modal-content-edit">
-                    <!-- Modal Content Edit -->
-                </div>
+                <div id="modal-content-edit"> --}}
+<!-- Modal Content Edit -->
+{{-- </div>
             </div>
         </div>
-    </div>
-    <!-- End Modal -->
-@endpush
+    </div> --}}
+<!-- End Modal -->
+{{-- @endpush --}}
 
-@push('modules-js')
+{{-- @push('modules-js')
     <script src="{{ url('/theme') }}/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="{{ url('/theme') }}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="{{ url('/theme') }}/js/demo/datatables-demo.js"></script>
@@ -188,5 +239,5 @@
                 }
             });
         }
-    </script>
-@endpush
+    </script> --}}
+{{-- @endpush --}}

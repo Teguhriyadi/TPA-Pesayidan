@@ -31,21 +31,41 @@ class HafalanUjianController extends Controller
 
             DB::beginTransaction();
 
-            $data = [
-                "siswa" => $this->siswa->get(),
-                "kelompokPenilaian" => $this->kelompokPenilaian->where("kategori", "Ujian")->get(),
-                "hafalanUjian" => $this->hafalanUjian->get()
-            ];
-
             DB::commit();
 
-            return view("modules.pages.penilaian.ujian.index", $data);
+            return view("modules.pages.penilaian.ujian.index");
 
         } catch (\Exception $e) {
 
             DB::rollBack();
 
             return redirect()->route("modules.dashboard")->with("error", $e->getMessage());
+        }
+    }
+
+    public function create(Request $request)
+    {
+        try {
+
+            DB::beginTransaction();
+
+            $data["siswa"] = $this->siswa->where("aktif", "1")->get();
+            $data["kelompokPenilaian"] = $this->kelompokPenilaian->get();
+
+            foreach ($data["kelompokPenilaian"] as $kelompokPenilaian) {
+                $kelompokPenilaian->pelajaran = $this->pelajaran->where("kelompokPenilaianId", $kelompokPenilaian->id)
+                    ->get();
+            }
+
+            DB::commit();
+
+            return view("modules.pages.penilaian.ujian.create", $data);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return redirect()->route("modules.penilaian.ujian.index")->with("error", $e->getMessage());
         }
     }
 

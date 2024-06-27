@@ -32,10 +32,10 @@ class NilaiHarianController extends Controller
             $tahunAjaran = $this->tahunAjaran->where("status", "1")->first();
 
             if ($lastSegment == "harian") {
-                $data["hafalanHarian"] = $this->hafalanHarian->where("tahunAjaranId", $tahunAjaran->id)->get();
+                $data["hafalanHarian"] = $this->hafalanHarian->where("tahunAjaranId", $tahunAjaran->id)->orderBy("tanggal", "DESC")->get();
                 $data["kategori"] = "harian";
             } else if ($lastSegment == "ujian") {
-                $data["hafalanHarian"] = $this->hafalanHarian->where("tahunAjaranId", $tahunAjaran->id)->get();
+                $data["hafalanHarian"] = $this->hafalanHarian->where("tahunAjaranId", $tahunAjaran->id)->orderBy("id", "DESC")->get();
                 $data["kategori"] = "ujian";
             }
 

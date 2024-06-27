@@ -5,6 +5,11 @@
 @push('modules-content')
 
     <div class="container-fluid">
+        @if (session("error"))
+        <div class="alert alert-danger">
+            <strong>Gagal</strong>, {!! session("error") !!}
+        </div>
+        @endif
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
         </div>

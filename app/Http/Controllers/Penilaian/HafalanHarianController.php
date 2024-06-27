@@ -43,9 +43,9 @@ class HafalanHarianController extends Controller
             ];
 
             if ($lastSegment == "harian") {
-                $data["hafalanHarian"] = $this->hafalanHarian->where("guruId", Auth::user()->hasGuru->id)->where("kategori", "HAFALAN")->get();
+                $data["hafalanHarian"] = $this->hafalanHarian->where("guruId", Auth::user()->hasGuru->id)->where("kategori", "HAFALAN")->orderBy("tanggal", "DESC")->get();
             } else if ($lastSegment == "ujian") {
-                $data["hafalanHarian"] = $this->hafalanHarian->where("guruId", Auth::user()->hasGuru->id)->where("kategori", "UJIAN")->get();
+                $data["hafalanHarian"] = $this->hafalanHarian->where("guruId", Auth::user()->hasGuru->id)->where("kategori", "UJIAN")->orderBy("tanggal", "DESC")->get();
             }
 
             DB::commit();
@@ -70,10 +70,16 @@ class HafalanHarianController extends Controller
 
             $tahunAjaran = $this->tahunAjaran->where("status", "1")->first();
 
+            if ($request->materiId) {
+                $cekId = $this->materi->where("id", $request->materiId)->first();
+            }
+
             $this->hafalanHarian->create([
+                "kelompokPenilaianId" => $request->materiId ? $cekId->id : null,
                 "materiId" => $request->materiId ? $request->materiId : null,
                 "jilidSurat" => $request->jilidSurat ? $request->jilidSurat : null,
-                "halAyat" => $request->halAyat ? $request->halAyat : null,
+                "dari" => $request->pilihan == "tahfidz-juz-amma" || $request->pilihan == "surat-pilihan" || $request->pilihan == "iqro-jilid" ? $request->dari : null,
+                "sampai" => $request->pilihan == "tahfidz-juz-amma" || $request->pilihan == "surat-pilihan" || $request->pilihan == "iqro-jilid" ? $request->sampai : null,
                 "tanggal" => date("Y-m-d H:i:s"),
                 "siswaId" => $request->siswaId,
                 "guruId" => Auth::user()->hasGuru->id,

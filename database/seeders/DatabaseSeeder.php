@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             KelompokPenilaianSeeder::class,
             SiswaSeeder::class,
             SiswaJenjangSeeder::class,
-            WaliKelasSeeder::class
+            WaliKelasSeeder::class,
+            KelompokRapotSeeder::class
         ]);
     }
 }

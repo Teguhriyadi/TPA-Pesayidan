@@ -13,7 +13,9 @@ use App\Http\Controllers\Master\PelajaranController;
 use App\Http\Controllers\Master\TahunAjaranController;
 use App\Http\Controllers\OrangTuaController;
 use App\Http\Controllers\Pengaturan\GantiPasswordController;
+use App\Http\Controllers\Penilaian\AmbilNilaiController;
 use App\Http\Controllers\Penilaian\HafalanHarianController;
+use App\Http\Controllers\Penilaian\HafalanUjianController;
 use App\Http\Controllers\Report\Hafalan\NilaiHarianController;
 use App\Http\Controllers\Report\Hafalan\NilaiUjianController;
 use App\Http\Controllers\Report\Nilai\NilaiPerPertemuanController;
@@ -82,8 +84,8 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                     });
                 });
 
-                Route::controller(KelompokPenilaianController::class)->group(function() {
-                    Route::prefix("kelompok-penilaian")->group(function() {
+                Route::controller(KelompokPenilaianController::class)->group(function () {
+                    Route::prefix("kelompok-penilaian")->group(function () {
                         Route::get("/", "index")->name("modules.master.kelompok-penilaian.index");
                         Route::post("/", "store")->name("modules.master.kelompok-penilaian.store");
                         Route::get("/{id}/edit", "edit")->name("modules.master.kelompok-penilaian.edit");
@@ -92,8 +94,8 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                     });
                 });
 
-                Route::controller(KategoriController::class)->group(function() {
-                    Route::prefix("kategori")->group(function() {
+                Route::controller(KategoriController::class)->group(function () {
+                    Route::prefix("kategori")->group(function () {
                         Route::get("/", "index")->name("modules.master.kategori.index");
                         Route::post("/", "store")->name("modules.master.kategori.store");
                         Route::get("/{id}/edit", "edit")->name("modules.master.kategori.edit");
@@ -113,8 +115,8 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                     });
                 });
 
-                Route::controller(PelajaranController::class)->group(function() {
-                    Route::prefix("pelajaran")->group(function() {
+                Route::controller(PelajaranController::class)->group(function () {
+                    Route::prefix("pelajaran")->group(function () {
                         Route::get("/", "index")->name("modules.master.pelajaran.index");
                         Route::post("/", "store")->name("modules.master.pelajaran.store");
                         Route::get("/{id}/edit", "edit")->name("modules.master.pelajaran.edit");
@@ -124,9 +126,9 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                 });
             });
 
-            Route::controller(NilaiHarianController::class)->group(function() {
-                Route::prefix("laporan")->group(function() {
-                    Route::prefix("hafalan")->group(function() {
+            Route::controller(NilaiHarianController::class)->group(function () {
+                Route::prefix("laporan")->group(function () {
+                    Route::prefix("hafalan")->group(function () {
                         Route::get("/{id}", "index")->name("modules.report.hafalan.harian.index");
                         Route::get("/{kategori}/{id}", "show")->name("modules.report.hafalan.harian.show");
                         Route::get("/{id}/download/data", "download")->name("modules.report.hafalan.download");
@@ -134,19 +136,19 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                 });
             });
 
-            Route::controller(NilaiPerPertemuanController::class)->group(function() {
-                Route::prefix("laporan")->group(function() {
-                    Route::prefix("nilai-per-pertemuan")->group(function() {
+            Route::controller(NilaiPerPertemuanController::class)->group(function () {
+                Route::prefix("laporan")->group(function () {
+                    Route::prefix("nilai-per-pertemuan")->group(function () {
                         Route::get("/", "index")->name("modules.report.nilai-per-pertemuan.index");
                         Route::get("/{id}", "show")->name("modules.report.nilai-per-pertemuan.show");
                     });
                 });
             });
 
-            Route::controller(NilaiUjianController::class)->group(function() {
-                Route::prefix("laporan")->group(function() {
-                    Route::prefix("hafalan")->group(function() {
-                        Route::prefix("ujian")->group(function() {
+            Route::controller(NilaiUjianController::class)->group(function () {
+                Route::prefix("laporan")->group(function () {
+                    Route::prefix("hafalan")->group(function () {
+                        Route::prefix("ujian")->group(function () {
                             Route::get("/", "index")->name("modules.report.hafalan.ujian.index");
                             Route::get("/{id}", "show")->name("modules.report.hafalan.ujian.show");
                         });
@@ -155,16 +157,16 @@ Route::group(["middleware" => ["autentikasi"]], function () {
             });
         });
 
-        Route::prefix("master")->group(function() {
-            Route::controller(SiswaController::class)->group(function() {
-                Route::prefix("siswa")->group(function() {
+        Route::prefix("master")->group(function () {
+            Route::controller(SiswaController::class)->group(function () {
+                Route::prefix("siswa")->group(function () {
                     Route::get("/", "index")->name("modules.master-wali.siswa.index");
                 });
             });
         });
 
-        Route::controller(OrangTuaController::class)->group(function() {
-            Route::prefix("orang-tua")->group(function() {
+        Route::controller(OrangTuaController::class)->group(function () {
+            Route::prefix("orang-tua")->group(function () {
                 Route::get("/", "index")->name("modules.master.orang-tua.index");
                 Route::get("/{id}/data-anak", "showAnak")->name("modules.master.orang-tua.show-anak");
                 Route::get("/{id}/edit", "edit")->name("modules.master.orang-tua.edit");
@@ -183,8 +185,8 @@ Route::group(["middleware" => ["autentikasi"]], function () {
             });
         });
 
-        Route::controller(WaliKelasController::class)->group(function() {
-            Route::prefix("wali-kelas")->group(function() {
+        Route::controller(WaliKelasController::class)->group(function () {
+            Route::prefix("wali-kelas")->group(function () {
                 Route::get("/", "index")->name("modules.walikelas.index");
                 Route::post("/", "store")->name("modules.walikelas.store");
                 Route::get("/{id}/edit", "edit")->name("modules.walikelas.edit");
@@ -193,8 +195,8 @@ Route::group(["middleware" => ["autentikasi"]], function () {
             });
         });
 
-        Route::controller(DataSiswaWakelController::class)->group(function() {
-            Route::prefix("data-siswa")->group(function() {
+        Route::controller(DataSiswaWakelController::class)->group(function () {
+            Route::prefix("data-siswa")->group(function () {
                 Route::get("/", "index")->name("modules.wakel.siswa.index");
             });
         });
@@ -207,9 +209,9 @@ Route::group(["middleware" => ["autentikasi"]], function () {
             });
         });
 
-        Route::controller(ProfilAkunController::class)->group(function() {
-            Route::prefix("akun")->group(function() {
-                Route::prefix("profil-saya")->group(function() {
+        Route::controller(ProfilAkunController::class)->group(function () {
+            Route::prefix("akun")->group(function () {
+                Route::prefix("profil-saya")->group(function () {
                     Route::get("/", "index")->name("modules.akun.profil");
                     Route::put("/{id}", "update")->name("modules.akun.profil.update");
                     Route::get("/{id}/lihat-profil", "showProfil")->name("modules.akun.profil.show-profil");
@@ -218,19 +220,43 @@ Route::group(["middleware" => ["autentikasi"]], function () {
             });
         });
 
-        Route::prefix("penilaian")->group(function() {
-            Route::controller(HafalanHarianController::class)->group(function() {
+        Route::prefix("penilaian")->group(function () {
+            Route::controller(HafalanHarianController::class)->group(function () {
                 Route::get("/{id}", "index")->name("modules.penilaian.harian.index");
                 Route::get("/search/materi", 'search')->name("modules.penilaian.harian.search");
                 Route::post("/{kategori}/store", "store")->name("modules.penilaian.harian.store");
                 Route::get("/{kategori}/{id}/edit", "edit")->name("modules.penilaian.harian.edit");
                 Route::put("/{kategori}/{id}", "update")->name("modules.penilaian.harian.update");
             });
+
+            Route::controller(AmbilNilaiController::class)->group(function () {
+                Route::prefix("data")->group(function () {
+                    Route::prefix("ambil-nilai")->group(function () {
+                        Route::get("/", "index")->name("modules.penilaian.ambil-nilai.index");
+                        Route::get("/create", "create")->name("modules.penilaian.ambil-nilai.create");
+                        Route::get("/search/data", "search")->name("modules.penilaian.ambil-nilai.search");
+                        Route::post("/", "store")->name("modules.penilaian.ambil-nilai.store");
+                        Route::get("/{id}/{kelompokPenilaianId}/show", "show")->name("modules.penilaian.ambil-nilai.show");
+                    });
+                });
+            });
+        });
+
+        Route::prefix("penilaian")->group(function () {
+            Route::controller(HafalanUjianController::class)->group(function () {
+                Route::prefix("/ujian")->group(function () {
+                    Route::prefix("data")->group(function () {
+                        Route::get("/", "index")->name("modules.penilaian.ujian.index");
+                        Route::get("/create", "create")->name("modules.penilaian.ujian.create");
+                        Route::post("/", "store")->name("modules.penilaian.ujian.store");
+                    });
+                });
+            });
         });
 
 
-        Route::controller(GantiPasswordController::class)->group(function() {
-            Route::prefix("ganti-password")->group(function() {
+        Route::controller(GantiPasswordController::class)->group(function () {
+            Route::prefix("ganti-password")->group(function () {
                 Route::put("/{id}", "update")->name("modules.pengaturan.ganti-password.update");
             });
         });

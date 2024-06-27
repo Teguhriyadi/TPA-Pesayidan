@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('hafalan', function (Blueprint $table) {
             $table->id();
+            $table->integer("kelompokPenilaianId")->nullable();
             $table->integer("materiId")->nullable();
             $table->integer("jilidSurat")->nullable();
-            $table->integer("halAyat")->nullable();
+            $table->integer("dari")->nullable();
+            $table->integer("sampai")->nullable();
             $table->dateTime("tanggal");
             $table->integer("siswaId");
             $table->integer("guruId");

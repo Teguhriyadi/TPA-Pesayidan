@@ -105,22 +105,14 @@
                                         {{ $item->kelompok }}
                                     </option>
                                 @endforeach
-                                <option value="jilid">Jilid</option>
                             </select>
                         </div>
                         <div id="surat" style="display: none;">
                             <div class="row">
-                                <div class="col-md-6 mb-2">
+                                <div class="col-md-12 mb-2">
                                     <div class="form-group">
                                         <label for="jilidSurat" class="form-label"> Jilid Surat </label>
                                         <input type="number" class="form-control" name="jilidSurat" id="jilidSurat"
-                                            placeholder="0">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="halAyat" class="form-label"> Ayat Halaman </label>
-                                        <input type="number" class="form-control" name="halAyat" id="halAyat"
                                             placeholder="0">
                                     </div>
                                 </div>
@@ -132,6 +124,23 @@
                             <select name="materiId" class="form-control" id="materiId">
 
                             </select>
+                        </div>
+
+                        <div id="sampai-berapa" style="display: none">
+                            <div class="row">
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-group">
+                                        <label for="dari" class="form-label"> Dari </label>
+                                        <input type="number" class="form-control" name="dari" id="dari" placeholder="0" min="1">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <div class="form-group">
+                                        <label for="sampai" class="form-label"> Sampai </label>
+                                        <input type="number" class="form-control" name="sampai" id="sampai" placeholder="0" min="1">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -202,14 +211,16 @@
         function kategoriPenilaian() {
             let pilihan = document.getElementById("pilihan").value
             let surat = document.getElementById("surat");
-            let lainnya = document.getElementById("lainnya")
+            let lainnya = document.getElementById("lainnya");
+            let sampaiBerapa = document.getElementById("sampai-berapa");
 
-            if (pilihan == "jilid") {
+            if (pilihan == "iqro-jilid") {
                 surat.style.display = "block"
+                sampaiBerapa.style.display = "block";
                 lainnya.style.display = "none"
-            } else if (pilihan === "praktek-ibadah" || pilihan == "tahfidz-doa-harian" || pilihan == "tahfidz-juz-amma" ||
-                pilihan == "surat-pilihan") {
+            } else if (pilihan === "praktek-ibadah" || pilihan == "tahfidz-doa-harian") {
                 surat.style.display = "none";
+                sampaiBerapa.style.display = "none"
                 lainnya.style.display = "block";
 
                 $("select[name='pilihan']").change(function() {
@@ -242,7 +253,12 @@
                         }
                     })
                 })
+            } else if (pilihan == "tahfidz-juz-amma" || pilihan == "surat-pilihan") {
+                sampaiBerapa.style.display = "block";
+                lainnya.style.display = "block";
+                surat.style.display = "none"
             } else {
+                sampaiBerapa.style.display = "none"
                 surat.style.display = "none";
                 lainnya.style.display = "none";
             }

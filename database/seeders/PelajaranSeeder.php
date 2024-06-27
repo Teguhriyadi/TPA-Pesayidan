@@ -19,32 +19,32 @@ class PelajaranSeeder extends Seeder
     {
         $this->pelajaran->create([
             "kode" => "PLJR-001",
-            "nama" => "Hafalan Surat - Surat Pendek",
-            "kelompokPenilaianId" => 2
+            "nama" => "Niat Sholat",
+            "kelompokPenilaianId" => 1
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-002",
-            "nama" => "Calistung",
+            "nama" => "Do'A Iftitah",
             "kelompokPenilaianId" => 1
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-003",
-            "nama" => "Aqidah Akhlaq",
-            "kelompokPenilaianId" => 3
+            "nama" => "Tasbih Ruku'",
+            "kelompokPenilaianId" => 1
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-004",
-            "nama" => "Fiqih",
-            "kelompokPenilaianId" => 4
+            "nama" => "Do'A I'tidal",
+            "kelompokPenilaianId" => 1
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-005",
             "nama" => "Do'A Bangun Tidur",
-            "kelompokPenilaianId" => 3
+            "kelompokPenilaianId" => 2
         ]);
 
         $this->pelajaran->create([
@@ -67,14 +67,26 @@ class PelajaranSeeder extends Seeder
 
         $this->pelajaran->create([
             "kode" => "PLJR-009",
-            "nama" => "Memakai Pakaian",
-            "kelompokPenilaianId" => 2
+            "nama" => "Surat Al Fatihah",
+            "kelompokPenilaianId" => 3
         ]);
 
         $this->pelajaran->create([
             "kode" => "PLJR-010",
-            "nama" => "Melepas Pakaian",
-            "kelompokPenilaianId" => 2
+            "nama" => "Surat An Nas",
+            "kelompokPenilaianId" => 3
+        ]);
+
+        $this->pelajaran->create([
+            "kode" => "PLJR-011",
+            "nama" => "Surat Al - Falaq",
+            "kelompokPenilaianId" => 3
+        ]);
+
+        $this->pelajaran->create([
+            "kode" => "PLJR-012",
+            "nama" => "Surat Al Ikhlash",
+            "kelompokPenilaianId" => 3
         ]);
     }
 }
