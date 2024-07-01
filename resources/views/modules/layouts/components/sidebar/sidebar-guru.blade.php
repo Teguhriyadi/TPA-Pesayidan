@@ -36,6 +36,7 @@
                 <a class="collapse-item" href="{{ url('/modules/penilaian/harian') }}">Hafalan Harian</a>
                 <a class="collapse-item" href="{{ url('/modules/penilaian/ujian') }}">Hafalan Ujian</a>
                 <a class="collapse-item" href="{{ route('modules.penilaian.ambil-nilai.index') }}">Ambil Nilai</a>
+                <a class="collapse-item" href="{{ route('modules.penilaian.rapot.index') }}">Nilai Rapot</a>
             </div>
         </div>
     </li>

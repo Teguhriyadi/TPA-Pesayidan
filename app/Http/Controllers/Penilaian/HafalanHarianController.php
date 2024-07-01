@@ -72,10 +72,12 @@ class HafalanHarianController extends Controller
 
             if ($request->materiId) {
                 $cekId = $this->materi->where("id", $request->materiId)->first();
+            } else {
+                $cekPilihan = $this->kelompokPenilaian->where("slug", $request->pilihan)->first();
             }
 
             $this->hafalanHarian->create([
-                "kelompokPenilaianId" => $request->materiId ? $cekId->id : null,
+                "kelompokPenilaianId" => $request->materiId ? $cekId->id : $cekPilihan->id,
                 "materiId" => $request->materiId ? $request->materiId : null,
                 "jilidSurat" => $request->jilidSurat ? $request->jilidSurat : null,
                 "dari" => $request->pilihan == "tahfidz-juz-amma" || $request->pilihan == "surat-pilihan" || $request->pilihan == "iqro-jilid" ? $request->dari : null,

@@ -18,7 +18,7 @@
             <select name="pilihanEdit" class="form-control" id="pilihanEdit" onchange="kategoriPenilaianEdit()">
                 <option value="">- Pilih -</option>
                 @foreach ($kelompokPenilaian as $item)
-                    <option value="{{ $item->slug }}" {{ $item["id"] == $edit["materiId"] ? 'selected' : '' }} >
+                    <option value="{{ $item->slug }}" {{ $item["id"] == $edit["kelompokPenilaianId"] ? 'selected' : '' }} >
                         {{ $item->kelompok }}
                     </option>
                 @endforeach

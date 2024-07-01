@@ -1,21 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Report\Nilai;
+namespace App\Http\Controllers\Report\Rapot;
 
+use App\Helpers\NumberToTextHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Nilai;
+use App\Models\AspekPenilaian;
+use App\Models\Rapot;
+use App\Models\RapotDetail;
 use App\Models\TahunAjaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class NilaiPerPertemuanController extends Controller
+class NilaiRapotController extends Controller
 {
-    protected $nilai, $tahunAjaran;
+    protected $rapot, $tahunAjaran, $rapotDetail, $aspekPenilaian;
 
     public function __construct()
     {
-        $this->nilai = new Nilai();
+        $this->rapot = new Rapot();
         $this->tahunAjaran = new TahunAjaran();
+        $this->rapotDetail = new RapotDetail();
+        $this->aspekPenilaian = new AspekPenilaian();
     }
 
     public function index()
@@ -27,12 +32,12 @@ class NilaiPerPertemuanController extends Controller
             $tahunAjaran = $this->tahunAjaran->where("status", "1")->first();
 
             $data = [
-                "nilai" => $this->nilai->where("tahun_ajaran_id", $tahunAjaran->id)->get(),
+                "rapot" => $this->rapot->where("tahun_ajaran_id", $tahunAjaran->id)->get()
             ];
 
             DB::commit();
 
-            return view("modules.pages.report.nilai-per-pertemuan.index", $data);
+            return view("modules.pages.report.rapot.index", $data);
 
         } catch (\Exception $e) {
 
@@ -49,12 +54,18 @@ class NilaiPerPertemuanController extends Controller
             DB::beginTransaction();
 
             $data = [
-                "detail" => $this->nilai->where("id", $id)->first()
+                "detailRapot" => $this->rapotDetail->where("rapot_id", $id)->get()
             ];
+
+            foreach ($data["detailRapot"] as $item) {
+                $item->nilai_teks = NumberToTextHelper::convert($item->nilai);
+            }
+
+            $data["aspekPenilaian"] = $this->aspekPenilaian->where("rapot_id", $id)->first();
 
             DB::commit();
 
-            return view("modules.pages.report.nilai-per-pertemuan.detail", $data);
+            return view("modules.pages.report.rapot.show", $data);
 
         } catch (\Exception $e) {
 

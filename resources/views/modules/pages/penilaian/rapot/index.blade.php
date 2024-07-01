@@ -1,6 +1,6 @@
 @extends('modules.layouts.main')
 
-@push('modules-title', 'Guru')
+@push('modules-title', 'Penilaian Rapot')
 
 @push('modules-css')
     <link href="{{ url('/theme') }}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -10,14 +10,14 @@
 
     <div class="container-fluid">
         <h1 class="h3 mb-2 text-gray-800">
-            <i class="fa fa-user"></i> @stack('modules-title')
+            <i class="fa fa-book"></i> @stack('modules-title')
         </h1>
 
         <div class="card shadow mb-4 mt-4">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">
                     Data @stack('modules-title')
-                    <a style="float: right" class="btn btn-outline-primary btn-sm" href="{{ route('modules.guru.create') }}">
+                    <a href="{{ route('modules.penilaian.rapot.create') }}" class="btn btn-primary btn-sm" style="float: right">
                         <i class="fa fa-plus"></i> Tambah
                     </a>
                 </h6>
@@ -28,11 +28,9 @@
                         <thead>
                             <tr>
                                 <th class="text-center">No.</th>
-                                <th class="text-center">NIP</th>
-                                <th>Nama</th>
-                                <th class="text-center">Username</th>
-                                <th class="text-center">Jenis Kelamin</th>
-                                <th class="text-center">Status</th>
+                                <th>Siswa</th>
+                                <th>Wali</th>
+                                <th class="text-center">Kelas</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -40,38 +38,19 @@
                             @php
                                 $nomer = 1;
                             @endphp
-                            @foreach ($guru as $item)
+                            @foreach ($rapot as $item)
                                 <tr>
                                     <td class="text-center">{{ $nomer++ }}.</td>
-                                    <td class="text-center">{{ $item->nip }}</td>
-                                    <td>{{ $item->users->nama }}</td>
-                                    <td class="text-center">{{ $item->users->username }}</td>
+                                    <td>{{ $item->siswa->nama }}</td>
+                                    <td>{{ $item->siswa->wali->nama }}</td>
+                                    <td class="text-center">{{ $item->siswa->kelas->namaKelas }} - {{ $item->siswa->kelas->jenjang }}</td>
                                     <td class="text-center">
-                                        @if ($item->jenisKelamin == "L")
-                                            Laki - Laki
-                                        @elseif($item->jenisKelamin == "P")
-                                            Perempuan
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($item->users->status == 1)
-                                            <span class="badge bg-primary text-white p-2 text-uppercase">
-                                                Aktif
-                                            </span>
-                                        @elseif($item->users->status == 0)
-                                            <span class="badge bg-danger text-white p-2 text-uppercase">
-                                                Tidak Aktif
-                                            </span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{{ route('modules.guru.edit', ['id' => $item->id]) }}"
-                                            class="btn btn-outline-warning btn-sm">
+                                        <a href="{{ route('modules.penilaian.rapot.edit', ['id' => $item->id]) }}" class="btn btn-outline-warning btn-sm">
                                             <i class="fa fa-edit"></i> Edit
                                         </a>
-                                        <button onclick="hapusData({{ $item['id'] }})" class="btn btn-outline-danger btn-sm">
-                                            <i class="fa fa-trash"></i> Hapus
-                                        </button>
+                                        <a href="{{ route('modules.penilaian.rapot.show', ['id' => $item->id]) }}" class="btn btn-outline-primary btn-sm">
+                                            <i class="fa fa-search"></i> Detail
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -94,18 +73,26 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('modules.admin.store') }}" method="POST">
+                <form action="{{ route('modules.master.kelas.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="nama" class="form-label"> Nama </label>
-                            <input type="text" class="form-control" name="nama" id="nama"
-                                placeholder="Masukkan Nama">
+                            <label for="namaKelas" class="form-label"> Nama Kelas </label>
+                            <input type="text" class="form-control" name="namaKelas" id="namaKelas"
+                                placeholder="Masukkan Nama Kelas">
                         </div>
                         <div class="form-group">
-                            <label for="username" class="form-label"> Username </label>
-                            <input type="text" class="form-control" name="username" id="username"
-                                placeholder="Masukkan Username">
+                            <label for="jenjang" class="form-label"> Jenjang </label>
+                            <select name="jenjang" class="form-control" id="jenjang">
+                                <option value="">- Pilih -</option>
+                                <option value="TK">TK</option>
+                                <option value="TPA">TPA</option>
+                                <option value="DTA">DTA</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="deskripsi" class="form-label"> Deskripsi </label>
+                            <textarea name="deskripsi" class="form-control" id="deskripsi" rows="5" placeholder="Masukkan Deskripsi"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -151,7 +138,7 @@
     <script type="text/javascript">
         function editData(id) {
             $.ajax({
-                url: "{{ url('/modules/akun-admin') }}" + "/" + id + "/edit",
+                url: "{{ url('/modules/penilaian/data/rapot') }}" + "/" + id + "/edit",
                 type: "GET",
                 success: function(response) {
                     $("#modal-content-edit").html(response)
@@ -178,7 +165,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "{{ url('/modules/akun-guru') }}" + "/" + id,
+                        url: "{{ url('/modules/master/kelas') }}" + "/" + id,
                         method: "DELETE",
                         beforeSend: function(xhr) {
                             xhr.setRequestHeader('X-CSRF-TOKEN', csrf_token);
@@ -189,7 +176,7 @@
                                 text: response.message,
                                 icon: "success"
                             }).then((result) => {
-                                window.location.href = "{{ route('modules.guru.index') }}"
+                                window.location.href = "{{ route('modules.master.kelas') }}"
                             });
                         },
                         error: function(error) {

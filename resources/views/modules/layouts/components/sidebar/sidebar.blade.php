@@ -25,34 +25,34 @@
         Master
     </div>
 
-    <li class="nav-item">
+    <li class="nav-item {{ Request::segment(3) == "kelas" || Request::segment(3) == "tahun_ajaran" || Request::segment(2) == "siswa" || Request::segment(2) == "wali-kelas" ? 'active' : '' }} ">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMasterData"
             aria-expanded="true" aria-controls="collapseMasterData">
             <i class="fas fa-fw fa-bars"></i>
             <span>Master Data</span>
         </a>
-        <div id="collapseMasterData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseMasterData" class="collapse {{ Request::segment(3) == "kelas" || Request::segment(3) == "tahun_ajaran" || Request::segment(2) == "siswa" || Request::segment(2) == "wali-kelas"  ? 'show' : '' }} " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('modules.master.kelas') }}">Kelas</a>
-                <a class="collapse-item" href="{{ route('modules.master.tahun_ajaran') }}">Tahun Ajaran</a>
-                <a class="collapse-item" href="{{ route('modules.siswa.index') }}">Siswa</a>
-                <a class="collapse-item" href="{{ route('modules.walikelas.index') }}">Wali Kelas</a>
+                <a class="collapse-item {{ Request::segment(3) == "kelas" ? 'active' : '' }} " href="{{ route('modules.master.kelas') }}">Kelas</a>
+                <a class="collapse-item {{ Request::segment(3) == "tahun_ajaran" ? 'active' : '' }} " href="{{ route('modules.master.tahun_ajaran') }}">Tahun Ajaran</a>
+                <a class="collapse-item {{ Request::segment(2) == "siswa" ? 'active' : '' }} " href="{{ route('modules.siswa.index') }}">Siswa</a>
+                <a class="collapse-item {{ Request::segment(2) == "wali-kelas" ? 'active' : '' }} " href="{{ route('modules.walikelas.index') }}">Wali Kelas</a>
             </div>
         </div>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item {{ Request::segment(3) == "kategori" || Request::segment(3) == "kelompok-rapot" || Request::segment(3) == "kelompok-penilaian" || Request::segment(3) == "pelajaran" ? 'active' : '' }} ">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePembelajaran"
             aria-expanded="true" aria-controls="collapsePembelajaran">
             <i class="fas fa-fw fa-book"></i>
             <span>Pembelajaran</span>
         </a>
-        <div id="collapsePembelajaran" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapsePembelajaran" class="collapse {{ Request::segment(3) == "kategori" || Request::segment(3) == "kelompok-rapot" || Request::segment(3) == "kelompok-penilaian" || Request::segment(3) == "pelajaran" ? 'show' : '' }} " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('modules.master.kategori.index') }}">Kategori</a>
-                <a class="collapse-item" href="{{ route('modules.master.kelompok-rapot.index') }}">Kelompok Rapot</a>
-                <a class="collapse-item" href="{{ route('modules.master.kelompok-penilaian.index') }}">Kelompok Penilaian</a>
-                <a class="collapse-item" href="{{ route('modules.master.pelajaran.index') }}">Pelajaran</a>
+                <a class="collapse-item {{ Request::segment(3) == 'kategori' ? 'active' : '' }}" href="{{ route('modules.master.kategori.index') }}">Kategori</a>
+                <a class="collapse-item {{ Request::segment(3) == 'kelompok-rapot' ? 'active' : '' }} " href="{{ route('modules.master.kelompok-rapot.index') }}">Kelompok Rapot</a>
+                <a class="collapse-item {{ Request::segment(3) == 'kelompok-penilaian' ? 'active' : '' }} " href="{{ route('modules.master.kelompok-penilaian.index') }}">Kelompok Penilaian</a>
+                <a class="collapse-item {{ Request::segment(3) == 'pelajaran' ? 'active' : '' }} " href="{{ route('modules.master.pelajaran.index') }}">Pelajaran</a>
             </div>
         </div>
     </li>
@@ -63,24 +63,24 @@
         Laporan
     </div>
 
-    <li class="nav-item">
+    <li class="nav-item {{ Request::segment(4) == "harian" || Request::segment(4) == "ujian" ? 'active' : '' }}">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLaporanHafalan"
             aria-expanded="true" aria-controls="collapseLaporanHafalan">
             <i class="fas fa-fw fa-edit"></i>
             <span>Hafalan</span>
         </a>
-        <div id="collapseLaporanHafalan" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseLaporanHafalan" class="collapse {{ Request::segment(4) == "harian" || Request::segment(4) == "ujian" ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ url('/modules/laporan/hafalan/harian') }}">Penilaian Harian</a>
-                <a class="collapse-item" href="{{ url('/modules/laporan/hafalan/ujian') }}">Penilaian Ujian</a>
+                <a class="collapse-item {{ Request::segment(4) == "harian" ? 'active' : '' }}" href="{{ url('/modules/laporan/hafalan/harian') }}">Penilaian Harian</a>
+                <a class="collapse-item {{ Request::segment(4) == "ujian" ? 'active' : '' }} " href="{{ url('/modules/laporan/hafalan/ujian') }}">Penilaian Ujian</a>
             </div>
         </div>
     </li>
 
-    <li class="nav-item {{ Request::is('modules/dashboard') ? 'active' : '' }} ">
-        <a class="nav-link" href="{{ route('modules.report.nilai-per-pertemuan.index') }}">
+    <li class="nav-item {{ Request::segment(3) == 'rapot' ? 'active' : '' }} ">
+        <a class="nav-link" href="{{ route('modules.report.rapot.index') }}">
             <i class="fas fa-fw fa-book"></i>
-            <span>Nilai Per Pertemuan</span>
+            <span>Rapot</span>
         </a>
     </li>
 
@@ -105,17 +105,17 @@
         </div>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item {{ Request::segment(2) == 'akun-guru' || Request::segment(2) == 'akun-admin' || Request::segment(3) == 'profil-saya' ? 'active' : '' }} ">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-users"></i>
             <span>Akun</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse {{ Request::segment(2) == 'akun-guru' || Request::segment(2) == 'akun-admin' || Request::segment(3) == 'profil-saya' ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('modules.guru.index') }}">Guru</a>
-                <a class="collapse-item" href="{{ route('modules.admin.index') }}">Administrator</a>
-                <a class="collapse-item" href="{{ route('modules.akun.profil') }}">Profil Saya</a>
+                <a class="collapse-item {{ Request::segment(2) == 'akun-guru' ? 'active' : '' }}" href="{{ route('modules.guru.index') }}">Guru</a>
+                <a class="collapse-item {{ Request::segment(2) == 'akun-admin' ? 'active' : '' }}" href="{{ route('modules.admin.index') }}">Administrator</a>
+                <a class="collapse-item {{ Request::segment(3) == 'profil-saya' ? 'active' : '' }} " href="{{ route('modules.akun.profil') }}">Profil Saya</a>
             </div>
         </div>
     </li>

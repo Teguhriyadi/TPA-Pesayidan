@@ -62,7 +62,7 @@ class WaliKelasController extends Controller
 
             $guru = $this->guru->where("id", $request->guru_id)->first();
 
-            $this->waliKelas->create([
+            $walikelas = $this->waliKelas->create([
                 "guru_id" => $request->guru_id,
                 "kelas_id" => $request->kelas_id,
                 "tahun_ajaran_id" => $tahunAjaranActive->id
@@ -73,7 +73,7 @@ class WaliKelasController extends Controller
                 "password" => bcrypt("walikelas"),
                 "akses" => "WAKEL",
                 "status" => 1,
-                "guruId" => $guru->id
+                "guruId" => $walikelas->id
             ]);
 
             DB::commit();

@@ -16,9 +16,10 @@ use App\Http\Controllers\Pengaturan\GantiPasswordController;
 use App\Http\Controllers\Penilaian\AmbilNilaiController;
 use App\Http\Controllers\Penilaian\HafalanHarianController;
 use App\Http\Controllers\Penilaian\HafalanUjianController;
+use App\Http\Controllers\Penilaian\RapotController;
 use App\Http\Controllers\Report\Hafalan\NilaiHarianController;
 use App\Http\Controllers\Report\Hafalan\NilaiUjianController;
-use App\Http\Controllers\Report\Nilai\NilaiPerPertemuanController;
+use App\Http\Controllers\Report\Rapot\NilaiRapotController;
 use App\Http\Controllers\Settings\ProfilAkunController;
 use App\Http\Controllers\Settings\ProfilMadrasahController;
 use App\Http\Controllers\SiswaController;
@@ -136,11 +137,11 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                 });
             });
 
-            Route::controller(NilaiPerPertemuanController::class)->group(function () {
-                Route::prefix("laporan")->group(function () {
-                    Route::prefix("nilai-per-pertemuan")->group(function () {
-                        Route::get("/", "index")->name("modules.report.nilai-per-pertemuan.index");
-                        Route::get("/{id}", "show")->name("modules.report.nilai-per-pertemuan.show");
+            Route::controller(NilaiRapotController::class)->group(function() {
+                Route::prefix("laporan")->group(function() {
+                    Route::prefix("rapot")->group(function() {
+                        Route::get("/", "index")->name("modules.report.rapot.index");
+                        Route::get("/{id}", "show")->name("modules.report.rapot.show");
                     });
                 });
             });
@@ -237,6 +238,19 @@ Route::group(["middleware" => ["autentikasi"]], function () {
                         Route::get("/search/data", "search")->name("modules.penilaian.ambil-nilai.search");
                         Route::post("/", "store")->name("modules.penilaian.ambil-nilai.store");
                         Route::get("/{id}/{kelompokPenilaianId}/show", "show")->name("modules.penilaian.ambil-nilai.show");
+                    });
+                });
+            });
+
+            Route::controller(RapotController::class)->group(function() {
+                Route::prefix("data")->group(function() {
+                    Route::prefix("rapot")->group(function() {
+                        Route::get("/", "index")->name("modules.penilaian.rapot.index");
+                        Route::get("/create", "create")->name("modules.penilaian.rapot.create");
+                        Route::post("/store", "store")->name("modules.penilaian.rapot.store");
+                        Route::get("/{id}/edit", "edit")->name("modules.penilaian.rapot.edit");
+                        Route::put("/{id}", "update")->name("modules.penilaian.rapot.update");
+                        Route::get("/{id}", "show")->name("modules.penilaian.rapot.show");
                     });
                 });
             });

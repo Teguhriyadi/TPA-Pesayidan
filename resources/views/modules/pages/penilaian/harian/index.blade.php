@@ -50,7 +50,17 @@
                                     <td class="text-center">
                                         {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('H:i:s - d F Y') }}</td>
                                     <td class="text-center">
-                                        {{ $item->materiId == null ? $item->jilidSurat . ' - ' . $item->halAyat : $item->materi->kode . ' - ' . $item->materi->nama }}
+                                        @if (empty($item->jilidSurat))
+                                            {{ $item->materiId == null ? $item->jilidSurat . ' - ' . $item->halAyat : $item->materi->kode . ' - ' . $item->materi->nama }}
+                                            @if (!empty($item->dari) && !empty($item->sampai))
+                                                <br>
+                                                Ayat {{ $item->dari }} - {{ $item->sampai }}
+                                            @endif
+                                        @else
+                                            Jilid {{ $item->jilidSurat }}
+                                            <br>
+                                            Dari {{ $item->dari }} s/d {{ $item->sampai }}
+                                        @endif
                                     </td>
                                     <td class="text-center">{{ $item->penilaian }}</td>
                                     <td>{{ $item->keterangan ? $item->keterangan : '-' }}</td>
@@ -131,13 +141,15 @@
                                 <div class="col-md-6 mb-2">
                                     <div class="form-group">
                                         <label for="dari" class="form-label"> Dari </label>
-                                        <input type="number" class="form-control" name="dari" id="dari" placeholder="0" min="1">
+                                        <input type="number" class="form-control" name="dari" id="dari"
+                                            placeholder="0" min="1">
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-2">
                                     <div class="form-group">
                                         <label for="sampai" class="form-label"> Sampai </label>
-                                        <input type="number" class="form-control" name="sampai" id="sampai" placeholder="0" min="1">
+                                        <input type="number" class="form-control" name="sampai" id="sampai"
+                                            placeholder="0" min="1">
                                     </div>
                                 </div>
                             </div>
@@ -272,7 +284,8 @@
             if (pilihanEdit == "jilid") {
                 suratEdit.style.display = "block";
                 lainnyaEdit.style.display = "none";
-            } else if (pilihanEdit == "praktek-ibadah" || pilihanEdit == "tahfidz-doa-harian" || pilihanEdit == "tahfidz-juz-amma" ||
+            } else if (pilihanEdit == "praktek-ibadah" || pilihanEdit == "tahfidz-doa-harian" || pilihanEdit ==
+                "tahfidz-juz-amma" ||
                 pilihanEdit == "surat-pilihan") {
                 suratEdit.style.display = "none";
                 lainnyaEdit.style.display = "block";

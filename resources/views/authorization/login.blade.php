@@ -70,9 +70,9 @@
                                 placeholder="Masukkan Password" data-eye>
                         </div>
                         <br>
-                        <button type="submit" class="btn btn-primary btn-lg"
+                        <button type="submit" class="btn btn-primary btn-sm fw-bold"
                             style="width: 100%; background-color: #00A0F0">
-                            Masuk
+                            <i class="fa fa-sign-in" style="margin-right: 5px"></i> MASUK
                         </button>
                     </div>
                 </form>

@@ -25,14 +25,32 @@
         Master
     </div>
 
-    <li class="nav-item {{ Request::is('modules/data-siswa') ? 'active' : '' }} ">
-        <a class="nav-link" href="{{ route('modules.wakel.siswa.index') }}">
+    <li class="nav-item {{ Request::is('/modules/penilaian/harian') ? 'active' : '' }} ">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-book"></i>
+            <span>Penilaian</span>
+        </a>
+        <div id="collapseTwo" class="collapse {{ Request::is('modules/penilaian/harian') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('modules.penilaian.rapot.index') }}">Nilai Rapot</a>
+            </div>
+        </div>
+    </li>
+
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">
+        Pengaturan
+    </div>
+
+    <li class="nav-item {{ Request::is('modules/akun/profil-saya') ? 'active' : '' }} ">
+        <a class="nav-link" href="{{ route('modules.akun.profil') }}">
             <i class="fas fa-fw fa-user"></i>
-            <span>Siswa</span>
+            <span>Profil Saya</span>
         </a>
     </li>
 
-    <!-- Divider -->
     <hr class="sidebar-divider">
 
     <div class="text-center d-none d-md-inline">

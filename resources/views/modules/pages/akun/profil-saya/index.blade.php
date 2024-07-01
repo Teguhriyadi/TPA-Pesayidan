@@ -104,8 +104,8 @@
                         </div>
                     </div>
 
-                    <button type="button"
-                        class="btn btn-outline-success btn-block mt-4" data-toggle="modal" data-target="#gantiPasswordModal">
+                    <button type="button" class="btn btn-outline-success btn-block mt-4" data-toggle="modal"
+                        data-target="#gantiPasswordModal">
                         <i class="fa fa-edit"></i> Ganti Password
                     </button>
                 </div>
@@ -218,9 +218,10 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="{{ route('modules.pengaturan.ganti-password.update', ['id' => Auth::user()->id]) }}" method="POST">
+                        <form action="{{ route('modules.pengaturan.ganti-password.update', ['id' => Auth::user()->id]) }}"
+                            method="POST">
                             @csrf
-                            @method("PUT")
+                            @method('PUT')
                             <div class="modal-body">
                                 <div class="form-group">
                                     <label for="passwordLama" class="form-label"> Password Lama </label>
@@ -229,11 +230,13 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="passwordBaru" class="form-label"> Password Baru </label>
-                                    <input type="password" class="form-control" name="passwordBaru" id="passwordBaru" placeholder="Masukkan Password Baru" required>
+                                    <input type="password" class="form-control" name="passwordBaru" id="passwordBaru"
+                                        placeholder="Masukkan Password Baru" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="konfirmasiPassword" class="form-label"> Konfirmasi Password </label>
-                                    <input type="password" class="form-control" name="konfirmasiPassword" id="konfirmasiPassword" placeholder="Masukkan Konfirmasi Password" required>
+                                    <input type="password" class="form-control" name="konfirmasiPassword"
+                                        id="konfirmasiPassword" placeholder="Masukkan Konfirmasi Password" required>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -249,7 +252,104 @@
                 </div>
             </div>
             <!-- End -->
+        @elseif(Auth::user()->akses == "WAKEL")
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <button onclick="lihatProfil(`{{ $profilSaya->id }}`)" type="button"
+                    class="btn btn-outline-primary btn-block mt-4" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fa fa-search"></i> Lihat Profil Saya
+                </button>
+                <div class="card shadow mb-4 mt-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">
+                            <i class="fa fa-search"></i> Data Profil Saya
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="username" class="form-label"> Username </label>
+                            <input type="text" class="form-control" name="username" id="username"
+                                placeholder="Masukkan Username" value="{{ $profilSaya->username }}" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="akses" class="form-label"> Akses </label>
+                            <input type="text" class="form-control" name="akses" id="akses"
+                                placeholder="Masukkan Akses" value="{{ $profilSaya->akses }}" disabled>
+                        </div>
+                    </div>
+                </div>
 
+                <button type="button" class="btn btn-outline-success btn-block mt-4" data-toggle="modal"
+                    data-target="#gantiPasswordModal">
+                    <i class="fa fa-edit"></i> Ganti Password
+                </button>
+            </div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                <i class="fa fa-image"></i> Profil Saya
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div id="modal-content-profil">
+                            <!-- Detail Profil Image -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="gantiPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                <i class="fa fa-edit"></i> Ganti Password
+                            </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="{{ route('modules.pengaturan.ganti-password.update', ['id' => Auth::user()->id]) }}"
+                            method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="passwordLama" class="form-label"> Password Lama </label>
+                                    <input type="password" class="form-control" name="passwordLama" id="passwordLama"
+                                        placeholder="Masukkan Password Lama" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="passwordBaru" class="form-label"> Password Baru </label>
+                                    <input type="password" class="form-control" name="passwordBaru" id="passwordBaru"
+                                        placeholder="Masukkan Password Baru" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="konfirmasiPassword" class="form-label"> Konfirmasi Password </label>
+                                    <input type="password" class="form-control" name="konfirmasiPassword"
+                                        id="konfirmasiPassword" placeholder="Masukkan Konfirmasi Password" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="reset" class="btn btn-outline-danger btn-sm">
+                                    <i class="fa fa-times"></i> Batal
+                                </button>
+                                <button type="submit" class="btn btn-outline-success btn-sm">
+                                    <i class="fa fa-save"></i> Simpan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         @endif
     </div>
 

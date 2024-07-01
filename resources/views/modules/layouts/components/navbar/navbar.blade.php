@@ -23,7 +23,11 @@
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                    @if (Auth::user()->akses == "WAKEL")
+                        {{ Auth::user()->hasWakel->guru->users->nama }}
+                    @else
                     {{ Auth::user()->nama }}
+                    @endif
                 </span>
                 @if (empty(Auth::user()->foto))
                 <img class="img-profile rounded-circle"

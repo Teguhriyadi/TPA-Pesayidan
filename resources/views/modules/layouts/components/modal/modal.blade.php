@@ -13,10 +13,10 @@
                 Klik <strong>Logout</strong> Untuk Keluar dari Website.
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline-danger" type="button" data-dismiss="modal">
+                <button class="btn btn-outline-danger btn-sm" type="button" data-dismiss="modal">
                     <i class="fa fa-times"></i> Kembali
                 </button>
-                <a class="btn btn-outline-primary" href="{{ route('authorization.logout') }}">
+                <a class="btn btn-outline-primary btn-sm" href="{{ route('authorization.logout') }}">
                     <i class="fa fa-sign-out-alt"></i> Logout
                 </a>
             </div>
