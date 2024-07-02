@@ -9,10 +9,10 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="reset" class="btn btn-outline-danger">
+        <button type="reset" class="btn btn-outline-danger btn-sm">
             <i class="fa fa-times"></i> Batal
         </button>
-        <button type="submit" class="btn btn-outline-success">
+        <button type="submit" class="btn btn-outline-success btn-sm">
             <i class="fa fa-save"></i> Simpan
         </button>
     </div>

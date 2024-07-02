@@ -25,18 +25,17 @@
         Master
     </div>
 
-    <li class="nav-item {{ Request::is('/modules/penilaian/harian') ? 'active' : '' }} ">
+    <li class="nav-item {{ Request::segment(3) == 'harian' || Request::segment(3) == 'ujian' || Request::segment(4) == 'ambil-nilai' ? 'active' : '' }} ">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-fw fa-book"></i>
             <span>Penilaian</span>
         </a>
-        <div id="collapseTwo" class="collapse {{ Request::is('modules/penilaian/harian') ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse {{ Request::segment(3) == "harian" || Request::segment(3) == 'ujian' || Request::segment(4) == 'ambil-nilai' ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ url('/modules/penilaian/harian') }}">Hafalan Harian</a>
-                <a class="collapse-item" href="{{ url('/modules/penilaian/ujian') }}">Hafalan Ujian</a>
-                <a class="collapse-item" href="{{ route('modules.penilaian.ambil-nilai.index') }}">Ambil Nilai</a>
-                <a class="collapse-item" href="{{ route('modules.penilaian.rapot.index') }}">Nilai Rapot</a>
+                <a class="collapse-item {{ Request::segment(3) == "harian" ? 'active' : '' }} " href="{{ url('/modules/penilaian/harian') }}">Hafalan Harian</a>
+                <a class="collapse-item {{ Request::segment(3) == "ujian" ? 'active' : '' }} " href="{{ url('/modules/penilaian/ujian') }}">Hafalan Ujian</a>
+                <a class="collapse-item {{ Request::segment(4) == "ambil-nilai" ? 'active' : '' }} " href="{{ route('modules.penilaian.ambil-nilai.index') }}">Ambil Nilai</a>
             </div>
         </div>
     </li>
