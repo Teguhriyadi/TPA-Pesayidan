@@ -234,37 +234,7 @@
                 surat.style.display = "none";
                 sampaiBerapa.style.display = "none"
                 lainnya.style.display = "block";
-
-                $("select[name='pilihan']").change(function() {
-                    let pilihan = $(this).val()
-
-                    $.ajax({
-                        url: "{{ url('/modules/penilaian/search/materi') }}",
-                        type: "GET",
-                        data: {
-                            pilihan: pilihan
-                        },
-                        success: function(response) {
-
-                            let hafalanSelect = $("select[name='materiId']");
-                            hafalanSelect.empty();
-
-                            if (response.data.length > 0) {
-                                $.each(response.data, function(index, materi) {
-                                    hafalanSelect.append('<option value="' + materi.id + '">' +
-                                        materi.kode + " - " + materi.nama + '</option>');
-                                });
-                            } else {
-                                hafalanSelect.append(
-                                    '<option value="">Tidak ada Hafalan yang tersedia</option>');
-                            }
-
-                        },
-                        error: function() {
-                            alert("Terjadi Kesalahan")
-                        }
-                    })
-                })
+                loadMateri(pilihan)
             } else if (pilihan == "tahfidz-juz-amma" || pilihan == "surat-pilihan") {
                 sampaiBerapa.style.display = "block";
                 lainnya.style.display = "block";
@@ -275,6 +245,40 @@
                 lainnya.style.display = "none";
             }
         }
+
+        function loadMateri(pilihan) {
+            $.ajax({
+                url: "{{ url('/modules/penilaian/search/materi') }}",
+                type: "GET",
+                data: {
+                    pilihan: pilihan
+                },
+                success: function(response) {
+
+                    let hafalanSelect = $("select[name='materiId']");
+                    hafalanSelect.empty();
+
+                    if (response.data.length > 0) {
+                        $.each(response.data, function(index, materi) {
+                            hafalanSelect.append('<option value="' + materi.id + '">' +
+                                materi.kode + " - " + materi.nama + '</option>');
+                        });
+                    } else {
+                        hafalanSelect.append(
+                            '<option value="">Tidak ada Hafalan yang tersedia</option>');
+                    }
+
+                },
+                error: function() {
+                    alert("Terjadi Kesalahan")
+                }
+            })
+        }
+
+        $("select[name='pilihan']").change(function() {
+            let pilihan = $(this).val();
+            kategoriPenilaian();
+        });
 
         function kategoriPenilaianEdit() {
             let pilihanEdit = document.getElementById("pilihanEdit").value;
@@ -294,7 +298,6 @@
                 lainnyaEdit.style.display = "none";
             }
         }
-
 
         function editData(kategori, id) {
             $.ajax({
